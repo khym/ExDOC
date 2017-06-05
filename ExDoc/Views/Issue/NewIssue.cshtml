@@ -1,0 +1,262 @@
+﻿<style>
+    .doc_origin {
+    padding-bottom: 10px;
+    }
+    #del_doc {
+    border: #fff;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default shadow-2">
+             <div class="panel-heading secondary-color-md" >New Issue</div>
+            <div class="panel-body">
+                <div class="card-text card-boder">
+                    <form id="formNewDoc" class="formNewDoc">
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-md-10">
+                                <label for="name" class="control-label">Customer</label>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <span id="NaOrNo">Customer Number</span>     <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a>Customer Number</a></li>
+                                            <li><a>Customer Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <select id="txt_c" class="form-control" multiple="multiple" data-validate="required">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-10">
+                                <label for="name" class="control-label">Document Name</label>
+                                <input type="email" value='' class="form-control" id="md-input" data-validate="required">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Document Number</label>
+                                <input type="email" value='' class="form-control" id="md-input" data-validate="required">
+                            </div>
+
+                             <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Document Revision</label>
+                                <input type="email" value='' class="form-control" id="md-input" data-validate="required">
+                            </div>
+                            
+                            <div class="col-md-1"></div>
+                        </div>
+
+                      @*  <div class="row">
+                            <div class="col-md-1"></div>
+                           
+                            <div class="col-md-1"></div>
+                        </div>*@
+                        @* <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-10">
+                                <label for="name" class="control-label">Change Point</label>
+                                <input type="email" value='' class="form-control" id="ch_point" data-validate="required">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Receive from customer date</label>
+                                <input type="text" value='' class="form-control " id="date_re" data-validate="required" readonly>
+                            </div>
+                             @*<div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Change Point</label>
+                                <textarea row="3" value='' class="form-control" id="ch_point" data-validate="required">
+                                    </textarea>
+                            </div>*@
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-10">
+                                <label for="name" class="control-label">TNC product name</label>
+                                <input type="email" value='' class="form-control" id="md-input" data-validate="required">
+                            </div>
+                        </div>
+
+                        <div class=" row_doc_file">
+                            <div class="row doc_origin">
+                                <div class="col-md-1"></div>
+                                <div class="form-group col-md-10" id="file_doc">
+                                    <label for="name" class="control-label">Document File</label>
+
+                                    <input type="file" value='' class="" id="md-input" data-validate="required">
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-5 ">
+                            </div>
+
+                            <div class="col-md-3 ">
+                                <button type="button" id="btn-core" class="btnSave btn nohover btn-primary  btn-block shadow-2">Save</button>
+
+                            </div>
+
+                            <div class="col-md-3">
+                                <button type="button" id="add_doc_file" class="btn btn-default btn-block">Add More File</button>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            var i = 0;
+            //$(".date_re").bootstrapMaterialDatePicker({ weekStart: 0, time: false });
+            $("#date_re").datepicker();
+            $('button.btnSave').on('click', function () {
+                validate_select2();
+                if ($.validate({ form: "formNewDoc" })) {
+                    document.formRequest.submit();
+                    console.log("Submit");
+                    
+                }
+            });
+
+            $('body').on('click', '#del_doc', function (e) {
+                e.preventDefault();
+                //$(this).parent().parent().parent().remove();
+                 
+                var no = $(this).attr('data-del-no');
+                $(".doc" + no).remove();
+            });
+
+            $('#txt_c').on('change', function () {
+                validate_select2();
+            });
+
+            $('#add_doc_file').on('click', function () {
+
+                var str = "";
+                i += 1;
+               str += "<div class='row  doc"+ i +"'>";
+               str += "<div class='col-md-1'></div>";
+               str += "<div class='form-group col-md-10' >";
+              // str += "<label for='name' class='control-label'>Document File</label>";
+               str += "<div class='input-group'>";
+               str += "<input type='file' value='' class='' id='md-input' data-validate='required'>";
+               str += "<div class='input-group-btn'>";
+               str += "<button type='button' id='del_doc' data-del-no='"+i+"' class='btn btn-default btn-block'> <span class='glyphicon glyphicon-remove text-danger'></span></button>";
+               str += "</div>";
+               str += "</div>";
+               str += "</div>";
+               str += "<div class='col-md-1'>";
+               str += "</div>";
+               str += "</div>";
+               
+               $(".row_doc_file").append(str);
+
+
+
+            });
+         
+
+            var const_URL = "@Url.Action("get_all_customer", "Home")";
+            Selection_Customer(const_URL);
+
+            $(".dropdown-menu li a").click(function () {
+
+                $(".btn:first-child #NaOrNo").text($(this).text());
+                $(".btn:first-child #NaOrNo").val($(this).text());
+                $("#txt_c").val('').trigger('change.select2');
+                if ($(this).text() === "Customer Number") {
+                    const_URL = "@Url.Action("get_all_customer", "Home")";
+                    //console.log($(this).text(), " === Customer Number");
+                    Selection_Customer(const_URL);
+                } else {
+                    const_URL = "@Url.Action("get_distinct_customer", "Home")";
+                    //console.log($(this).text(), " === Customer Name");
+                    Selection_Customer(const_URL);
+                }
+
+            });
+
+
+
+        });
+
+        function Selection_Customer(data_url) {
+            $("#txt_c").select2({
+                theme: "bootstrap",
+                placeholder: { id : "0",
+                               text :"Select a Customer"},
+                minimumInputLength: 0,
+                ajax: {
+                    url: data_url,
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (params) {
+                        console.log(params)
+                        return {
+                            term: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data,
+
+                        };
+                    }
+
+                }
+            });
+        }
+
+        function validate_select2() {
+            var custumer = $(" option:selected").val();
+            if (custumer == null) {
+                $("input.select2-search__field").addClass("error");
+                //$("input.select2-search__field").removeClass("valid");                
+            } else {
+                $("input.select2-search__field").removeClass("error");
+                //$("input.select2-search__field").addClass("valid");
+
+            }
+        }
+
+
+    </script>
+}

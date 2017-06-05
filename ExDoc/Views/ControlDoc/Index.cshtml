@@ -1,0 +1,86 @@
+﻿
+<button type="button" class="btnfloating" id="CreateIssue">
+    <i class="mdi mdi-plus mdi-36px icon-btnF"></i>
+</button>
+
+<div class="modal fade" id="myModal3" role="dialog">
+    <div id="modalcreat">
+    </div>
+
+</div>
+
+
+
+<div id="issue" class="card shadow-2"></div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#CreateIssue").click(function () {
+
+                var remote = "@Url.Action("_CreateIssue")";
+                $.get(remote, function (data) {
+                    $("#modalcreat").html(data);
+                    $("#myModal3").modal({ backdrop: "static" });
+                })
+
+            })
+
+            $('#issue').jtable({
+                title: 'All Document',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                useBootstrap: true,
+                defaultSorting: 'Name ASC', //Set default sorting
+                actions: {
+                    listAction: '/Demo/StudentList'
+                },
+                fields: {
+                    StudentId: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    Name: {
+                        title: 'Customer No.',
+                        width: '10%'
+                    },
+                    EmailAddress: {
+                        title: 'Customer Name.',
+                        width: '20%'
+                    },
+                    Password: {
+                        title: 'Doc Type',
+                        type: 'password',
+                        width: '10%'
+                    },
+                    Gender: {
+                        title: 'Doc Name',
+                        width: '10%',
+                    },
+                    CityId: {
+                        title: 'Doc No.',
+                        width: '5%'
+                    },
+                    BirthDate: {
+                        title: 'Doc Revision.',
+                        width: '10%'
+                    },
+                    Education: {
+                        title: 'Date',
+                        width: '10%'
+                    }
+                }
+            });
+
+            //Load student list from server
+            $('#StudentTableContainer').jtable('load');
+        });
+
+
+    </script>
+}

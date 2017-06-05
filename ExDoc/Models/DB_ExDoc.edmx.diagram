@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="31455647e0864d238f1c019f5e415804" Name="Diagram1" ZoomLevel="23">
+        <EntityTypeShape EntityType="EX_DOCModel.Customer" Width="1.5" PointX="5.6054343886698756" PointY="31.608165502365754" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocFile" Width="1.5" PointX="5.7846152548606575" PointY="31.670584410275605" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocType" Width="1.5" PointX="6.3931280981717293" PointY="31.264048561111114" />
+        <EntityTypeShape EntityType="EX_DOCModel.Issue" Width="1.5" PointX="4.8207640148795967" PointY="25.215522450029628" />
+        <EntityTypeShape EntityType="EX_DOCModel.Relation_Issue_Cust" Width="1.5" PointX="0.14159775345660641" PointY="20.376908699226057" />
+        <EntityTypeShape EntityType="EX_DOCModel.Status" Width="1.5" PointX="1.686861579160607" PointY="21.478948513734597" />
+        <EntityTypeShape EntityType="EX_DOCModel.Transaction" Width="1.5" PointX="7.6501374131302065" PointY="10.979243134604415" />
+        <EntityTypeShape EntityType="EX_DOCModel.User_level" Width="1.5" PointX="10.692661703886772" PointY="19.258447432545221" />
+        <AssociationConnector Association="EX_DOCModel.FK_Relation_Issue_Cust_Customer" />
+        <AssociationConnector Association="EX_DOCModel.FK_DocFile_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Issue_DocType" />
+        <AssociationConnector Association="EX_DOCModel.FK_Relation_Issue_Cust_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_Status" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_User_level" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

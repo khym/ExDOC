@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EX_DOCModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EX_DOCModelStoreContainer">
+    <EntitySet Name="Customer" EntityType="EX_DOCModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocFile" EntityType="EX_DOCModel.Store.DocFile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocType" EntityType="EX_DOCModel.Store.DocType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Issue" EntityType="EX_DOCModel.Store.Issue" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Relation_Issue_Cust" EntityType="EX_DOCModel.Store.Relation_Issue_Cust" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Status" EntityType="EX_DOCModel.Store.Status" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transaction" EntityType="EX_DOCModel.Store.Transaction" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User_level" EntityType="EX_DOCModel.Store.User_level" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_DocFile_Issue" Association="EX_DOCModel.Store.FK_DocFile_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="DocFile" EntitySet="DocFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Issue_DocType" Association="EX_DOCModel.Store.FK_Issue_DocType">
+      <End Role="DocType" EntitySet="DocType" />
+      <End Role="Issue" EntitySet="Issue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Relation_Issue_Cust_Customer" Association="EX_DOCModel.Store.FK_Relation_Issue_Cust_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Relation_Issue_Cust_Issue" Association="EX_DOCModel.Store.FK_Relation_Issue_Cust_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stransaction_Issue" Association="EX_DOCModel.Store.FK_Stransaction_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stransaction_Status" Association="EX_DOCModel.Store.FK_Stransaction_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stransaction_User_level" Association="EX_DOCModel.Store.FK_Stransaction_User_level">
+      <End Role="User_level" EntitySet="User_level" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="cust_no" />
+    </Key>
+    <Property Name="cust_no" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="cust_name" Type="varchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="DocFile">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Name="file_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="file_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="issue_id" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DocType">
+    <Key>
+      <PropertyRef Name="doc_type_id" />
+    </Key>
+    <Property Name="doc_type_id" Type="int" Nullable="false" />
+    <Property Name="doc_type_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_parent" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="issue_no" />
+    </Key>
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_type_id" Type="int" Nullable="false" />
+    <Property Name="doc_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_rev" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="rec_date" Type="date" Nullable="false" />
+    <Property Name="change_point" Type="varchar" MaxLength="50" />
+    <Property Name="tnc_product" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Relation_Issue_Cust">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="cust_no" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="issue_id" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Name="status_id" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="status_name" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="seq" />
+    </Key>
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="seq" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="status_id" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="action_id" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="actor" Type="varchar" MaxLength="50" />
+    <Property Name="actor_date" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="org_id" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="level_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="comment" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="User_level">
+    <Key>
+      <PropertyRef Name="level_id" />
+    </Key>
+    <Property Name="level_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="level_name" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="position_min" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="position_max" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_DocFile_Issue">
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="1" />
+    <End Role="DocFile" Type="EX_DOCModel.Store.DocFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="DocFile">
+        <PropertyRef Name="issue_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Issue_DocType">
+    <End Role="DocType" Type="EX_DOCModel.Store.DocType" Multiplicity="1" />
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DocType">
+        <PropertyRef Name="doc_type_id" />
+      </Principal>
+      <Dependent Role="Issue">
+        <PropertyRef Name="doc_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Relation_Issue_Cust_Customer">
+    <End Role="Customer" Type="EX_DOCModel.Store.Customer" Multiplicity="1" />
+    <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="cust_no" />
+      </Principal>
+      <Dependent Role="Relation_Issue_Cust">
+        <PropertyRef Name="cust_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Relation_Issue_Cust_Issue">
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="1" />
+    <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="Relation_Issue_Cust">
+        <PropertyRef Name="issue_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stransaction_Issue">
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="1" />
+    <End Role="Transaction" Type="EX_DOCModel.Store.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="issue_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stransaction_Status">
+    <End Role="Status" Type="EX_DOCModel.Store.Status" Multiplicity="1" />
+    <End Role="Transaction" Type="EX_DOCModel.Store.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="status_id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stransaction_User_level">
+    <End Role="User_level" Type="EX_DOCModel.Store.User_level" Multiplicity="1" />
+    <End Role="Transaction" Type="EX_DOCModel.Store.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_level">
+        <PropertyRef Name="level_id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="level_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

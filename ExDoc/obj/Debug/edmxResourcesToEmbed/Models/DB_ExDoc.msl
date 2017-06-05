@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EX_DOCModelStoreContainer" CdmEntityContainer="EX_DOCEntities">
+    <EntitySetMapping Name="Customer">
+      <EntityTypeMapping TypeName="EX_DOCModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="cust_name" ColumnName="cust_name" />
+          <ScalarProperty Name="cust_no" ColumnName="cust_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocFile">
+      <EntityTypeMapping TypeName="EX_DOCModel.DocFile">
+        <MappingFragment StoreEntitySet="DocFile">
+          <ScalarProperty Name="issue_id" ColumnName="issue_id" />
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="file_id" ColumnName="file_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocType">
+      <EntityTypeMapping TypeName="EX_DOCModel.DocType">
+        <MappingFragment StoreEntitySet="DocType">
+          <ScalarProperty Name="doc_parent" ColumnName="doc_parent" />
+          <ScalarProperty Name="doc_type_name" ColumnName="doc_type_name" />
+          <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Issue">
+      <EntityTypeMapping TypeName="EX_DOCModel.Issue">
+        <MappingFragment StoreEntitySet="Issue">
+          <ScalarProperty Name="tnc_product" ColumnName="tnc_product" />
+          <ScalarProperty Name="change_point" ColumnName="change_point" />
+          <ScalarProperty Name="rec_date" ColumnName="rec_date" />
+          <ScalarProperty Name="doc_rev" ColumnName="doc_rev" />
+          <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+          <ScalarProperty Name="doc_name" ColumnName="doc_name" />
+          <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Relation_Issue_Cust">
+      <EntityTypeMapping TypeName="EX_DOCModel.Relation_Issue_Cust">
+        <MappingFragment StoreEntitySet="Relation_Issue_Cust">
+          <ScalarProperty Name="issue_id" ColumnName="issue_id" />
+          <ScalarProperty Name="cust_no" ColumnName="cust_no" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="EX_DOCModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="status_name" ColumnName="status_name" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transaction">
+      <EntityTypeMapping TypeName="EX_DOCModel.Transaction">
+        <MappingFragment StoreEntitySet="Transaction">
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="level_id" ColumnName="level_id" />
+          <ScalarProperty Name="org_id" ColumnName="org_id" />
+          <ScalarProperty Name="actor_date" ColumnName="actor_date" />
+          <ScalarProperty Name="actor" ColumnName="actor" />
+          <ScalarProperty Name="action_id" ColumnName="action_id" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="seq" ColumnName="seq" />
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_level">
+      <EntityTypeMapping TypeName="EX_DOCModel.User_level">
+        <MappingFragment StoreEntitySet="User_level">
+          <ScalarProperty Name="position_max" ColumnName="position_max" />
+          <ScalarProperty Name="position_min" ColumnName="position_min" />
+          <ScalarProperty Name="level_name" ColumnName="level_name" />
+          <ScalarProperty Name="level_id" ColumnName="level_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
