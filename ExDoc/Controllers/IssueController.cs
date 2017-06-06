@@ -70,7 +70,7 @@ namespace ExDoc.Controllers
             DocFile file2db = new DocFile();
 
             DateTime d = Convert.ToDateTime(date_rec);
-            string issue_no = "EXDOC-21312-" + DateTime.Now.Millisecond + "";
+            string issue_no = "EXDOC-" + DateTime.Now.Date + DateTime.Now.Month + DateTime.Now.Year + "-"+ DateTime.Now.Minute + DateTime.Now.Millisecond + "";
             save_issue.issue_no = issue_no;
             save_issue.doc_name = doc_name;
             save_issue.doc_no = doc_no;
@@ -86,34 +86,7 @@ namespace ExDoc.Controllers
 
                 if (customer_type == "Customer Number")
                 {
-
-                   //var indy_cust = new Relation_Issue_Cust();
-
-                   //indy_cust.cust_no = item;
-                   //indy_cust.issue_id = issue_no;
-                   //ex_doc.Relation_Issue_Cust.Add(indy_cust);
-
                    File2DB(issue_no,doc_file,item);
-
-                    //foreach (var doc in doc_file)
-                    //{
-                    //    string subPath = "~/UploadFiles/" + item + "/";
-                    //    if (!Directory.Exists(Server.MapPath(subPath)))
-                    //    {
-                    //        Directory.CreateDirectory(Server.MapPath(subPath));
-                    //    }
-
-                    //    var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(doc.FileName.Replace('#', ' ').Replace('%', ' '));
-                    //    var path = Path.Combine(Server.MapPath(subPath), fileName);
-                    //    doc.SaveAs(path);
-                 
-                    //    var filedb = new DocFile();
-                    //    filedb.issue_id = issue_no;
-                    //    filedb.file_name = subPath + fileName;
-                    //    ex_doc.DocFile.Add(filedb);
-                    //}
-
-
                 }
                 else if (customer_type == "Customer Name")
                 {
@@ -121,33 +94,7 @@ namespace ExDoc.Controllers
 
                     foreach (var item2 in sql)
                     {
-
-                        //var indy_cust = new Relation_Issue_Cust();
-
-                        //indy_cust.cust_no = item2;
-                        //indy_cust.issue_id = issue_no;
-                        //ex_doc.Relation_Issue_Cust.Add(indy_cust);
-
                         File2DB(issue_no, doc_file, item2);
-
-                        //foreach (var doc in doc_file)
-                        //{
-                        //    string subPath = "~/UploadFiles/" + item2 + "/";
-                        //    if (!Directory.Exists(Server.MapPath(subPath)))
-                        //    {
-                        //        Directory.CreateDirectory(Server.MapPath(subPath));
-                        //    }
-
-                        //    var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(doc.FileName.Replace('#', ' ').Replace('%', ' '));
-                        //    var path = Path.Combine(Server.MapPath(subPath), fileName);
-                        //    doc.SaveAs(path);
-
-                        //    var filedb = new DocFile();
-                        //    filedb.issue_id = issue_no;
-                        //    filedb.file_name = subPath + fileName;
-                        //    ex_doc.DocFile.Add(filedb);
-
-                        //}
                     }
                 }
                 
