@@ -30,6 +30,7 @@
     <EntitySetMapping Name="Issue">
       <EntityTypeMapping TypeName="EX_DOCModel.Issue">
         <MappingFragment StoreEntitySet="Issue">
+          <ScalarProperty Name="issue_date" ColumnName="issue_date" />
           <ScalarProperty Name="tnc_product" ColumnName="tnc_product" />
           <ScalarProperty Name="change_point" ColumnName="change_point" />
           <ScalarProperty Name="rec_date" ColumnName="rec_date" />

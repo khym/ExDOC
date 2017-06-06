@@ -80,6 +80,7 @@
     <NavigationProperty Name="DocType" Relationship="EX_DOCModel.FK_Issue_DocType" FromRole="Issue" ToRole="DocType" />
     <NavigationProperty Name="Relation_Issue_Cust" Relationship="EX_DOCModel.FK_Relation_Issue_Cust_Issue" FromRole="Issue" ToRole="Relation_Issue_Cust" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Issue" ToRole="Transaction" />
+    <Property Type="DateTime" Name="issue_date" Precision="3" />
   </EntityType>
   <EntityType Name="Relation_Issue_Cust">
     <Key>

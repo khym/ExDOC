@@ -29,6 +29,7 @@ namespace ExDoc.Models
         public System.DateTime rec_date { get; set; }
         public string change_point { get; set; }
         public string tnc_product { get; set; }
+        public Nullable<System.DateTime> issue_date { get; set; }
     
         public virtual ICollection<DocFile> DocFile { get; set; }
         public virtual DocType DocType { get; set; }
