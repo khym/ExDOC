@@ -1,18 +1,13 @@
-﻿<style>
-    .doc_origin {
-    padding-bottom: 10px;
-    }
-    #del_doc {
-    border: #fff;
-    }
-</style>
-
+﻿  
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
+  <div class="card shadow-2">
 
-        <div class="card shadow-2">
-             <div class="card-title secondary-color-md" >New Document</div>
+        <div class="card-title ">
+            Revise Document      
+               
+        </div>
         <div class="card-body">
 
             <div class="card-text card-boder">
@@ -34,7 +29,7 @@
                                         </ul>
                                     </div>
                                     <input type="hidden" name="customer_type" id="customer_type" value="Customer Number"/>
-                                    <select id="txt_c" style="width: 100%;" name="customer" class="form-control" multiple="multiple" data-validate="required">
+                                    <select id="txt_c"  name="customer" class="form-control" multiple="multiple" data-validate="required">
                                     </select>
                                 </div>
                             </div>
@@ -125,19 +120,11 @@
             </div>
 
         </div>
-        </div>
-
-
     </div>
+        </div>
     <div class="col-md-2"></div>
-</div>
-
-
-
-
-
+    </div>
 @section scripts{
-
 <script>
     $(document).ready(function () {
         var i = 0;
@@ -154,13 +141,13 @@
             }
 
 
-            // console.log($("#txt_c").val(),"ddddddddd");
+          // console.log($("#txt_c").val(),"ddddddddd");
 
             validate_select2();
             if ($.validate({ form: "formNewDoc" })) {
-
+                
                 //document.formRequest.submit();
-
+                           
                 $("#formNewDoc").submit();
 
        @*         $.ajax({
@@ -219,81 +206,80 @@
     });
 
     var const_URL = "@Url.Action("get_all_customer", "Home")";
-    Selection_Customer(const_URL);
+        Selection_Customer(const_URL);
 
-    $(".dropdown-menu li a").click(function () {
+        $(".dropdown-menu li a").click(function () {
 
-        $(".btn:first-child #NaOrNo").text($(this).text());
-        $(".btn:first-child #NaOrNo").val($(this).text());
-        $("#txt_c").val('').trigger('change.select2');
-        //$('#txt_c').select2("data", "");
-        if ($(this).text() === "Customer Number") {
-            const_URL = "@Url.Action("get_all_customer", "Home")";
+            $(".btn:first-child #NaOrNo").text($(this).text());
+            $(".btn:first-child #NaOrNo").val($(this).text());
+            $("#txt_c").val('').trigger('change.select2');
+            //$('#txt_c').select2("data", "");
+            if ($(this).text() === "Customer Number") {
+                const_URL = "@Url.Action("get_all_customer", "Home")";
                 //console.log($(this).text(), " === Customer Number");
                 $("#customer_type").val($(this).text());
-                Selection_Customer(const_URL);
-            } else {
-                const_URL = "@Url.Action("get_distinct_customer", "Home")";
+                    Selection_Customer(const_URL);
+                } else {
+                    const_URL = "@Url.Action("get_distinct_customer", "Home")";
                 //console.log($(this).text(), " === Customer Name");
                 $("#customer_type").val($(this).text());
-                Selection_Customer(const_URL);
+                    Selection_Customer(const_URL);
+                }
+
+            });
+
+
+            function Selection_Customer(data_url) {
+                $("#txt_c").select2({
+                    theme: "bootstrap",
+                    placeholder: {
+                        id: "0",
+                        text: "Select a Customer"
+                    },
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: data_url,
+                        type: "POST",
+                        dataType: 'json',
+                        data: function (params) {
+                            //console.log(params)
+                            return {
+                                term: params.term
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data,
+
+                            };
+                        }
+
+                    }
+                });
             }
 
-        });
-
-
-        function Selection_Customer(data_url) {
-            $("#txt_c").select2({
-                theme: "bootstrap",
-                placeholder: {
-                    id: "0",
-                    text: "Select a Customer"
-                },
-                minimumInputLength: 0,
-                ajax: {
-                    url: data_url,
-                    type: "POST",
-                    dataType: 'json',
-                    data: function (params) {
-                        //console.log(params)
-                        return {
-                            term: params.term
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data,
-
-                        };
-                    }
+            function validate_select2() {
+                var custumer = $(" option:selected").val();
+                if (custumer == null) {
+                    $("input.select2-search__field").addClass("error");
+                    //$("input.select2-search__field").removeClass("valid");                
+                } else {
+                    $("input.select2-search__field").removeClass("error");
+                    //$("input.select2-search__field").addClass("valid");
 
                 }
-            });
-        }
-
-        function validate_select2() {
-            var custumer = $(" option:selected").val();
-            if (custumer == null) {
-                $("input.select2-search__field").addClass("error");
-                //$("input.select2-search__field").removeClass("valid");                
-            } else {
-                $("input.select2-search__field").removeClass("error");
-                //$("input.select2-search__field").addClass("valid");
-
             }
-        }
 
-        function cust2array(data) {
-            var cust = [];
-            for (var i = 0; i < data.length; i++) {
-                //console.log(data[i].id)
-                cust[i] = data[i].id;
+            function cust2array(data) {
+                var cust = [];
+                for (var i = 0; i < data.length; i++) {
+                    //console.log(data[i].id)
+                    cust[i] = data[i].id;
+                }
+                return cust;
             }
-            return cust;
-        }
-
+    
 
 </script>
-
-}
+    }

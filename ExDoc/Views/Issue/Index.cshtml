@@ -1,20 +1,9 @@
-﻿@*<style>
-    select {
-        color: #333333;
-    }
+﻿
 
-    .doc_origin {
-        padding-bottom: 10px;
-    }
 
-    #del_doc {
-        border: #fff;
-    }
-</style>*@
-
-<button type="button" class="btnfloating" id="CreateIssue">
+@*<button type="button" class="btnfloating" id="CreateIssue">
     <i class="mdi mdi-plus mdi-36px icon-btnF"></i>
-</button>
+</button>*@
 
 <div class="modal fade" id="myModal3" role="dialog">
     <div id="modalcreat">
@@ -23,14 +12,28 @@
 </div>
 
 
+<div class="modal fade" id="myModal_preview" role="dialog">
+    <div id="modalpreview">
+    </div>
 
-<div id="issue" class="card shadow-2"></div>
+</div>
 
+
+<div class="data_issue" style="position:relative;">
+    <button type="button" class="btnfloating_indiv" id="CreateIssue">
+    <i class="mdi mdi-plus mdi-36px btnF_indiv"></i>
+</button>
+<div id="issue" class="card shadow-2">
+
+</div>
+    </div>
 
 
 @section scripts{
     <script>
         $(document).ready(function () {
+
+
             $("#CreateIssue").click(function () {
 
                 var remote = "@Url.Action("_CreateIssue")";
@@ -41,58 +44,86 @@
 
             })
 
+
+     @*       $("#ssss").click(function () {
+
+                var remote = "@Url.Action("_PreviewIssue")";
+                            $.get(remote, function (data) {
+                                $("#modalpreview").html(data);
+                                $("#myModal_preview").modal({ backdrop: "static" });
+                            })
+
+            })*@
+
+            $('body').on('click', '#preview_card', function (e) {
+                var issue_no = $(this).attr("data-issue-no");
+                console.log("issue_no = ", issue_no);
+                var remote = "@Url.Action("_PreviewIssue")?issue_no=" + issue_no;
+                $.get(remote, function (data) {
+                    $("#myModal_preview").modal({ backdrop: "static" });
+                    $("#modalpreview").html(data);
+                    
+                });
+            })
+
+
             $('#issue').jtable({
                 title: 'Issue List',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                useBootstrap: true,
-                defaultSorting: 'Name ASC', //Set default sorting
+                defaultSorting: 'doc_name ASC', //Set default sorting
                 actions: {
-                    listAction: '/Demo/StudentList'
+                    listAction: '@Url.Action("get_issue", "Home")'
                 },
                 fields: {
-                    StudentId: {
-                        key: true,
-                        create: false,
-                        edit: false,
-                        list: false
-                    },
-                    Name: {
-                        title: 'Customer No.',
+                    issue_no: {
+                        title: 'Issue No.',
                         width: '10%'
                     },
-                    EmailAddress: {
-                        title: 'Customer Name.',
-                        width: '20%'
-                    },
-                    Password: {
+                    doc_type_name: {
                         title: 'Doc Type',
                         type: 'password',
                         width: '10%'
                     },
-                    Gender: {
+                    doc_name: {
                         title: 'Doc Name',
                         width: '10%',
                     },
-                    CityId: {
+                    doc_no: {
                         title: 'Doc No.',
                         width: '5%'
                     },
-                    BirthDate: {
+                    doc_rev: {
                         title: 'Doc Revision.',
                         width: '10%'
                     },
-                    Education: {
+                    rec_date: {
                         title: 'Date',
-                        width: '10%'
+                        width: '10%', display: function (data) {
+                            //return data.record.rec_date;
+                            return moment(data.record.rec_date).format('MM/DD/YYYY');//.fromNow();//.calendar();
+                        }
+                    },
+                    tnc_product: {
+                        title: 'Product',
+                        width: '20%'
+                    },
+                    Preivew: {
+                        title: 'Preivew', width: '4%', visibility: 'fixed',
+                        display: function (data) {
+                            var x = data.record.issue_no;
+                            return $('<button type="button" data-issue-no="'+x+'" id="preview_card" >Preview</button>');
+                            }
                     }
-                }
+                 }
+
             });
 
             //Load student list from server
-            $('#StudentTableContainer').jtable('load');
+            $('#issue').jtable('load');
         });
+
 
 
     </script>
