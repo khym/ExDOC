@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="EX_DOCModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="EX_DOCEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Action" EntityType="EX_DOCModel.Action" />
     <EntitySet Name="Customer" EntityType="EX_DOCModel.Customer" />
     <EntitySet Name="DocFile" EntityType="EX_DOCModel.DocFile" />
     <EntitySet Name="DocType" EntityType="EX_DOCModel.DocType" />
@@ -9,12 +10,16 @@
     <EntitySet Name="Status" EntityType="EX_DOCModel.Status" />
     <EntitySet Name="Transaction" EntityType="EX_DOCModel.Transaction" />
     <EntitySet Name="User_level" EntityType="EX_DOCModel.User_level" />
+    <AssociationSet Name="FK_Transaction_Action" Association="EX_DOCModel.FK_Transaction_Action">
+      <End Role="Action" EntitySet="Action" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
     <AssociationSet Name="FK_Relation_Issue_Cust_Customer" Association="EX_DOCModel.FK_Relation_Issue_Cust_Customer">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
     </AssociationSet>
-    <AssociationSet Name="FK_DocFile_Issue" Association="EX_DOCModel.FK_DocFile_Issue">
-      <End Role="Issue" EntitySet="Issue" />
+    <AssociationSet Name="FK_DocFile_Relation_Issue_Cust" Association="EX_DOCModel.FK_DocFile_Relation_Issue_Cust">
+      <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
       <End Role="DocFile" EntitySet="DocFile" />
     </AssociationSet>
     <AssociationSet Name="FK_Issue_DocType" Association="EX_DOCModel.FK_Issue_DocType">
@@ -38,6 +43,16 @@
       <End Role="Transaction" EntitySet="Transaction" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Action">
+    <Key>
+      <PropertyRef Name="action_id" />
+    </Key>
+    <Property Type="Int32" Name="action_id" Nullable="false" />
+    <Property Type="String" Name="action_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="update_by" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="up_date" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Action" ToRole="Transaction" />
+  </EntityType>
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="cust_no" />
@@ -52,14 +67,14 @@
     </Key>
     <Property Type="Int32" Name="file_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="file_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="issue_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_DocFile_Issue" FromRole="DocFile" ToRole="Issue" />
+    <Property Type="Int32" Name="relation_id" Nullable="false" />
+    <NavigationProperty Name="Relation_Issue_Cust" Relationship="EX_DOCModel.FK_DocFile_Relation_Issue_Cust" FromRole="DocFile" ToRole="Relation_Issue_Cust" />
   </EntityType>
   <EntityType Name="DocType">
     <Key>
       <PropertyRef Name="doc_type_id" />
     </Key>
-    <Property Type="Int32" Name="doc_type_id" Nullable="false" />
+    <Property Type="Int32" Name="doc_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="doc_type_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Type="Int32" Name="doc_parent" Nullable="false" />
     <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Issue_DocType" FromRole="DocType" ToRole="Issue" />
@@ -75,12 +90,11 @@
     <Property Type="String" Name="doc_rev" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Type="DateTime" Name="rec_date" Nullable="false" Precision="0" />
     <Property Type="String" Name="change_point" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="tnc_product" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="DocFile" Relationship="EX_DOCModel.FK_DocFile_Issue" FromRole="Issue" ToRole="DocFile" />
+    <Property Type="String" Name="tnc_product" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="issue_date" Precision="3" />
     <NavigationProperty Name="DocType" Relationship="EX_DOCModel.FK_Issue_DocType" FromRole="Issue" ToRole="DocType" />
     <NavigationProperty Name="Relation_Issue_Cust" Relationship="EX_DOCModel.FK_Relation_Issue_Cust_Issue" FromRole="Issue" ToRole="Relation_Issue_Cust" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Issue" ToRole="Transaction" />
-    <Property Type="DateTime" Name="issue_date" Precision="3" />
   </EntityType>
   <EntityType Name="Relation_Issue_Cust">
     <Key>
@@ -90,13 +104,14 @@
     <Property Type="String" Name="cust_no" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="issue_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Customer" Relationship="EX_DOCModel.FK_Relation_Issue_Cust_Customer" FromRole="Relation_Issue_Cust" ToRole="Customer" />
+    <NavigationProperty Name="DocFile" Relationship="EX_DOCModel.FK_DocFile_Relation_Issue_Cust" FromRole="Relation_Issue_Cust" ToRole="DocFile" />
     <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Relation_Issue_Cust_Issue" FromRole="Relation_Issue_Cust" ToRole="Issue" />
   </EntityType>
   <EntityType Name="Status">
     <Key>
       <PropertyRef Name="status_id" />
     </Key>
-    <Property Type="String" Name="status_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="status_id" Nullable="false" />
     <Property Type="String" Name="status_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Status" ToRole="Transaction" />
   </EntityType>
@@ -106,14 +121,15 @@
       <PropertyRef Name="seq" />
     </Key>
     <Property Type="String" Name="issue_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="seq" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="status_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="action_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="seq" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="status_id" Nullable="false" />
+    <Property Type="Int32" Name="action_id" />
     <Property Type="String" Name="actor" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="actor_date" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="org_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="level_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="actor_date" Precision="3" />
+    <Property Type="String" Name="org_id" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="level_id" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="comment" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Action" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Transaction" ToRole="Action" />
     <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Transaction" ToRole="Issue" />
     <NavigationProperty Name="Status" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Transaction" ToRole="Status" />
     <NavigationProperty Name="User_level" Relationship="EX_DOCModel.FK_Stransaction_User_level" FromRole="Transaction" ToRole="User_level" />
@@ -128,6 +144,18 @@
     <Property Type="String" Name="position_max" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_User_level" FromRole="User_level" ToRole="Transaction" />
   </EntityType>
+  <Association Name="FK_Transaction_Action">
+    <End Type="EX_DOCModel.Action" Role="Action" Multiplicity="0..1" />
+    <End Type="EX_DOCModel.Transaction" Role="Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Action">
+        <PropertyRef Name="action_id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="action_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Relation_Issue_Cust_Customer">
     <End Type="EX_DOCModel.Customer" Role="Customer" Multiplicity="1" />
     <End Type="EX_DOCModel.Relation_Issue_Cust" Role="Relation_Issue_Cust" Multiplicity="*" />
@@ -140,15 +168,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DocFile_Issue">
-    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1" />
+  <Association Name="FK_DocFile_Relation_Issue_Cust">
+    <End Type="EX_DOCModel.Relation_Issue_Cust" Role="Relation_Issue_Cust" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="EX_DOCModel.DocFile" Role="DocFile" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Issue">
-        <PropertyRef Name="issue_no" />
+      <Principal Role="Relation_Issue_Cust">
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="DocFile">
-        <PropertyRef Name="issue_id" />
+        <PropertyRef Name="relation_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -165,7 +195,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Relation_Issue_Cust_Issue">
-    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="EX_DOCModel.Relation_Issue_Cust" Role="Relation_Issue_Cust" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Issue">
@@ -177,7 +209,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Stransaction_Issue">
-    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="EX_DOCModel.Transaction" Role="Transaction" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Issue">
@@ -201,7 +235,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Stransaction_User_level">
-    <End Type="EX_DOCModel.User_level" Role="User_level" Multiplicity="1" />
+    <End Type="EX_DOCModel.User_level" Role="User_level" Multiplicity="0..1" />
     <End Type="EX_DOCModel.Transaction" Role="Transaction" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User_level">

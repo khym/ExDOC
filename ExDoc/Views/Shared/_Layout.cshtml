@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <title> External Document Control </title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
 
@@ -40,6 +40,16 @@
     </div>
     <ul class="nav navbar-nav">
        @*@Html.MenuLink("Index", "Index", "Home")*@
+
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Request
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="@Url.Action("NewIssue","Issue")">New Document</a></li>
+          <li><a href="@Url.Action("NewRevise","Issue")">Revise Document</a></li>
+        </ul>
+      </li>
+
          @Html.MenuLink("Issue", "Index", "Issue")
          @*@Html.MenuLink("New Issue", "NewIssue", "Issue")*@
          @Html.MenuLink("All Document", "Index", "ControlDoc")
@@ -50,7 +60,7 @@
   </div>
 </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         @RenderSection("featured", required: false)
             @RenderBody()
  
@@ -68,9 +78,11 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/Select2/select2.js"></script>
     <script src="~/Scripts/jtable/jquery.jtable.js"></script>
-
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/noty/jquery.noty.js"></script>
     @RenderSection("scripts", required: false)
-        <script src="http://webexternal/CDN/JS/Html5/html5shiv.min.js"></script>
+
+    <script src="http://webexternal/CDN/JS/Html5/html5shiv.min.js"></script>
     <script src="http://webexternal/CDN/JS/Html5/respond.min.js"></script>
 
         @if (Request.Url.ToString().ToLower().Contains(".nok.co.th"))

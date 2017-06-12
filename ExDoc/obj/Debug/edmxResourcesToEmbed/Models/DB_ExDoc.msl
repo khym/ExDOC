@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="EX_DOCModelStoreContainer" CdmEntityContainer="EX_DOCEntities">
+    <EntitySetMapping Name="Action">
+      <EntityTypeMapping TypeName="EX_DOCModel.Action">
+        <MappingFragment StoreEntitySet="Action">
+          <ScalarProperty Name="up_date" ColumnName="up_date" />
+          <ScalarProperty Name="update_by" ColumnName="update_by" />
+          <ScalarProperty Name="action_name" ColumnName="action_name" />
+          <ScalarProperty Name="action_id" ColumnName="action_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Customer">
       <EntityTypeMapping TypeName="EX_DOCModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
@@ -12,7 +22,7 @@
     <EntitySetMapping Name="DocFile">
       <EntityTypeMapping TypeName="EX_DOCModel.DocFile">
         <MappingFragment StoreEntitySet="DocFile">
-          <ScalarProperty Name="issue_id" ColumnName="issue_id" />
+          <ScalarProperty Name="relation_id" ColumnName="relation_id" />
           <ScalarProperty Name="file_name" ColumnName="file_name" />
           <ScalarProperty Name="file_id" ColumnName="file_id" />
         </MappingFragment>

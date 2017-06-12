@@ -13,6 +13,7 @@ namespace ExDoc.Controllers
     {
         EX_DOCEntities tnc_costomer = new EX_DOCEntities();
         TNCSecurity tnc_se = new TNCSecurity();
+        EX_DOCEntities ex_doc = new EX_DOCEntities();
 
         public ActionResult Index()
         {
@@ -84,13 +85,20 @@ namespace ExDoc.Controllers
         }
 
         [HttpPost]
+        public ActionResult get_doc_file(string issue_no)
+        {
+            
+            return Json(new{ data = "asdas" });
+        }
+
+        [HttpPost]
         public ActionResult get_all_customer(string term)
         {
 
             var sql = tnc_costomer.Customer.Select(a => new { id = a.cust_no, text = a.cust_name + "(" + a.cust_no + ")" }).Take(16).ToList();
             if (term != null)
             {
-                sql = tnc_costomer.Customer.Where(a => a.cust_no.Contains(term)).Select(a => new { id = a.cust_no, text = a.cust_name + "(" + a.cust_no + ")" }).Take(16).ToList();
+                sql = tnc_costomer.Customer.Where(a => a.cust_no.Contains(term) || a.cust_name.Contains(term)).Select(a => new { id = a.cust_no, text = a.cust_name + "(" + a.cust_no + ")" }).Take(16).ToList();
             }
 
             return Json(sql, JsonRequestBehavior.AllowGet);
@@ -107,5 +115,36 @@ namespace ExDoc.Controllers
             }
             return Json(sql, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult get_issue(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+        {
+            try
+            {
+
+                var sql = from a in ex_doc.Issue select a;
+
+
+                int TotalRecord = sql.Count();
+                var data_out = (from a in ex_doc.Issue
+                                select new
+                                {
+                                    a.issue_no,
+                                    doc_type_name = a.DocType.doc_type_name,
+                                    a.doc_name,
+                                    a.doc_no,
+                                    a.doc_rev,
+                                    a.rec_date,
+                                    a.tnc_product
+                                }).OrderBy(jtSorting).Skip(jtStartIndex).Take(jtPageSize);
+
+                return Json(new { Result = "OK", Records = data_out, TotalRecordCount = TotalRecord });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
     }
 }

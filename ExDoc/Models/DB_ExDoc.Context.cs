@@ -25,6 +25,7 @@ namespace ExDoc.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Action> Action { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<DocFile> DocFile { get; set; }
         public DbSet<DocType> DocType { get; set; }

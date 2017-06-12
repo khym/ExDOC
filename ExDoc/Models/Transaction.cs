@@ -15,15 +15,16 @@ namespace ExDoc.Models
     public partial class Transaction
     {
         public string issue_no { get; set; }
-        public string seq { get; set; }
-        public string status_id { get; set; }
-        public string action_id { get; set; }
+        public int seq { get; set; }
+        public int status_id { get; set; }
+        public Nullable<int> action_id { get; set; }
         public string actor { get; set; }
-        public string actor_date { get; set; }
+        public Nullable<System.DateTime> actor_date { get; set; }
         public string org_id { get; set; }
         public string level_id { get; set; }
         public string comment { get; set; }
     
+        public virtual Action Action { get; set; }
         public virtual Issue Issue { get; set; }
         public virtual Status Status { get; set; }
         public virtual User_level User_level { get; set; }

@@ -19,7 +19,7 @@ namespace ExDoc.Models
             this.Transaction = new HashSet<Transaction>();
         }
     
-        public string status_id { get; set; }
+        public int status_id { get; set; }
         public string status_name { get; set; }
     
         public virtual ICollection<Transaction> Transaction { get; set; }

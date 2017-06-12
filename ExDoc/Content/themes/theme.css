@@ -4478,10 +4478,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default {
   /*background-color: #3f51b5;*/
- /*background-color: #283593; old */ 
+ background-color: #283593;  
 
- background: -webkit-linear-gradient(90deg, rgb(233, 30, 99), rgb(40, 53, 147));
-    background: linear-gradient(90deg, rgb(233, 30, 99), rgb(40, 53, 147));
+ /*background: -webkit-linear-gradient(90deg, rgb(233, 30, 99), rgb(40, 53, 147));
+    background: linear-gradient(90deg, rgb(233, 30, 99), rgb(40, 53, 147));*/
 
   /*border-color: #36469c;*/
 }
@@ -4508,8 +4508,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #ffffff;
-  /*background-color: #36469c;old*/
-  background-color: rgba(156, 40, 119, 0.66);
+  background-color: #36469c;
+  /*background-color: rgba(156, 40, 119, 0.66);*/
 }
 .navbar-default .navbar-nav > .disabled > a,
 .navbar-default .navbar-nav > .disabled > a:hover,

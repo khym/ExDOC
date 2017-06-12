@@ -14,11 +14,17 @@ namespace ExDoc.Models
     
     public partial class Relation_Issue_Cust
     {
+        public Relation_Issue_Cust()
+        {
+            this.DocFile = new HashSet<DocFile>();
+        }
+    
         public int id { get; set; }
         public string cust_no { get; set; }
         public string issue_id { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<DocFile> DocFile { get; set; }
         public virtual Issue Issue { get; set; }
     }
 }

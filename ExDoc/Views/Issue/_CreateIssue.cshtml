@@ -131,7 +131,7 @@
     $(document).ready(function () {
         var i = 0;
         //$(".date_re").bootstrapMaterialDatePicker({ weekStart: 0, time: false });
-        $("#date_re").datepicker({ maxDate: '0' });
+        $("#date_re").datepicker({ maxDate: '0', dateFormat: 'dd/mm/yy' });
         $('button.btnSave').on('click', function () {
 
             var data = $("#txt_c").select2("data");

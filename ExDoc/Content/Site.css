@@ -109,7 +109,45 @@ body {
  behavior: url(border-radius.htc);
 }
 
+.btnfloating_indiv {
+    z-index: 99;
+    color: #fff;
+    width: 55px;
+    height: 55px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #E91E63;
+    position: absolute;
+    top: 20px;
+    right: 100px;
+    cursor: pointer;
+    -moz-box-shadow: 0px 2px 5px #666;
+    -webkit-box-shadow: 0px 2px 5px #666;
+    box-shadow: 0px 2px 5px #666;
+ behavior: url(border-radius.htc);
+}
+
+.icon-btnF_indiv {
+    color: #fff !important;
+    width: 50px;
+    height: 50px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #E91E63;
+    position: relative;
+    bottom: 32px;
+    right: 33px;
+    cursor: pointer;
+    -moz-box-shadow: 0px 2px 5px #666;
+    -webkit-box-shadow: 0px 2px 5px #666;
+    box-shadow: 0px 2px 5px #666;
+    behavior: url(border-radius.htc);
+}
+
 .icon-btnF {
+
     color: #fff;
     width: 50px;
     height: 50px;
