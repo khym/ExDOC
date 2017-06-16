@@ -44,18 +44,20 @@ namespace ExDoc.Controllers
             if (chklogin != null)
             {
                 Session["emp_code"] = chklogin.emp_code;
-                // Session["i_level"] = chklogin.emp_code;
                 Session["emp_name"] = chklogin.emp_fname + " " + chklogin.emp_lname.Substring(0,2)+".";
+                Session["emp_lvl"] = chklogin.position_level;
+                Session["emp_org_lvl"] = chklogin.LeafOrgGroup;
 
-                Session["emp_lvl"] = chklogin.level;
-                Session["emp_org_lvl"] = chklogin.LeafOrgLevel;
-                //Session["sss"] = chklogin.
-
-                //var sql = db_card.CardAdmin.Where(a => a.EmpCode == id).FirstOrDefault();
-
-
-                //  Session["i_admin"] = sql.EmpCode;
-
+                //test show data
+                Session["d_name"] = chklogin.dept_name;
+                Session["d_id"] = chklogin.dept_id;
+                Session["email"] = chklogin.email;
+                Session["g_id"] = chklogin.group_id;
+                Session["g_name"] = chklogin.group_name;
+                Session["po_lvl"] = chklogin.position_level;
+                Session["po_name"] = chklogin.position_name;
+                Session["p_id"] = chklogin.plant_id;
+                Session["p_name"] = chklogin.plant_name;
 
             }
 
@@ -63,7 +65,14 @@ namespace ExDoc.Controllers
             {
                 string url = Session["Redirect"].ToString();
                 Session.Remove("Redirect");
-                return Redirect(url);
+                if (url != null)
+                {
+                    return Redirect(url);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Issue");
+                }
             }
             else
             {
@@ -123,10 +132,17 @@ namespace ExDoc.Controllers
             {
 
                 var sql = from a in ex_doc.Issue select a;
-
+                string emp_code = Session["emp_code"].ToString();
+                int g_id = int.Parse(Session["g_id"].ToString());
+                int po_lvl = int.Parse(Session["po_lvl"].ToString());
 
                 int TotalRecord = sql.Count();
                 var data_out = (from a in ex_doc.Issue
+                                where a.Transaction.Any(
+                                b => b.org_id == g_id &&
+                               ( po_lvl >= b.User_level.position_min &&  po_lvl <= b.User_level.position_max) &&
+                                 (b.action_id == 5 || b.action_id == 4 )
+                                )
                                 select new
                                 {
                                     a.issue_no,
@@ -135,7 +151,8 @@ namespace ExDoc.Controllers
                                     a.doc_no,
                                     a.doc_rev,
                                     a.rec_date,
-                                    a.tnc_product
+                                    a.tnc_product,
+                                    status_name = a.Transaction.OrderByDescending(v=>v.seq).FirstOrDefault().Status.status_name
                                 }).OrderBy(jtSorting).Skip(jtStartIndex).Take(jtPageSize);
 
                 return Json(new { Result = "OK", Records = data_out, TotalRecordCount = TotalRecord });

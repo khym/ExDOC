@@ -71,6 +71,25 @@ body {
     margin-bottom: 20px;
 }
 
+.md-primary-color {
+
+    color: #fff !important;
+    background-color: #3f51b5 !important;
+    
+}
+
+.border-primary-color {
+
+    border-color: #3f51b5 !important;
+    
+}
+
+.primary-color-only{
+    color: #3f51b5 !important;
+}
+
+
+
 .card-title {
    padding: 10px 15px 8px 15px;
     color: #fff;

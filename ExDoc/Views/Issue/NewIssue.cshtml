@@ -1,9 +1,110 @@
 ﻿<style>
     .doc_origin {
-    padding-bottom: 10px;
+        padding-bottom: 10px;
     }
+
     #del_doc {
-    border: #fff;
+        border: #fff;
+    }
+
+
+
+    /* Tabs panel */
+    .tabbable-panel {
+        border: 1px solid #eee;
+        padding: 10px;
+    }
+
+    /* Default mode */
+    .tabbable-line > .nav-tabs {
+        border: none;
+        margin: 0px;
+    }
+
+        .tabbable-line > .nav-tabs > li {
+            margin-right: 2px;
+        }
+
+            .tabbable-line > .nav-tabs > li > a {
+                border: 0;
+                margin-right: 0;
+                color: #737373;
+            }
+
+                .tabbable-line > .nav-tabs > li > a > i {
+                    color: #a6a6a6;
+                }
+
+            .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+                border-bottom: 4px solid #9FA8DA;
+            }
+
+                .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+                    border: 0;
+                    background: none !important;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+                        color: #a6a6a6;
+                    }
+
+                .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+                    margin-top: 0px;
+                }
+
+            .tabbable-line > .nav-tabs > li.active {
+                border-bottom: 4px solid #303F9F;
+                position: relative;
+            }
+
+                .tabbable-line > .nav-tabs > li.active > a {
+                    border: 0;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.active > a > i {
+                        color: #404040;
+                    }
+
+    .tabbable-line > .tab-content {
+        margin-top: -3px;
+        background-color: #fff;
+        border: 0;
+        border-top: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .portlet .tabbable-line > .tab-content {
+        padding-bottom: 0;
+    }
+
+    /* Below tabs mode */
+
+    .tabbable-line.tabs-below > .nav-tabs > li {
+        border-top: 4px solid transparent;
+    }
+
+        .tabbable-line.tabs-below > .nav-tabs > li > a {
+            margin-top: 0;
+        }
+
+        .tabbable-line.tabs-below > .nav-tabs > li:hover {
+            border-bottom: 0;
+            border-top: 4px solid #9FA8DA;
+        }
+
+        .tabbable-line.tabs-below > .nav-tabs > li.active {
+            margin-bottom: -2px;
+            border-bottom: 0;
+            border-top: 4px solid #303F9F;
+        }
+
+    .tabbable-line.tabs-below > .tab-content {
+        margin-top: -10px;
+        border-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
     }
 </style>
 
@@ -12,119 +113,123 @@
     <div class="col-md-8">
 
         <div class="card shadow-2">
-             <div class="card-title secondary-color-md" >New Document</div>
-        <div class="card-body">
+            <div class="card-title secondary-color-md">New Document</div>
+            <div class="card-body">
 
-            <div class="card-text card-boder">
-                <form id="formNewDoc" class="formNewDoc" action="@Url.Action("SaveIssue", "Issue")" method="post" enctype="multipart/form-data">
+                <div class="card-text card-boder">
+                    <form id="formNewDoc" class="formNewDoc" action="@Url.Action("SaveIssue", "Issue")" method="post" enctype="multipart/form-data">
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <div class="form-group ">
-                                <label for="name" class="control-label">Customer</label>
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span id="NaOrNo">Customer Number</span>     <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a>Customer Number</a></li>
-                                            <li><a>Customer Name</a></li>
-                                        </ul>
-                                    </div>
-                                    <input type="hidden" name="customer_type" id="customer_type" value="Customer Number"/>
-                                    <select id="txt_c" style="width: 100%;" name="customer" class="form-control" multiple="multiple" data-validate="required">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <div class="form-group ">
+                                    <label class="control-label">Customer</label>
+                                    <select id="txt_c" style="width: 100%" name="customer" class="form-control" multiple="multiple" data-validate="required">
                                     </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+
+                            <div class="form-group col-xs-4 col-md-3">
+                                <label for="name" class="control-label">Document Type</label>
+                                @*<input type="text" class="form-control" name="doc_type" data-validate="required">*@
+                                <select class="form-control" name="doc_type" data-validate="required">
+                                    <option value="">Select Document Type</option>
+                                    @foreach (var item in ViewBag.doc_type)
+                                    {
+                                        <option value="@item.doc_type_id">@item.doc_type_name</option>
+                                    }
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="form-group col-xs-4 col-md-7">
+                                <label for="name" class="control-label">Document Name</label>
+                                <input type="text" class="form-control" name="doc_name" data-validate="required">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Document Number</label>
+                                <input type="text" value='' class="form-control" name="doc_no" data-validate="required">
+                            </div>
+
+                            <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Document Revision</label>
+                                <input type="text" value='' class="form-control" name="doc_rev" data-validate="required">
+                            </div>
+
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-5">
+                                <label for="name" class="control-label">Receive from customer date</label>
+                                <input type="text" value='' class="form-control " name="date_rec" id="date_re" data-validate="required" readonly>
+                            </div>
+
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="form-group col-xs-4 col-md-10">
+                                <label for="name" class="control-label">TNC product name</label>
+                                <input type="text" value='' class="form-control" name="tnc_product" data-validate="required">
+                                @*<textarea  class="form-control" rows="4" name="tnc_product" data-validate="required">
+
+                            </textarea>*@
+                            </div>
+                        </div>
+
+                        <div class=" row_doc_file">
+                            <div class="row doc_origin">
+                                <div class="col-md-1"></div>
+                                <div class="form-group col-md-10" id="file_doc">
+                                    <label for="name" class="control-label">Document File</label>
+
+                                    <input type="file" value='' name="doc_file" class="" id="md-input" data-validate="required">
+                                </div>
+                                <div class="col-md-1">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="form-group col-xs-4 col-md-10">
-                            <label for="name" class="control-label">Document Name</label>
-                            <input type="text" class="form-control" name="doc_name" data-validate="required">
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="form-group col-xs-4 col-md-5">
-                            <label for="name" class="control-label">Document Number</label>
-                            <input type="text" value='' class="form-control" name="doc_no" data-validate="required">
-                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">
+                            </div>
+                            <div class="col-md-3 ">
+                            </div>
 
-                        <div class="form-group col-xs-4 col-md-5">
-                            <label for="name" class="control-label">Document Revision</label>
-                            <input type="text" value='' class="form-control" name="doc_rev" data-validate="required">
-                        </div>
 
-                        <div class="col-md-1"></div>
-                    </div>
+                            <div class="col-md-3 ">
+                                <button type="button" id="btn-core" class="btnSave btn nohover btn-primary  btn-block shadow-2">Save</button>
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="form-group col-xs-4 col-md-5">
-                            <label for="name" class="control-label">Receive from customer date</label>
-                            <input type="text" value='' class="form-control " name="date_rec" id="date_re" data-validate="required" readonly>
-                        </div>
-                        <div class="form-group col-xs-4 col-md-5">
-                            <label for="name" class="control-label">Change Point</label>
-                            <textarea class="form-control" name="ch_point" id="ch_point">
-                                    </textarea>
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="form-group col-xs-4 col-md-10">
-                            <label for="name" class="control-label">TNC product name</label>
-                            <input type="text" value='' class="form-control" name="tnc_product" data-validate="required">
-                        </div>
-                    </div>
-
-                    <div class=" row_doc_file">
-                        <div class="row doc_origin">
+                            <div class="col-md-3">
+                                <button type="button" id="add_doc_file" class="btn btn-default btn-block">Add More File</button>
+                            </div>
                             <div class="col-md-1"></div>
-                            <div class="form-group col-md-10" id="file_doc">
-                                <label for="name" class="control-label">Document File</label>
-
-                                <input type="file" value='' name="doc_file" class="" id="md-input" data-validate="required">
-                            </div>
-                            <div class="col-md-1">
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col-md-3 ">
-                        </div>
-                        <div class="col-md-3 ">
                         </div>
 
 
-                        <div class="col-md-3 ">
-                            <button type="button" id="btn-core" class="btnSave btn nohover btn-primary  btn-block shadow-2">Save</button>
+                    </form>
+                </div>
 
-                        </div>
-
-                        <div class="col-md-3">
-                            <button type="button" id="add_doc_file" class="btn btn-default btn-block">Add More File</button>
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
-
-
-                </form>
             </div>
-
-        </div>
         </div>
 
 
@@ -134,14 +239,105 @@
 
 
 
+@*<div class="card">
+
+
+
+    <div class="tabbable-panel">
+        <div class="tabbable-line">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#tab_default_1" data-toggle="tab">Tab 1 </a>
+                </li>
+                <li>
+                    <a href="#tab_default_2" data-toggle="tab">Tab 2 </a>
+                </li>
+                <li>
+                    <a href="#tab_default_3" data-toggle="tab">Tab 3 </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_default_1">
+                    <p>
+                        I'm in Tab 1.
+                    </p>
+                    <p>
+                        Duis autem eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
+                    </p>
+                    <p>
+                        <a class="btn btn-success" href="http://j.mp/metronictheme" target="_blank">Learn more...
+                        </a>
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab_default_2">
+                    <p>
+                        Howdy, I'm in Tab 2.
+                    </p>
+                    <p>
+                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.
+                    </p>
+                    <p>
+                        <a class="btn btn-warning" href="http://j.mp/metronictheme" target="_blank">Click for more features...
+                        </a>
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab_default_3">
+                    <p>
+                        Howdy, I'm in Tab 3.
+                    </p>
+                    <p>
+                        Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat
+                    </p>
+                    <p>
+                        <a class="btn btn-info" href="http://j.mp/metronictheme" target="_blank">Learn more...
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>*@
+
+
 
 
 @section scripts{
 
-<script>
-    $(document).ready(function () {
-        var i = 0;
-        //$(".date_re").bootstrapMaterialDatePicker({ weekStart: 0, time: false });
+    <script>
+        $(document).ready(function () {
+            var i = 0;
+            //$(".date_re").bootstrapMaterialDatePicker({ weekStart: 0, time: false });
+            var const_URL = "@Url.Action("get_all_customer", "Home")";
+        $("#txt_c").select2({
+            theme: "bootstrap",
+            placeholder: {
+                id: "0",
+                text: "Select a Customer"
+            },
+            minimumInputLength: 0,
+            ajax: {
+                url: const_URL,
+                type: "POST",
+                dataType: 'json',
+                data: function (params) {
+                    //console.log(params)
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+
+                    };
+                }
+
+            }
+        });
+
         $("#date_re").datepicker({ maxDate: '0', dateFormat: 'dd/mm/yy' });
         $('button.btnSave').on('click', function () {
 
@@ -218,82 +414,83 @@
         })
     });
 
-    var const_URL = "@Url.Action("get_all_customer", "Home")";
-    Selection_Customer(const_URL);
+    @*var const_URL = "@Url.Action("get_all_customer", "Home")";*@
+        //Selection_Customer(const_URL);
 
-    $(".dropdown-menu li a").click(function () {
+        $(".dropdown-menu li a").click(function () {
 
-        $(".btn:first-child #NaOrNo").text($(this).text());
-        $(".btn:first-child #NaOrNo").val($(this).text());
-        $("#txt_c").val('').trigger('change.select2');
-        //$('#txt_c').select2("data", "");
-        if ($(this).text() === "Customer Number") {
-            const_URL = "@Url.Action("get_all_customer", "Home")";
-                //console.log($(this).text(), " === Customer Number");
-                $("#customer_type").val($(this).text());
-                Selection_Customer(const_URL);
-            } else {
-                const_URL = "@Url.Action("get_distinct_customer", "Home")";
-                //console.log($(this).text(), " === Customer Name");
-                $("#customer_type").val($(this).text());
-                Selection_Customer(const_URL);
-            }
+            $(".btn:first-child #NaOrNo").text($(this).text());
+            $(".btn:first-child #NaOrNo").val($(this).text());
+            $("#txt_c").val('').trigger('change.select2');
+            //$('#txt_c').select2("data", "");
+            if ($(this).text() === "Customer Number") {
+                const_URL = "@Url.Action("get_all_customer", "Home")";
+            //console.log($(this).text(), " === Customer Number");
+            $("#customer_type").val($(this).text());
+            Selection_Customer(const_URL);
+        } else {
+            const_URL = "@Url.Action("get_distinct_customer", "Home")";
+            //console.log($(this).text(), " === Customer Name");
+            $("#customer_type").val($(this).text());
+            Selection_Customer(const_URL);
+        }
 
-        });
+    });
 
 
-        function Selection_Customer(data_url) {
-            $("#txt_c").select2({
-                theme: "bootstrap",
-                placeholder: {
-                    id: "0",
-                    text: "Select a Customer"
+    function Selection_Customer(data_url) {
+        $("#txt_c").select2({
+            theme: "bootstrap",
+            placeholder: {
+                id: "0",
+                text: "Select a Customer"
+            },
+            minimumInputLength: 0,
+            ajax: {
+                url: data_url,
+                type: "POST",
+                dataType: 'json',
+                data: function (params) {
+                    //console.log(params)
+                    return {
+                        term: params.term
+                    };
                 },
-                minimumInputLength: 0,
-                ajax: {
-                    url: data_url,
-                    type: "POST",
-                    dataType: 'json',
-                    data: function (params) {
-                        //console.log(params)
-                        return {
-                            term: params.term
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data,
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
 
-                        };
-                    }
-
+                    };
                 }
-            });
-        }
-
-        function validate_select2() {
-            var custumer = $(" option:selected").val();
-            if (custumer == null) {
-                $("input.select2-search__field").addClass("error");
-                //$("input.select2-search__field").removeClass("valid");                
-            } else {
-                $("input.select2-search__field").removeClass("error");
-                //$("input.select2-search__field").addClass("valid");
 
             }
+        });
+    }
+
+    function validate_select2() {
+        var custumer = $("#txt_c").select2("data");
+        console.log(custumer);
+        if (custumer.length <= 0) {
+            $("input.select2-search__field").addClass("error");
+            //$("#txt_c ").removeClass("has-success");
+        } else {
+            $("input.select2-search__field").removeClass("error");
+            //$("#txt_c ").addClass("has-success");
+
         }
+    }
 
-        function cust2array(data) {
-            var cust = [];
-            for (var i = 0; i < data.length; i++) {
-                //console.log(data[i].id)
-                cust[i] = data[i].id;
-            }
-            return cust;
+    function cust2array(data) {
+        var cust = [];
+        for (var i = 0; i < data.length; i++) {
+            //console.log(data[i].id)
+            cust[i] = data[i].id;
         }
+        return cust;
+    }
 
 
-</script>
+    </script>
 
 }

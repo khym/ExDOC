@@ -4019,7 +4019,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #eeeeee;
+  /*background-color: #eeeeee;*/
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;

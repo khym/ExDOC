@@ -233,8 +233,32 @@
     <Compile Include="Models\Relation_Issue_Cust.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RunNumber.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RunNumber.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RunNumber.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RunNumber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RunNumber.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RunNumber.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Status.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TD_RunNumber.cs">
+      <DependentUpon>RunNumber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TM_Program.cs">
+      <DependentUpon>RunNumber.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TM_ResetCountPoint.cs">
+      <DependentUpon>RunNumber.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TNC_Admin.Context.cs">
       <AutoGen>True</AutoGen>
@@ -264,7 +288,10 @@
       <DependentUpon>TNC_Admin.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\CustomerFile.cs" />
+    <Compile Include="ViewModel\DocDetail.cs" />
     <Compile Include="ViewModel\IssueAndEmp.cs" />
+    <Compile Include="ViewModel\TranVSEmpInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -427,6 +454,23 @@
     <Content Include="Content\fonts\Roboto\Roboto-Regular.ttf" />
     <Content Include="Content\fonts\Roboto\Roboto-Thin.ttf" />
     <Content Include="Content\fonts\Roboto\Roboto-ThinItalic.ttf" />
+    <EntityDeploy Include="Models\RunNumber.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RunNumber.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\RunNumber.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RunNumber.edmx</DependentUpon>
+      <LastGenOutput>RunNumber.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RunNumber.edmx.diagram">
+      <DependentUpon>RunNumber.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\RunNumber.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RunNumber.edmx</DependentUpon>
+      <LastGenOutput>RunNumber.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -581,6 +625,7 @@
     <Content Include="Scripts\Select2\select2-bootstrap.css" />
     <Content Include="Scripts\Select2\select2.css" />
     <Content Include="Scripts\Select2\select2.js" />
+    <Content Include="Scripts\validator-0.11.9.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -649,6 +694,10 @@
     <Content Include="Scripts\PIE-1.0.0\PIE.php" />
     <Content Include="Views\Issue\_PreviewIssue.cshtml" />
     <Content Include="Views\Issue\NewRevise.cshtml" />
+    <Content Include="Views\Issue\NewDoc.cshtml" />
+    <Content Include="Views\Issue\_PriviewDoc.cshtml" />
+    <Content Include="Views\Issue\_CustomerAndFile.cshtml" />
+    <Content Include="Views\Issue\_TransactionDetial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

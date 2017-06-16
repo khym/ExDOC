@@ -22,7 +22,7 @@ namespace ExDoc.Models
         public int action_id { get; set; }
         public string action_name { get; set; }
         public string update_by { get; set; }
-        public System.DateTime up_date { get; set; }
+        public Nullable<System.DateTime> up_date { get; set; }
     
         public virtual ICollection<Transaction> Transaction { get; set; }
     }

@@ -1,0 +1,37 @@
+﻿@model List<ExDoc.ViewModel.CustomerFile>
+<div class="doc_name">
+    <h3>Customer</h3>
+
+</div>
+<div class="type Secondary-text">Document File</div>
+
+<div class="information_doc">
+
+    @{
+        
+        foreach (var item in Model)
+        {
+           <div class="Secondary-text title">@item.cust_name (@item.cust_no)</div>
+            foreach (var item2 in item.DocFile)
+            {
+                 <div class="doc_rev data-text"> <a href="@Url.Content(item2.file_name)">@Path.GetFileName(Server.MapPath(item2.file_name))</a></div>
+            }
+        }
+        
+    }
+
+@*    @{
+    foreach (var item in Model.Relation_Issue_Cust.Select(a =>a))
+    {
+         <div class="Secondary-text title">@item.Customer.cust_name (@item.cust_no)</div>
+                            
+                                 foreach (var item2 in item.DocFile.Select(a =>a))
+                                 {
+                                    <div class="doc_rev data-text"> <a href="@Url.Content(item2.file_name)">@Path.GetFileName(Server.MapPath(item2.file_name))</a></div>
+                               
+                                 }
+           
+    }
+    }*@
+</div>
+

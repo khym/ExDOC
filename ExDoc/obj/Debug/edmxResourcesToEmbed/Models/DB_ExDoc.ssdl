@@ -49,8 +49,8 @@
     </Key>
     <Property Name="action_id" Type="int" Nullable="false" />
     <Property Name="action_name" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="update_by" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="up_date" Type="datetime" Nullable="false" />
+    <Property Name="update_by" Type="varchar" MaxLength="50" />
+    <Property Name="up_date" Type="datetime" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -115,18 +115,19 @@
     <Property Name="action_id" Type="int" />
     <Property Name="actor" Type="varchar" MaxLength="50" />
     <Property Name="actor_date" Type="datetime" />
-    <Property Name="org_id" Type="varchar" MaxLength="50" />
-    <Property Name="level_id" Type="varchar" MaxLength="10" />
+    <Property Name="org_id" Type="int" />
+    <Property Name="level_id" Type="int" />
     <Property Name="comment" Type="varchar" MaxLength="50" />
+    <Property Name="remark" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="User_level">
     <Key>
       <PropertyRef Name="level_id" />
     </Key>
-    <Property Name="level_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="level_id" Type="int" Nullable="false" />
     <Property Name="level_name" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="position_min" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="position_max" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="position_min" Type="int" Nullable="false" />
+    <Property Name="position_max" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_DocFile_Relation_Issue_Cust">
     <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="1">

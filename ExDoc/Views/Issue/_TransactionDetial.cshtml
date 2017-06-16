@@ -1,0 +1,22 @@
+﻿@model List<ExDoc.ViewModel.TranVSEmpInfo>
+<div class="doc_name">
+    <h3>Transaction</h3>
+
+</div>
+<div class="type Secondary-text">Detail</div>
+
+<div class="information_doc">
+
+    @{
+    
+        foreach (var item in Model)
+        {
+  
+        <div class="Secondary-text title">@item.status_name</div>
+        <div class="doc_rev data-text">@item.action_name by @item.actor_name at @item.actor_date</div>
+
+        }    
+    
+    }
+</div>
+

@@ -20,9 +20,10 @@ namespace ExDoc.Models
         public Nullable<int> action_id { get; set; }
         public string actor { get; set; }
         public Nullable<System.DateTime> actor_date { get; set; }
-        public string org_id { get; set; }
-        public string level_id { get; set; }
+        public Nullable<int> org_id { get; set; }
+        public Nullable<int> level_id { get; set; }
         public string comment { get; set; }
+        public string remark { get; set; }
     
         public virtual Action Action { get; set; }
         public virtual Issue Issue { get; set; }

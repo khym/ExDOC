@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="31455647e0864d238f1c019f5e415804" Name="Diagram1" ZoomLevel="40">
-        <EntityTypeShape EntityType="EX_DOCModel.Action" Width="1.5" PointX="8.4248620497178575" PointY="0.73683607612589186" />
-        <EntityTypeShape EntityType="EX_DOCModel.Customer" Width="1.5" PointX="9.5764242902288323" PointY="20.754794219860244" />
-        <EntityTypeShape EntityType="EX_DOCModel.DocFile" Width="1.5" PointX="1.9300403492199445" PointY="2.2799268077499826" />
-        <EntityTypeShape EntityType="EX_DOCModel.DocType" Width="1.5" PointX="10.576482105337307" PointY="9.6534974619995317" />
-        <EntityTypeShape EntityType="EX_DOCModel.Issue" Width="1.5" PointX="5.6768326580882231" PointY="5.3301803196455264" />
-        <EntityTypeShape EntityType="EX_DOCModel.Relation_Issue_Cust" Width="1.5" PointX="5.4013187910436278" PointY="2.979035617308242" />
-        <EntityTypeShape EntityType="EX_DOCModel.Status" Width="1.5" PointX="6.4617267504621889" PointY="16.311092369403266" />
-        <EntityTypeShape EntityType="EX_DOCModel.Transaction" Width="1.5" PointX="11.961139004659438" PointY="5.5238299097511128" />
-        <EntityTypeShape EntityType="EX_DOCModel.User_level" Width="1.5" PointX="1.4252910806915216" PointY="24.547596197830327" />
+        <EntityTypeShape EntityType="EX_DOCModel.Action" Width="1.5" PointX="11.918032368606902" PointY="14.193567416720823" />
+        <EntityTypeShape EntityType="EX_DOCModel.Customer" Width="1.5" PointX="2.8168871620748597" PointY="26.318405014611038" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocFile" Width="1.5" PointX="1.6978238624044806" PointY="27.635453594678758" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocType" Width="1.5" PointX="2.4369777806275419" PointY="25.129585099001222" />
+        <EntityTypeShape EntityType="EX_DOCModel.Issue" Width="1.5" PointX="6.3499110836302446" PointY="20.140986869177308" />
+        <EntityTypeShape EntityType="EX_DOCModel.Relation_Issue_Cust" Width="1.5" PointX="8.9778519817524831" PointY="31.519418701305714" />
+        <EntityTypeShape EntityType="EX_DOCModel.Status" Width="1.5" PointX="4.3923005202749286" PointY="8.1432363875877289" />
+        <EntityTypeShape EntityType="EX_DOCModel.Transaction" Width="1.5" PointX="8.9408908844650217" PointY="12.692453598926056" />
+        <EntityTypeShape EntityType="EX_DOCModel.User_level" Width="1.5" PointX="9.5967761881634477" PointY="12.955223372650902" />
         <AssociationConnector Association="EX_DOCModel.FK_Transaction_Action" />
         <AssociationConnector Association="EX_DOCModel.FK_Relation_Issue_Cust_Customer" />
         <AssociationConnector Association="EX_DOCModel.FK_DocFile_Relation_Issue_Cust" />

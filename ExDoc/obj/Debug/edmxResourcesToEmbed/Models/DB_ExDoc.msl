@@ -72,6 +72,7 @@
     <EntitySetMapping Name="Transaction">
       <EntityTypeMapping TypeName="EX_DOCModel.Transaction">
         <MappingFragment StoreEntitySet="Transaction">
+          <ScalarProperty Name="remark" ColumnName="remark" />
           <ScalarProperty Name="comment" ColumnName="comment" />
           <ScalarProperty Name="level_id" ColumnName="level_id" />
           <ScalarProperty Name="org_id" ColumnName="org_id" />

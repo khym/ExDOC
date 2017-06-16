@@ -19,10 +19,10 @@ namespace ExDoc.Models
             this.Transaction = new HashSet<Transaction>();
         }
     
-        public string level_id { get; set; }
+        public int level_id { get; set; }
         public string level_name { get; set; }
-        public string position_min { get; set; }
-        public string position_max { get; set; }
+        public int position_min { get; set; }
+        public int position_max { get; set; }
     
         public virtual ICollection<Transaction> Transaction { get; set; }
     }

@@ -54,8 +54,8 @@
           </Key>
           <Property Name="action_id" Type="int" Nullable="false" />
           <Property Name="action_name" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="update_by" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="up_date" Type="datetime" Nullable="false" />
+          <Property Name="update_by" Type="varchar" MaxLength="50" />
+          <Property Name="up_date" Type="datetime" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -120,18 +120,19 @@
           <Property Name="action_id" Type="int" />
           <Property Name="actor" Type="varchar" MaxLength="50" />
           <Property Name="actor_date" Type="datetime" />
-          <Property Name="org_id" Type="varchar" MaxLength="50" />
-          <Property Name="level_id" Type="varchar" MaxLength="10" />
+          <Property Name="org_id" Type="int" />
+          <Property Name="level_id" Type="int" />
           <Property Name="comment" Type="varchar" MaxLength="50" />
+          <Property Name="remark" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="User_level">
           <Key>
             <PropertyRef Name="level_id" />
           </Key>
-          <Property Name="level_id" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="level_id" Type="int" Nullable="false" />
           <Property Name="level_name" Type="varchar" Nullable="false" MaxLength="10" />
-          <Property Name="position_min" Type="varchar" Nullable="false" MaxLength="10" />
-          <Property Name="position_max" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="position_min" Type="int" Nullable="false" />
+          <Property Name="position_max" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_DocFile_Relation_Issue_Cust">
           <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="1">
@@ -288,8 +289,8 @@
           </Key>
           <Property Type="Int32" Name="action_id" Nullable="false" />
           <Property Type="String" Name="action_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="update_by" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="up_date" Nullable="false" Precision="3" />
+          <Property Type="String" Name="update_by" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="up_date" Precision="3" />
           <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Action" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Customer">
@@ -365,9 +366,10 @@
           <Property Type="Int32" Name="action_id" />
           <Property Type="String" Name="actor" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="actor_date" Precision="3" />
-          <Property Type="String" Name="org_id" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="level_id" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="org_id" />
+          <Property Type="Int32" Name="level_id" />
           <Property Type="String" Name="comment" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="remark" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Action" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Transaction" ToRole="Action" />
           <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Transaction" ToRole="Issue" />
           <NavigationProperty Name="Status" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Transaction" ToRole="Status" />
@@ -377,10 +379,10 @@
           <Key>
             <PropertyRef Name="level_id" />
           </Key>
-          <Property Type="String" Name="level_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="level_id" Nullable="false" />
           <Property Type="String" Name="level_name" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="position_min" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="position_max" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="position_min" Nullable="false" />
+          <Property Type="Int32" Name="position_max" Nullable="false" />
           <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_User_level" FromRole="User_level" ToRole="Transaction" />
         </EntityType>
         <Association Name="FK_Transaction_Action">
@@ -562,6 +564,7 @@
           <EntitySetMapping Name="Transaction">
             <EntityTypeMapping TypeName="EX_DOCModel.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="remark" ColumnName="remark" />
                 <ScalarProperty Name="comment" ColumnName="comment" />
                 <ScalarProperty Name="level_id" ColumnName="level_id" />
                 <ScalarProperty Name="org_id" ColumnName="org_id" />
