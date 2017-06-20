@@ -84,11 +84,25 @@ body {
     
 }
 
+.border-secondary-color {
+
+    border-color: #E91E63 !important;
+    
+}
+
+.secondary-color-only{
+    color: #E91E63 !important;
+}
+
 .primary-color-only{
     color: #3f51b5 !important;
 }
 
+.group_button_footer{
 
+    padding-bottom:10px;
+    padding-top:10px;
+}
 
 .card-title {
    padding: 10px 15px 8px 15px;

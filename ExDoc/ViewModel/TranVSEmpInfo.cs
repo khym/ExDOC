@@ -11,5 +11,7 @@ namespace ExDoc.ViewModel
         public string actor_name { get; set; }
         public Nullable<DateTime> actor_date { get; set; }
         public string status_name { get; set; }
+        public string comment { get; set; }
+        public string comment_pic { get; set; }
     }
 }

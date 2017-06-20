@@ -92,14 +92,17 @@ namespace ExDoc.Controllers
             var ss_groupjoin = sql.Transaction.GroupJoin(tnc_admin.V_Employee_Info,
                                             f => f.actor,
                                             s => s.emp_code,
-                                            (f, s) => new { f.Action.action_name,f.actor_date,f.Status.status_name, s })
+                                            (f, s) => new { f.Action.action_name,f.actor_date,f.Status.status_name,f.comment_pic,f.comment, s })
                                             .SelectMany(temp => temp.s.DefaultIfEmpty(),
                                             (f, s) => new
                                             {
                                                 f.action_name,
                                                 f.actor_date,
                                                 f.status_name,
+                                                f.comment,
+                                                f.comment_pic,
                                                 Second = s
+                                               
                                             }).ToList();
 
             List<TranVSEmpInfo> dd = new List<TranVSEmpInfo>();
@@ -113,7 +116,10 @@ namespace ExDoc.Controllers
                         action_name = ss_groupjoin[i].action_name,
                         actor_name = ss_groupjoin[i].Second.emp_fname + " " + ss_groupjoin[i].Second.emp_lname,
                         actor_date = ss_groupjoin[i].actor_date,
-                        status_name = ss_groupjoin[i].status_name
+                        status_name = ss_groupjoin[i].status_name,
+                        comment = ss_groupjoin[i].comment,
+                        comment_pic = ss_groupjoin[i].comment_pic
+                        
                     });
                 }
                 else
@@ -139,34 +145,59 @@ namespace ExDoc.Controllers
             return PartialView(dd);
         }
 
+        [HttpGet]
+        public ActionResult EditIssue(string issue_no)
+        {
+            var sql = ex_doc.DocType.Select(a => a).ToList();
+            var issue_data = ex_doc.Issue.Where(a => a.issue_no == issue_no).FirstOrDefault();
+            ViewBag.doc_type = sql;
+            return View(issue_data);
+        }
+
+        public ActionResult IssueGetCustNo(string issue_no)
+        {
+
+            var get_other = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => a).FirstOrDefault();
+
+       
+            var sql = get_other.Relation_Issue_Cust.Select(a => new { id = a.cust_no, text = a.Customer.cust_name + "(" + a.cust_no + ")" }).ToList();
+         
+
+            return Json(sql, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult _PriviewDoc(string issue_no)
         {
-            var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => new {
-                a.issue_no,
-                doc_type_name = a.DocType.doc_type_name,
-                a.doc_name,
-                a.doc_no,
-                a.doc_rev,
-                a.rec_date,
-                a.change_point,
-                a.tnc_product,
-                a.issue_date
-            }).FirstOrDefault();
+            //var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => new {
+            //    a.issue_no,
+            //    doc_type_name = a.DocType.doc_type_name,
+            //    a.doc_name,
+            //    a.doc_no,
+            //    a.doc_rev,
+            //    a.rec_date,
+            //    a.change_point,
+            //    a.tnc_product,
+            //    a.issue_date
+            //}).FirstOrDefault();
 
-            DocDetail doc_detial = new DocDetail()
-            {
-                issue_no = sql.issue_no,
-                doc_type = sql.doc_type_name,
-                doc_name = sql.doc_name,
-                doc_no = sql.doc_no,
-                doc_rev = sql.doc_rev,
-                rec_date = sql.rec_date,
-                change_point = sql.change_point,
-                tnc_product = sql.tnc_product,
-                issue_date = sql.issue_date
-            };
+            //DocDetail doc_detial = new DocDetail()
+            //{
+            //    issue_no = sql.issue_no,
+            //    doc_type = sql.doc_type_name,
+            //    doc_name = sql.doc_name,
+            //    doc_no = sql.doc_no,
+            //    doc_rev = sql.doc_rev,
+            //    rec_date = sql.rec_date,
+            //    change_point = sql.change_point,
+            //    tnc_product = sql.tnc_product,
+            //    issue_date = sql.issue_date
+            //};
 
             ViewBag.emp_code = Session["emp_code"].ToString();
+            ViewBag.user_lvl = int.Parse(Session["po_lvl"].ToString());
+            ViewBag.g_id = int.Parse(Session["g_id"].ToString());
+
+            var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a =>a).FirstOrDefault();
 
             //var ss = sql.Transaction.Join(tnc_admin.V_Employee_Info, a => a.actor, b => b.emp_code, (a, b) => new { a.Action.action_name, name = b.emp_fname + " " + b.emp_lname, a.actor_date, a.Status.status_name }).ToList();
 
@@ -199,7 +230,7 @@ namespace ExDoc.Controllers
                                
             //};
 
-            return PartialView(doc_detial);
+            return PartialView(sql);
         }
 
         public ActionResult _PreviewIssue(string issue_no)
@@ -223,11 +254,161 @@ namespace ExDoc.Controllers
         }
 
         [Tnc_Auth]
-        public ActionResult MgrApprove(string code)
+        [HttpPost]
+        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id)
         {
-            var ss = code;
+
+            var sql = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderByDescending(b => b.seq).FirstOrDefault();
+
+            sql.action_id = 2;
+            sql.actor = emp_code;
+            sql.actor_date = DateTime.Now;
+
+            var create_tran2 = new Transaction();
+
+            // check document type
+            if (doc_type_id == 3) //Format
+            {
+                switch (sql.status_id) //check status in last transaction for crate next transaction
+                {
+                    case 4: //Mgr. Isuuer Appr
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 1;
+                        create_tran2.action_id = 5;
+                        create_tran2.actor = "0";
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = 18;
+                        create_tran2.level_id = 4;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+                    case 1: //QS Officer
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 100; //completed
+                        create_tran2.action_id = 7;
+                        create_tran2.actor = emp_code;
+                        create_tran2.actor_date = DateTime.Now;
+                        create_tran2.org_id = 18;
+                        create_tran2.level_id = 4;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+
+                }
+            }
+            else // Standart&Manual
+            {
+
+                switch (sql.status_id) //check status in last transaction for crate next transaction
+                {
+                    case 4: //Mgr Issuer Appr
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 1;
+                        create_tran2.action_id = 5;
+                        create_tran2.actor = "0";
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = 18;
+                        create_tran2.level_id = 4;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+                }
+
+            }
+
+
+            ex_doc.SaveChanges();
+
             return RedirectToAction("Index", "Issue");
         }
+
+
+        [Tnc_Auth]
+        [HttpPost]
+        public ActionResult Reject(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id,string comment,HttpPostedFileBase pic)
+        {
+
+            var sql = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderByDescending(b => b.seq).FirstOrDefault();
+
+            sql.action_id = 3; // 3 = reject
+            sql.actor = emp_code;
+            sql.actor_date = DateTime.Now;
+            sql.comment = comment;
+
+            string subPath = "~/CommentFile/" + issue_no + "/";
+            if (!Directory.Exists(Server.MapPath(subPath)))
+            {
+                Directory.CreateDirectory(Server.MapPath(subPath));
+            }
+
+            var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(pic.FileName.Replace('#', ' ').Replace('%', ' '));
+            var path = Path.Combine(Server.MapPath(subPath), fileName);
+            pic.SaveAs(path);
+
+            sql.comment_pic = subPath + fileName;
+
+
+            var create_tran2 = new Transaction();
+
+            var data_issuer = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderBy(b => b.seq).FirstOrDefault();
+
+            // check document type
+            if (doc_type_id == 3) //Format
+            {
+                switch (sql.status_id) //check status in last transaction for crate next transaction
+                {
+                    case 4: //Mgr. Isuuer Reject
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 0;
+                        create_tran2.action_id = 6;
+                        create_tran2.actor = data_issuer.actor;
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = data_issuer.org_id;
+                        create_tran2.level_id = data_issuer.level_id;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+                    case 1: //QS Officer Reject
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 0;
+                        create_tran2.action_id = 6;
+                        create_tran2.actor = data_issuer.actor;
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = data_issuer.org_id;
+                        create_tran2.level_id = data_issuer.level_id;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+
+                }
+            }
+            else // Standart&Manual
+            {
+
+                //switch (sql.status_id) //check status in last transaction for crate next transaction
+                //{
+                //    case 4: //Mgr Issuer Appr Reject
+                //        create_tran2.issue_no = sql.issue_no;
+                //        create_tran2.status_id = 1;
+                //        create_tran2.action_id = 5;
+                //        create_tran2.actor = "0";
+                //        create_tran2.actor_date = null;
+                //        create_tran2.org_id = 18;
+                //        create_tran2.level_id = 4;
+                //        create_tran2.comment = null;
+                //        ex_doc.Transaction.Add(create_tran2);
+                //        break;
+                //}
+
+            }
+
+
+            ex_doc.SaveChanges();
+
+            return RedirectToAction("Index", "Issue");
+
+        }
+
 
         public void File2DB(string issue_no, HttpPostedFileBase[] doc_file, string cust_no)
         {

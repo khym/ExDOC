@@ -24,6 +24,7 @@ namespace ExDoc.Models
         public Nullable<int> level_id { get; set; }
         public string comment { get; set; }
         public string remark { get; set; }
+        public string comment_pic { get; set; }
     
         public virtual Action Action { get; set; }
         public virtual Issue Issue { get; set; }

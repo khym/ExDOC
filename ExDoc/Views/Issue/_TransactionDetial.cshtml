@@ -14,6 +14,10 @@
   
         <div class="Secondary-text title">@item.status_name</div>
         <div class="doc_rev data-text">@item.action_name by @item.actor_name at @item.actor_date</div>
+        if(item.comment!=null){<p>comment : @item.comment</p>
+         <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
+        
+        }
 
         }    
     

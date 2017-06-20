@@ -130,6 +130,7 @@
     <Property Type="Int32" Name="level_id" />
     <Property Type="String" Name="comment" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="remark" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="comment_pic" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Action" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Transaction" ToRole="Action" />
     <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Transaction" ToRole="Issue" />
     <NavigationProperty Name="Status" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Transaction" ToRole="Status" />

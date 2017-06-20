@@ -1,5 +1,6 @@
 ﻿@*@model ExDoc.ViewModel.IssueAndEmp*@
-@model ExDoc.ViewModel.DocDetail
+@*@model ExDoc.ViewModel.DocDetail*@
+@model ExDoc.Models.Issue
 <style>
     .load-center {
         width: 35%;
@@ -235,7 +236,7 @@
 </style>
 
 @*<div class=" modal-dialog ">*@
-    <div>
+<div>
 
     <div class="card shadow-2">
 
@@ -263,7 +264,7 @@
                             <h3>@Model.doc_name</h3>
 
                         </div>
-                        <div class="type Secondary-text">Document Type : @Model.doc_type</div>
+                        <div class="type Secondary-text">Document Type : @Model.DocType.doc_type_name</div>
 
                         <div class="information_doc">
 
@@ -308,40 +309,194 @@
             </div>
         </div>
 
-        @*</div>*@
 
-       
-        <div class="card-footer">
+        @{
             
+            var ss = @Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault();
 
-            <div class="row">
-                <div class="col-md-8"></div>
-                <div class="col-md-2">
-                <a  data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success md-primary-color border-primary-color shadow-1">
-                    <span class="glyphicon glyphicon-ok"></span> Approve 
-                </a>
+        }
+        @if (ViewBag.user_lvl >= ss.User_level.position_min && ViewBag.user_lvl <= ss.User_level.position_min && ViewBag.g_id == ss.org_id && ss.status_id != 100)
+        {
+          
+                
+            
+            <div class="card-footer">
 
 
-                    </div>
+                <div class="row">
+                    <div class="col-md-8"></div>
                     <div class="col-md-2">
-                <a href="#" class="btn btn-link primary-color-only">Reject
-                </a>
+
+                        <a class="btn btn-success md-primary-color border-primary-color shadow-1"
+                            data-toggle="modal" data-target="#ModalAppr">
+                            <span class="glyphicon glyphicon-ok"></span>Approve 
+                        </a>
+
+
                     </div>
+                    <div class="col-md-2"
+                        data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
+                        <a href="#" class="btn btn-link primary-color-only">Reject
+                        </a>
+                    </div>
+                </div>
             </div>
+        }
+
+        @if (ViewBag.emp_code == ss.actor && ss.status_id != 100)
+        {
+            <div class="card-footer">
+
+
+                <div class="row">
+                    <div class="col-md-7"></div>
+                    
+                    <div class="col-md-2">
+
+                        <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn  md-primary-color border-primary-color shadow-1">
+                             Edit Issue 
+                        </a>
+
+
+                    </div>
+                    <div class="col-md-2"
+                        data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
+                        <a href="#" class="btn btn-link primary-color-only">Cancel Issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="ModalAppr" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Approve?</h3>
+                <div class="group_button_footer">
+                    <form class="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link primary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
-       
+
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="ModalReject" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Reject?</h3>
+                <div class="group_button_footer">
+                    <form class="form_appr" action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Comment</label>
+                                <textarea class="form-control" name="comment"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Attachment File</label>
+                                <input type="file" value="" name="pic" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
 
     </div>
 
 </div>
 
 
+<div class="modal fade" id="ModalCancel" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Cancel Issue?</h3>
+                <div class="group_button_footer">
+                    <form class="form_appr" action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
 
 <script>
     $(document).ready(function () {
 
 
-     @*     $("#click_tab_default_2").click(function () {
+        @*     $("#click_tab_default_2").click(function () {
 
               var remote = "@Url.Action("_CustomerAndFile")?issue_no=" + issue_no;
               $.get(remote, function (data) {
@@ -354,31 +509,31 @@
 
     });
 
-    function check_appr(c) {
+@*    function check_appr(c) {
 
-        var check = confirm(c,"!");
+        var check = confirm(c, "!");
         if (check) {
             console.log('Url.Action("MgrApprove", "Issue")?code=' + c);
             document.location.href = '@Url.Action("MgrApprove", "Issue")?code=' + c;
         } else {
 
         }
-    }
+    }*@
 
     function get_tap2(dd) {
         var remote = "@Url.Action("_CustomerAndFile")?issue_no=" + dd;
-          $.get(remote, function (data) {
-              $("#tab2").html(data);
+        $.get(remote, function (data) {
+            $("#tab2").html(data);
 
-          });
-      }
+        });
+    }
 
-      function get_tap3(dd) {
-          var remote = "@Url.Action("_TransactionDetial")?issue_no=" + dd;
-          $.get(remote, function (data) {
-              $("#tab3").html(data);
+    function get_tap3(dd) {
+        var remote = "@Url.Action("_TransactionDetial")?issue_no=" + dd;
+        $.get(remote, function (data) {
+            $("#tab3").html(data);
 
-          });
-      }
+        });
+    }
 
 </script>

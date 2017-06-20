@@ -698,6 +698,7 @@
     <Content Include="Views\Issue\_PriviewDoc.cshtml" />
     <Content Include="Views\Issue\_CustomerAndFile.cshtml" />
     <Content Include="Views\Issue\_TransactionDetial.cshtml" />
+    <Content Include="Views\Issue\EditIssue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

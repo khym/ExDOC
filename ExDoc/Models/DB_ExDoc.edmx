@@ -124,6 +124,7 @@
           <Property Name="level_id" Type="int" />
           <Property Name="comment" Type="varchar" MaxLength="50" />
           <Property Name="remark" Type="varchar" MaxLength="50" />
+          <Property Name="comment_pic" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="User_level">
           <Key>
@@ -370,6 +371,7 @@
           <Property Type="Int32" Name="level_id" />
           <Property Type="String" Name="comment" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="remark" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="comment_pic" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Action" Relationship="EX_DOCModel.FK_Transaction_Action" FromRole="Transaction" ToRole="Action" />
           <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Transaction" ToRole="Issue" />
           <NavigationProperty Name="Status" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Transaction" ToRole="Status" />
@@ -564,6 +566,7 @@
           <EntitySetMapping Name="Transaction">
             <EntityTypeMapping TypeName="EX_DOCModel.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="comment_pic" ColumnName="comment_pic" />
                 <ScalarProperty Name="remark" ColumnName="remark" />
                 <ScalarProperty Name="comment" ColumnName="comment" />
                 <ScalarProperty Name="level_id" ColumnName="level_id" />

@@ -119,6 +119,7 @@
     <Property Name="level_id" Type="int" />
     <Property Name="comment" Type="varchar" MaxLength="50" />
     <Property Name="remark" Type="varchar" MaxLength="50" />
+    <Property Name="comment_pic" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="User_level">
     <Key>
