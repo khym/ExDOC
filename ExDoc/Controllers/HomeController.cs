@@ -148,13 +148,17 @@ namespace ExDoc.Controllers
                 //Stopwatch stopwatch = Stopwatch.StartNew();
                 var test_sql2 = ex_doc.Issue.Where(a => 
                                 (( a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
-                                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 4 ) ||
-                               ( po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
+                                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1 )||
+                                (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
                                 po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
                                 a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
-                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 5 )) &&
-                                 a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id != 100
-                                                        ).Select(a => a);
+                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0))&&
+                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
+                                ).Select(a => a);
+
+                
+
+
                 //stopwatch.Stop();
                 //a.Transaction.All(c=>c.status_id < 100 )
                 //var test_sql3 = ex_doc.Issue.Where(a => 

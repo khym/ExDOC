@@ -16,6 +16,7 @@ namespace ExDoc.Models
     {
         public Issue()
         {
+            this.DocFileBeforeAppr = new HashSet<DocFileBeforeAppr>();
             this.Relation_Issue_Cust = new HashSet<Relation_Issue_Cust>();
             this.Transaction = new HashSet<Transaction>();
         }
@@ -30,6 +31,7 @@ namespace ExDoc.Models
         public string tnc_product { get; set; }
         public Nullable<System.DateTime> issue_date { get; set; }
     
+        public virtual ICollection<DocFileBeforeAppr> DocFileBeforeAppr { get; set; }
         public virtual DocType DocType { get; set; }
         public virtual ICollection<Relation_Issue_Cust> Relation_Issue_Cust { get; set; }
         public virtual ICollection<Transaction> Transaction { get; set; }

@@ -4,6 +4,7 @@
     <EntitySet Name="Action" EntityType="EX_DOCModel.Action" />
     <EntitySet Name="Customer" EntityType="EX_DOCModel.Customer" />
     <EntitySet Name="DocFile" EntityType="EX_DOCModel.DocFile" />
+    <EntitySet Name="DocFileBeforeAppr" EntityType="EX_DOCModel.DocFileBeforeAppr" />
     <EntitySet Name="DocType" EntityType="EX_DOCModel.DocType" />
     <EntitySet Name="Issue" EntityType="EX_DOCModel.Issue" />
     <EntitySet Name="Relation_Issue_Cust" EntityType="EX_DOCModel.Relation_Issue_Cust" />
@@ -21,6 +22,10 @@
     <AssociationSet Name="FK_DocFile_Relation_Issue_Cust" Association="EX_DOCModel.FK_DocFile_Relation_Issue_Cust">
       <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
       <End Role="DocFile" EntitySet="DocFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocFileBeforeAppr_Issue" Association="EX_DOCModel.FK_DocFileBeforeAppr_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="DocFileBeforeAppr" EntitySet="DocFileBeforeAppr" />
     </AssociationSet>
     <AssociationSet Name="FK_Issue_DocType" Association="EX_DOCModel.FK_Issue_DocType">
       <End Role="DocType" EntitySet="DocType" />
@@ -67,8 +72,17 @@
     </Key>
     <Property Type="Int32" Name="file_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="file_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Type="Int32" Name="relation_id" Nullable="false" />
+    <Property Type="Int32" Name="relation_id" />
     <NavigationProperty Name="Relation_Issue_Cust" Relationship="EX_DOCModel.FK_DocFile_Relation_Issue_Cust" FromRole="DocFile" ToRole="Relation_Issue_Cust" />
+  </EntityType>
+  <EntityType Name="DocFileBeforeAppr">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Type="Int32" Name="file_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="path_file" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="issue_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Issue" Relationship="EX_DOCModel.FK_DocFileBeforeAppr_Issue" FromRole="DocFileBeforeAppr" ToRole="Issue" />
   </EntityType>
   <EntityType Name="DocType">
     <Key>
@@ -92,6 +106,7 @@
     <Property Type="String" Name="change_point" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="tnc_product" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Type="DateTime" Name="issue_date" Precision="3" />
+    <NavigationProperty Name="DocFileBeforeAppr" Relationship="EX_DOCModel.FK_DocFileBeforeAppr_Issue" FromRole="Issue" ToRole="DocFileBeforeAppr" />
     <NavigationProperty Name="DocType" Relationship="EX_DOCModel.FK_Issue_DocType" FromRole="Issue" ToRole="DocType" />
     <NavigationProperty Name="Relation_Issue_Cust" Relationship="EX_DOCModel.FK_Relation_Issue_Cust_Issue" FromRole="Issue" ToRole="Relation_Issue_Cust" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_Issue" FromRole="Issue" ToRole="Transaction" />
@@ -171,7 +186,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_DocFile_Relation_Issue_Cust">
-    <End Type="EX_DOCModel.Relation_Issue_Cust" Role="Relation_Issue_Cust" Multiplicity="1">
+    <End Type="EX_DOCModel.Relation_Issue_Cust" Role="Relation_Issue_Cust" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
     <End Type="EX_DOCModel.DocFile" Role="DocFile" Multiplicity="*" />
@@ -181,6 +196,20 @@
       </Principal>
       <Dependent Role="DocFile">
         <PropertyRef Name="relation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocFileBeforeAppr_Issue">
+    <End Type="EX_DOCModel.Issue" Role="Issue" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="EX_DOCModel.DocFileBeforeAppr" Role="DocFileBeforeAppr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="DocFileBeforeAppr">
+        <PropertyRef Name="issue_no" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

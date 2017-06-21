@@ -4,6 +4,7 @@
     <EntitySet Name="Action" EntityType="EX_DOCModel.Store.Action" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Customer" EntityType="EX_DOCModel.Store.Customer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DocFile" EntityType="EX_DOCModel.Store.DocFile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocFileBeforeAppr" EntityType="EX_DOCModel.Store.DocFileBeforeAppr" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DocType" EntityType="EX_DOCModel.Store.DocType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Issue" EntityType="EX_DOCModel.Store.Issue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Relation_Issue_Cust" EntityType="EX_DOCModel.Store.Relation_Issue_Cust" store:Type="Tables" Schema="dbo" />
@@ -13,6 +14,10 @@
     <AssociationSet Name="FK_DocFile_Relation_Issue_Cust" Association="EX_DOCModel.Store.FK_DocFile_Relation_Issue_Cust">
       <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
       <End Role="DocFile" EntitySet="DocFile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocFileBeforeAppr_Issue" Association="EX_DOCModel.Store.FK_DocFileBeforeAppr_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="DocFileBeforeAppr" EntitySet="DocFileBeforeAppr" />
     </AssociationSet>
     <AssociationSet Name="FK_Issue_DocType" Association="EX_DOCModel.Store.FK_Issue_DocType">
       <End Role="DocType" EntitySet="DocType" />
@@ -65,7 +70,15 @@
     </Key>
     <Property Name="file_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="file_name" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="relation_id" Type="int" Nullable="false" />
+    <Property Name="relation_id" Type="int" />
+  </EntityType>
+  <EntityType Name="DocFileBeforeAppr">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Name="file_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="path_file" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
   </EntityType>
   <EntityType Name="DocType">
     <Key>
@@ -131,7 +144,7 @@
     <Property Name="position_max" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_DocFile_Relation_Issue_Cust">
-    <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="1">
+    <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="DocFile" Type="EX_DOCModel.Store.DocFile" Multiplicity="*" />
@@ -141,6 +154,20 @@
       </Principal>
       <Dependent Role="DocFile">
         <PropertyRef Name="relation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocFileBeforeAppr_Issue">
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DocFileBeforeAppr" Type="EX_DOCModel.Store.DocFileBeforeAppr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="DocFileBeforeAppr">
+        <PropertyRef Name="issue_no" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -118,8 +118,8 @@
             <div class="card-body">
 
                 <div class="card-text card-boder">
-                    <form id="formNewDoc" class="formNewDoc" action="@Url.Action("SaveIssue", "Issue")" method="post" enctype="multipart/form-data">
-
+                    <form id="formNewDoc" class="formNewDoc" action="@Url.Action("SaveIssueWhenEdit", "Issue")" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="issue_no" value="@Model.issue_no" />
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
@@ -138,15 +138,18 @@
 
                             <div class="form-group col-xs-4 col-md-3">
                                 <label for="name" class="control-label">Document Type</label>
-                                <select class="form-control" name="doc_type" id="doc_type" data-validate="required" >
+                                <select class="form-control" name="doc_type" id="doc_type" data-validate="required">
                                     <option value="">Select Document Type</option>
                                     @foreach (var item in ViewBag.doc_type)
                                     {
-                                         if(item.doc_type_id == Model.doc_type_id){
-                                         <option value="@item.doc_type_id" selected>@item.doc_type_name</option>
-                                        }else{
-                                         <option value="@item.doc_type_id" >@item.doc_type_name</option>
-                                         }
+                                        if (item.doc_type_id == Model.doc_type_id)
+                                        {
+                                        <option value="@item.doc_type_id" selected>@item.doc_type_name</option>
+                                        }
+                                        else
+                                        {
+                                        <option value="@item.doc_type_id" >@item.doc_type_name</option>
+                                        }
                                     }
 
 
@@ -198,6 +201,7 @@
                         </div>
 
                         <div class=" row_doc_file">
+
                             <div class="row doc_origin">
                                 <div class="col-md-1"></div>
                                 <div class="form-group col-md-10" id="file_doc">
@@ -205,11 +209,32 @@
 
 
 
-                                    <input type="file" value="" name="doc_file" class="" id="md-input" data-validate="required">
+                                    @*<input type="file" value="" name="doc_file" class="" id="md-input" data-validate="required">*@
                                 </div>
                                 <div class="col-md-1">
                                 </div>
+                            </div>    
+                                                 
+                            @foreach (var item in Model.DocFileBeforeAppr.ToList())
+                            {
+                                <div class="row  doc-@item.file_id">
+                                <div class="col-md-1"></div>
+                                <div class="form-group col-md-10">
+
+                                    <div class="input-group">
+
+                                       
+                                        <div class="doc_rev data-text"> <a href="@Url.Content(item.path_file)">@Path.GetFileName(item.path_file)</a></div>
+                                        <input type="hidden" value="@item.path_file" name="old_file_id" />
+                                        <div class="input-group-btn">
+                                            <button type="button" id="del_doc" data-del-no="@item.file_id" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove text-danger"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
+                            }
+
                         </div>
 
 
@@ -252,39 +277,39 @@
 
     <script>
         $(document).ready(function () {
-            
-            
 
 
-            var i = 0;
+
+
+            var i = "ssd";
             //$(".date_re").bootstrapMaterialDatePicker({ weekStart: 0, time: false });
             var const_URL = "@Url.Action("get_all_customer", "Home")";
             var $cust_select2 = $("#txt_c").select2({
-            theme: "bootstrap",
-            placeholder: {
-                id: "0",
-                text: "Select a Customer"
-            },
-            minimumInputLength: 0,
-            ajax: {
-                url: const_URL,
-                type: "POST",
-                dataType: 'json',
-                data: function (params) {
-                    //console.log(params)
-                    return {
-                        term: params.term
-                    };
+                theme: "bootstrap",
+                placeholder: {
+                    id: "0",
+                    text: "Select a Customer"
                 },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data,
+                minimumInputLength: 0,
+                ajax: {
+                    url: const_URL,
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (params) {
+                        //console.log(params)
+                        return {
+                            term: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data,
 
-                    };
+                        };
+                    }
+
                 }
-
-            }
             });
 
 
@@ -294,42 +319,42 @@
 
                 var selected = [];
                 var initials = [];
-                
+
                 for (var s in x) {
                     selected.push(x[s].id);
                     $cust_select2.append('<option value="' + x[s].id + '" selected="selected">' + x[s].text + '</option>');
                 }
                 //console.log("selected", selected);
-              //  $('select').val(selected); // Change the value or make some change to the internal state
+                //  $('select').val(selected); // Change the value or make some change to the internal state
                 $('select').trigger('change.select2'); // Notify only Select2 of changes
 
-                
+
                 //$cust_select2.append('<option value="initial2" selected="selected">initial2</option>');
                 //$cust_select2.trigger('change');
             });
 
 
 
-        $("#date_re").datepicker({ maxDate: '0', dateFormat: 'dd/mm/yy' });
-        $('button.btnSave').on('click', function () {
+            $("#date_re").datepicker({ maxDate: '0', dateFormat: 'dd/mm/yy' });
+            $('button.btnSave').on('click', function () {
 
-            var data = $("#txt_c").select2("data");
+                var data = $("#txt_c").select2("data");
 
-            var cust = [];
-            for (var i = 0; i < data.length; i++) {
-                //console.log(data[i].id)
-                cust[i] = data[i].id;
-            }
+                var cust = [];
+                for (var i = 0; i < data.length; i++) {
+                    //console.log(data[i].id)
+                    cust[i] = data[i].id;
+                }
 
 
-            // console.log($("#txt_c").val(),"ddddddddd");
+                // console.log($("#txt_c").val(),"ddddddddd");
 
-            validate_select2();
-            if ($.validate({ form: "formNewDoc" })) {
+                validate_select2();
+                if ($.validate({ form: "formNewDoc" })) {
 
-                //document.formRequest.submit();
+                    //document.formRequest.submit();
 
-                $("#formNewDoc").submit();
+                    $("#formNewDoc").submit();
 
        @*         $.ajax({
                     url: '@Url.Action("SaveIssue", "Issue")',
@@ -349,42 +374,42 @@
             }// check validate
         });
 
-        $('body').on('click', '#del_doc', function (e) {
-            e.preventDefault();
-            //$(this).parent().parent().parent().remove();
+            $('body').on('click', '#del_doc', function (e) {
+                e.preventDefault();
+                //$(this).parent().parent().parent().remove();
 
-            var no = $(this).attr('data-del-no');
-            $(".doc" + no).remove();
+                var no = $(this).attr('data-del-no');
+                $(".doc-" + no).remove();
+            });
+
+            $('#txt_c').on('change', function () {
+                validate_select2();
+            });
+
+            $('#add_doc_file').on('click', function () {
+
+                var str = "";
+                i += 1;
+                str += "<div class='row  doc-" + i + "'>";
+                str += "<div class='col-md-1'></div>";
+                str += "<div class='form-group col-md-10' >";
+                str += "<div class='input-group'>";
+                str += "<input type='file' value='' class='' name='doc_file' id='md-input' data-validate='required'>";
+                str += "<div class='input-group-btn'>";
+                str += "<button type='button' id='del_doc' data-del-no='" + i + "' class='btn btn-default btn-block'> <span class='glyphicon glyphicon-remove text-danger'></span></button>";
+                str += "</div>";
+                str += "</div>";
+                str += "</div>";
+                str += "<div class='col-md-1'>";
+                str += "</div>";
+                str += "</div>";
+
+                $(".row_doc_file").append(str);
+
+
+
+            })
         });
-
-        $('#txt_c').on('change', function () {
-            validate_select2();
-        });
-
-        $('#add_doc_file').on('click', function () {
-
-            var str = "";
-            i += 1;
-            str += "<div class='row  doc" + i + "'>";
-            str += "<div class='col-md-1'></div>";
-            str += "<div class='form-group col-md-10' >";
-            str += "<div class='input-group'>";
-            str += "<input type='file' value='' class='' name='doc_file' id='md-input' data-validate='required'>";
-            str += "<div class='input-group-btn'>";
-            str += "<button type='button' id='del_doc' data-del-no='" + i + "' class='btn btn-default btn-block'> <span class='glyphicon glyphicon-remove text-danger'></span></button>";
-            str += "</div>";
-            str += "</div>";
-            str += "</div>";
-            str += "<div class='col-md-1'>";
-            str += "</div>";
-            str += "</div>";
-
-            $(".row_doc_file").append(str);
-
-
-
-        })
-    });
 
     @*var const_URL = "@Url.Action("get_all_customer", "Home")";*@
         //Selection_Customer(const_URL);
@@ -397,70 +422,70 @@
             //$('#txt_c').select2("data", "");
             if ($(this).text() === "Customer Number") {
                 const_URL = "@Url.Action("get_all_customer", "Home")";
-            //console.log($(this).text(), " === Customer Number");
-            $("#customer_type").val($(this).text());
-            Selection_Customer(const_URL);
-        } else {
-            const_URL = "@Url.Action("get_distinct_customer", "Home")";
-            //console.log($(this).text(), " === Customer Name");
-            $("#customer_type").val($(this).text());
-            Selection_Customer(const_URL);
+                //console.log($(this).text(), " === Customer Number");
+                $("#customer_type").val($(this).text());
+                Selection_Customer(const_URL);
+            } else {
+                const_URL = "@Url.Action("get_distinct_customer", "Home")";
+                //console.log($(this).text(), " === Customer Name");
+                $("#customer_type").val($(this).text());
+                Selection_Customer(const_URL);
+            }
+
+        });
+
+
+        function Selection_Customer(data_url) {
+            $("#txt_c").select2({
+                theme: "bootstrap",
+                placeholder: {
+                    id: "0",
+                    text: "Select a Customer"
+                },
+                minimumInputLength: 0,
+                ajax: {
+                    url: data_url,
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (params) {
+                        //console.log(params)
+                        return {
+                            term: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data,
+
+                        };
+                    }
+
+                }
+            });
         }
 
-    });
-
-
-    function Selection_Customer(data_url) {
-        $("#txt_c").select2({
-            theme: "bootstrap",
-            placeholder: {
-                id: "0",
-                text: "Select a Customer"
-            },
-            minimumInputLength: 0,
-            ajax: {
-                url: data_url,
-                type: "POST",
-                dataType: 'json',
-                data: function (params) {
-                    //console.log(params)
-                    return {
-                        term: params.term
-                    };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data,
-
-                    };
-                }
+        function validate_select2() {
+            var custumer = $("#txt_c").select2("data");
+            console.log(custumer);
+            if (custumer.length <= 0) {
+                $("input.select2-search__field").addClass("error");
+                //$("#txt_c ").removeClass("has-success");
+            } else {
+                $("input.select2-search__field").removeClass("error");
+                //$("#txt_c ").addClass("has-success");
 
             }
-        });
-    }
-
-    function validate_select2() {
-        var custumer = $("#txt_c").select2("data");
-        console.log(custumer);
-        if (custumer.length <= 0) {
-            $("input.select2-search__field").addClass("error");
-            //$("#txt_c ").removeClass("has-success");
-        } else {
-            $("input.select2-search__field").removeClass("error");
-            //$("#txt_c ").addClass("has-success");
-
         }
-    }
 
-    function cust2array(data) {
-        var cust = [];
-        for (var i = 0; i < data.length; i++) {
-            //console.log(data[i].id)
-            cust[i] = data[i].id;
+        function cust2array(data) {
+            var cust = [];
+            for (var i = 0; i < data.length; i++) {
+                //console.log(data[i].id)
+                cust[i] = data[i].id;
+            }
+            return cust;
         }
-        return cust;
-    }
 
 
     </script>

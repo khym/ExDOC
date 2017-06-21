@@ -16,7 +16,7 @@ namespace ExDoc.Models
     {
         public int file_id { get; set; }
         public string file_name { get; set; }
-        public int relation_id { get; set; }
+        public Nullable<int> relation_id { get; set; }
     
         public virtual Relation_Issue_Cust Relation_Issue_Cust { get; set; }
     }

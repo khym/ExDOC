@@ -1,6 +1,6 @@
 ﻿@*@model ExDoc.ViewModel.IssueAndEmp*@
-@*@model ExDoc.ViewModel.DocDetail*@
-@model ExDoc.Models.Issue
+@model ExDoc.ViewModel.DocDetail
+
 <style>
     .load-center {
         width: 35%;
@@ -238,7 +238,7 @@
 @*<div class=" modal-dialog ">*@
 <div>
 
-    <div class="card shadow-2">
+    <div class="card shadow shadow-2">
 
         @*<div class="card-body">*@
 
@@ -264,7 +264,7 @@
                             <h3>@Model.doc_name</h3>
 
                         </div>
-                        <div class="type Secondary-text">Document Type : @Model.DocType.doc_type_name</div>
+                        <div class="type Secondary-text">Document Type : @Model.doc_type</div>
 
                         <div class="information_doc">
 
@@ -310,13 +310,15 @@
         </div>
 
 
-        @{
+@*        @{
             
             var ss = @Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault();
 
         }
-        @if (ViewBag.user_lvl >= ss.User_level.position_min && ViewBag.user_lvl <= ss.User_level.position_min && ViewBag.g_id == ss.org_id && ss.status_id != 100)
-        {
+        @if (ViewBag.user_lvl >= ss.User_level.position_min && ViewBag.user_lvl <= ss.User_level.position_max && ViewBag.g_id == ss.org_id && ss.status_id != 100 && ss.status_id != 0)
+        *@    
+          @if (ViewBag.user_lvl >= Model.last_tran_lvl_min && ViewBag.user_lvl <= Model.last_tran_lvl_max && ViewBag.g_id == Model.last_tran_org_id && Model.last_tran_status_id != 100 && Model.last_tran_status_id != 0)
+          {
           
                 
             
@@ -327,7 +329,7 @@
                     <div class="col-md-8"></div>
                     <div class="col-md-2">
 
-                        <a class="btn btn-success md-primary-color border-primary-color shadow-1"
+                        <a class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
                             data-toggle="modal" data-target="#ModalAppr">
                             <span class="glyphicon glyphicon-ok"></span>Approve 
                         </a>
@@ -336,15 +338,17 @@
                     </div>
                     <div class="col-md-2"
                         data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
-                        <a href="#" class="btn btn-link primary-color-only">Reject
+                        <a href="#" class="btn btn-block btn-link primary-color-only">Reject
                         </a>
                     </div>
                 </div>
             </div>
-        }
+          }
 
-        @if (ViewBag.emp_code == ss.actor && ss.status_id != 100)
-        {
+@*        @if (ViewBag.emp_code == ss.actor && ss.status_id != 100)*@
+            
+             @if (ViewBag.emp_code == Model.last_tran_actor && Model.last_tran_status_id != 100)
+             {
             <div class="card-footer">
 
 
@@ -353,7 +357,7 @@
                     
                     <div class="col-md-2">
 
-                        <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn  md-primary-color border-primary-color shadow-1">
+                        <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn btn-block md-primary-color border-primary-color shadow-1">
                              Edit Issue 
                         </a>
 
@@ -361,12 +365,12 @@
                     </div>
                     <div class="col-md-2"
                         data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
-                        <a href="#" class="btn btn-link primary-color-only">Cancel Issue
+                        <a href="#" class="btn btn-block btn-link primary-color-only">Cancel Issue
                         </a>
                     </div>
                 </div>
             </div>
-        }
+             }
 
 
 
@@ -389,8 +393,12 @@
                                 <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
                                 <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
                                 <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+
                                 <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
-                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+
+                                @* <input type="text" name="doc_type_id" value="@Model.c" hidden/>
+                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
                             </div>
                             <div class="col-md-6 col-md-push-1">
                                 <button type="submit" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
@@ -438,7 +446,8 @@
                                 <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
                                 <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
                                 <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
-                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
                             </div>
                             <div class="col-md-6 col-md-push-1">
                                 <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
@@ -473,7 +482,8 @@
                                 <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
                                 <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
                                 <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
-                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
                             </div>
                             <div class="col-md-6 col-md-push-1">
                                 <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
@@ -521,7 +531,7 @@
     }*@
 
     function get_tap2(dd) {
-        var remote = "@Url.Action("_CustomerAndFile")?issue_no=" + dd;
+        var remote = "@Url.Action("_CustomerAndFileV2")?issue_no=" + dd;
         $.get(remote, function (data) {
             $("#tab2").html(data);
 

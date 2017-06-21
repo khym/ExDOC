@@ -224,6 +224,9 @@
     <Compile Include="Models\DocFile.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocFileBeforeAppr.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DocType.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
@@ -699,6 +702,8 @@
     <Content Include="Views\Issue\_CustomerAndFile.cshtml" />
     <Content Include="Views\Issue\_TransactionDetial.cshtml" />
     <Content Include="Views\Issue\EditIssue.cshtml" />
+    <Content Include="Views\Issue\_PreviewCompleteDoc.cshtml" />
+    <Content Include="Views\Issue\_CustomerAndFileV2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

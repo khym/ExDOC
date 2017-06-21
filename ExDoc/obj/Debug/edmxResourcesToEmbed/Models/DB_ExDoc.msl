@@ -28,6 +28,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DocFileBeforeAppr">
+      <EntityTypeMapping TypeName="EX_DOCModel.DocFileBeforeAppr">
+        <MappingFragment StoreEntitySet="DocFileBeforeAppr">
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
+          <ScalarProperty Name="path_file" ColumnName="path_file" />
+          <ScalarProperty Name="file_id" ColumnName="file_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="DocType">
       <EntityTypeMapping TypeName="EX_DOCModel.DocType">
         <MappingFragment StoreEntitySet="DocType">
