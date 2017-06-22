@@ -4,8 +4,9 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TNC_ADMINModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TNC_ADMINModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="TNC_ADMINModelStoreContainer">
+          <EntitySet Name="tnc_group_master" EntityType="TNC_ADMINModel.Store.tnc_group_master" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="V_Employee_Info" EntityType="TNC_ADMINModel.Store.V_Employee_Info" store:Type="Views" store:Schema="dbo" store:Name="V_Employee_Info">
             <DefiningQuery>SELECT 
       [V_Employee_Info].[emp_code] AS [emp_code], 
@@ -59,6 +60,15 @@
       FROM [dbo].[View_Organization] AS [View_Organization]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
+        <EntityType Name="tnc_group_master">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="group_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="s_name" Type="nvarchar" MaxLength="10" />
+          <Property Name="subname" Type="nvarchar" MaxLength="10" />
+        </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'TNC_ADMIN.dbo.V_Employee_Info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
@@ -122,14 +132,14 @@
           <Property Name="subgroup_id" Type="int" Nullable="false" />
           <Property Name="sub_group" Type="nvarchar" MaxLength="255" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TNC_ADMINModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TNC_ADMINEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="V_Employee_Info" EntityType="TNC_ADMINModel.V_Employee_Info" />
           <EntitySet Name="View_Organization" EntityType="TNC_ADMINModel.View_Organization" />
+          <EntitySet Name="tnc_group_master" EntityType="TNC_ADMINModel.tnc_group_master" />
         </EntityContainer>
         <EntityType Name="V_Employee_Info">
           <Key>
@@ -187,6 +197,15 @@
           <Property Name="GroupMgr_email" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="subgroup_id" Type="Int32" Nullable="false" />
           <Property Name="sub_group" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tnc_group_master">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="group_name" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="s_name" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="subname" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -247,6 +266,16 @@
                 <ScalarProperty Name="GroupMgr_email" ColumnName="GroupMgr_email" />
                 <ScalarProperty Name="subgroup_id" ColumnName="subgroup_id" />
                 <ScalarProperty Name="sub_group" ColumnName="sub_group" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tnc_group_master">
+            <EntityTypeMapping TypeName="TNC_ADMINModel.tnc_group_master">
+              <MappingFragment StoreEntitySet="tnc_group_master">
+                <ScalarProperty Name="subname" ColumnName="subname" />
+                <ScalarProperty Name="s_name" ColumnName="s_name" />
+                <ScalarProperty Name="group_name" ColumnName="group_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

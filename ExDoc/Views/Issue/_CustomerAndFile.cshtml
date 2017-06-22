@@ -5,20 +5,24 @@
 </div>
 <div class="type Secondary-text">Document File</div>
 
-<div class="information_doc">
+<div class=" ">
 
-    @{
+   
         
-        foreach (var item in Model)
+        @foreach (var item in Model)
         {
-           <div class="Secondary-text title">@item.cust_name (@item.cust_no)</div>
-            foreach (var item2 in item.DocFile)
+            <div class="bs-callout bs-callout-default shadow-1">
+                 <h4>@item.cust_name (@item.cust_no)</h4>
+           @*<div class="Secondary-text title">@item.cust_name (@item.cust_no)</div>*@
+            @foreach (var item2 in item.DocFile)
             {
-                 <div class="doc_rev data-text"> <a href="@Url.Content(item2.file_name)">@Path.GetFileName(Server.MapPath(item2.file_name))</a></div>
+                 <a href="@Url.Content(item2.file_name)">@Path.GetFileName(Server.MapPath(item2.file_name))</a> <br />
             }
+                </div>
         }
+            
         
-    }
+    
 
 @*    @{
     foreach (var item in Model.Relation_Issue_Cust.Select(a =>a))

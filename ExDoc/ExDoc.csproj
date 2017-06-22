@@ -230,6 +230,9 @@
     <Compile Include="Models\DocType.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupReview.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Issue.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
@@ -277,6 +280,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TNC_Admin.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tnc_group_master.cs">
+      <DependentUpon>TNC_Admin.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transaction.cs">
       <DependentUpon>DB_ExDoc.tt</DependentUpon>
@@ -698,9 +704,9 @@
     <Content Include="Views\Issue\_PreviewIssue.cshtml" />
     <Content Include="Views\Issue\NewRevise.cshtml" />
     <Content Include="Views\Issue\NewDoc.cshtml" />
-    <Content Include="Views\Issue\_PriviewDoc.cshtml" />
+    <Content Include="Views\Issue\_PreviewDoc.cshtml" />
     <Content Include="Views\Issue\_CustomerAndFile.cshtml" />
-    <Content Include="Views\Issue\_TransactionDetial.cshtml" />
+    <Content Include="Views\Issue\_TransactionDetail.cshtml" />
     <Content Include="Views\Issue\EditIssue.cshtml" />
     <Content Include="Views\Issue\_PreviewCompleteDoc.cshtml" />
     <Content Include="Views\Issue\_CustomerAndFileV2.cshtml" />

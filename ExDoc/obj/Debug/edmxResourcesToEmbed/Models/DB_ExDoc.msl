@@ -46,6 +46,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="GroupReview">
+      <EntityTypeMapping TypeName="EX_DOCModel.GroupReview">
+        <MappingFragment StoreEntitySet="GroupReview">
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Issue">
       <EntityTypeMapping TypeName="EX_DOCModel.Issue">
         <MappingFragment StoreEntitySet="Issue">

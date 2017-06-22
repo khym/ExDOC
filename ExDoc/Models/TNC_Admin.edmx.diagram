@@ -7,6 +7,7 @@
       <Diagram DiagramId="c61a67af6a8d4be3b3adeb8e4176919e" Name="Diagram1" ZoomLevel="83">
         <EntityTypeShape EntityType="TNC_ADMINModel.V_Employee_Info" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TNC_ADMINModel.View_Organization" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TNC_ADMINModel.tnc_group_master" Width="1.5" PointX="5.9081164178941945" PointY="14.577197588317654" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

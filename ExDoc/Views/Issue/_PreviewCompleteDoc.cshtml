@@ -262,7 +262,7 @@
 
                         <div class="information_doc">
 
-                            <div class="Secondary-text title">Document Nomber</div>
+                            <div class="Secondary-text title">Document Number</div>
                             <div class="doc_rev data-text">@Model.doc_no</div>
 
                             <div class="Secondary-text title">Document Revision</div>
@@ -326,7 +326,7 @@
     }
 
     function get_tap3(dd) {
-        var remote = "@Url.Action("_TransactionDetial")?issue_no=" + dd;
+        var remote = "@Url.Action("_TransactionDetail")?issue_no=" + dd;
         $.get(remote, function (data) {
             $("#tab3").html(data);
 

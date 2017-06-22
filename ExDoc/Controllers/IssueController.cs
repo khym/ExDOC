@@ -71,7 +71,7 @@ namespace ExDoc.Controllers
 
         }
 
-        public ActionResult _TransactionDetial(string issue_no)
+        public ActionResult _TransactionDetail(string issue_no)
         {
             ViewBag.issue_no = issue_no;
 
@@ -92,10 +92,11 @@ namespace ExDoc.Controllers
             var ss_groupjoin = sql.Transaction.GroupJoin(tnc_admin.V_Employee_Info,
                                             f => f.actor,
                                             s => s.emp_code,
-                                            (f, s) => new { f.Action.action_name,f.actor_date,f.Status.status_name,f.comment_pic,f.comment, s })
+                                            (f, s) => new { f.action_id,f.Action.action_name,f.actor_date,f.Status.status_name,f.comment_pic,f.comment, s })
                                             .SelectMany(temp => temp.s.DefaultIfEmpty(),
                                             (f, s) => new
                                             {
+                                                f.action_id,
                                                 f.action_name,
                                                 f.actor_date,
                                                 f.status_name,
@@ -113,8 +114,11 @@ namespace ExDoc.Controllers
                 {
                     dd.Add(new TranVSEmpInfo
                     {
+                        action_id = ss_groupjoin[i].action_id.Value,
                         action_name = ss_groupjoin[i].action_name,
                         actor_name = ss_groupjoin[i].Second.emp_fname + " " + ss_groupjoin[i].Second.emp_lname,
+                        position_name = ss_groupjoin[i].Second.position_name,
+                        org_name = ss_groupjoin[i].Second.LeafOrgGroup,
                         actor_date = ss_groupjoin[i].actor_date,
                         status_name = ss_groupjoin[i].status_name,
                         comment = ss_groupjoin[i].comment,
@@ -265,8 +269,67 @@ namespace ExDoc.Controllers
 
             return Json(sql, JsonRequestBehavior.AllowGet);
         }
+                [HttpGet]
+                public ActionResult IssueGetGroup(string issue_no)
+        {
+            
 
-        public ActionResult _PriviewDoc(string issue_no)
+
+            //var get_other = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).Select(a =>new { id = a.id, text = a.group_id});
+
+            //var sql = ex_doc.GroupReview.Where(a => a.issue_no == issue_no).Select(a => a);
+
+            //var group_review = sql.Join(tnc_admin.tnc_group_master, a => a.group_id, b => b.id, 
+            //    (a, b) => new { id = a.group_id, text = b.group_name });
+
+            //var group_review2 = from a in ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).ToList()
+            //                    join b in tnc_admin.tnc_group_master.ToList()
+            //                    on a.group_id equals b.id select new { id= a.group_id , text = b.group_name };
+
+            var test1 = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).ToList().Join(tnc_admin.tnc_group_master.ToList(),
+                a => a.group_id, b => b.id, (a, b) => new { id = a.group_id, text = b.group_name });
+                
+                //.GroupJoin(tnc_admin.tnc_group_master,
+                //        f => f.group_id,
+                //        s => s.id,
+                //        (f, s) => new { f, s })
+                //        .SelectMany(temp => temp.s.DefaultIfEmpty(),
+                //        (f, s) => new
+                //        {
+                //            first = f,
+                //            second = s
+                //        });
+
+            //var test = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).GroupJoin(tnc_admin.tnc_group_master,
+            //    f => f.group_id,
+            //    s => s.id,
+            //    (f, s) => new { f, s })
+            //    .SelectMany(temp => temp.s.DefaultIfEmpty(),
+            //    (f, s) => new
+            //    {
+            //        first = f,
+            //        second = s
+            //    });
+
+                //GroupJoin(tnc_admin.tnc_group_master,
+                //                 f => f.group_id,
+                //                 s => s.id,
+                //                 (f, s) => new { f.group_id, s })
+                //                 .SelectMany(temp => temp.s.DefaultIfEmpty(),
+                //                 (f, s) => new
+                //                 {
+                //                     f.group_id,
+                //                     s.group_name
+
+                //                 });
+
+
+            return Json(test1, JsonRequestBehavior.AllowGet);
+        }
+
+            
+
+        public ActionResult _PreviewDoc(string issue_no)
         {
             var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => new
             {
@@ -285,7 +348,7 @@ namespace ExDoc.Controllers
             var last_tran = ex_doc.Transaction.Where(a => a.issue_no.Contains(issue_no)).OrderByDescending(b => b.seq).Select(a => a).FirstOrDefault();
 
 
-            DocDetail doc_detial = new DocDetail()
+            DocDetail doc_detail = new DocDetail()
             {
                 issue_no = sql.issue_no,
                 doc_type = sql.doc_type_name,
@@ -307,7 +370,17 @@ namespace ExDoc.Controllers
 
             ViewBag.emp_code = Session["emp_code"].ToString();
             ViewBag.user_lvl = int.Parse(Session["po_lvl"].ToString());
-            ViewBag.g_id = int.Parse(Session["g_id"].ToString());
+
+            //if (String.IsNullOrEmpty(Session["emp_code"].ToString()) || String.IsNullOrWhiteSpace(Session["emp_code"].ToString()))
+            //{
+                //g_id = int.Parse(Session["g_id"].ToString());
+                ViewBag.g_id = int.Parse(Session["g_id"].ToString());
+            //}
+            //else
+            //{
+            //    ViewBag.g_id = int.Parse(Session["d_id"].ToString());
+            //}
+            
 
             //var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => a).FirstOrDefault();
 
@@ -342,7 +415,7 @@ namespace ExDoc.Controllers
 
             //};
 
-            return PartialView(doc_detial);
+            return PartialView(doc_detail);
         }
 
         public ActionResult _CustomerAndFileV2(string issue_no)
@@ -391,7 +464,7 @@ namespace ExDoc.Controllers
 
         [Tnc_Auth]
         [HttpPost]
-        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id)
+        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id, int?[] g_review)
         {
             var create_tran2 = new Transaction();
 
@@ -488,16 +561,54 @@ namespace ExDoc.Controllers
                 switch (sql.status_id) //check status in last transaction for crate next transaction
                 {
                     case 2: //Mgr Issuer Appr
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 3; // 3 = QS Officer
-                        create_tran2.action_id = 0; //  0 = idle
-                        create_tran2.actor = "0";
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = 18;
-                        create_tran2.level_id = 1;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
+                        {
+                            create_tran2.issue_no = sql.issue_no;
+                            create_tran2.status_id = 3; // 3 = QS Officer
+                            create_tran2.action_id = 0; //  0 = idle
+                            create_tran2.actor = "0";
+                            create_tran2.actor_date = null;
+                            create_tran2.org_id = 18;
+                            create_tran2.level_id = 1;
+                            create_tran2.comment = null;
+                            ex_doc.Transaction.Add(create_tran2);
+                            break;
+                        }
+                    case 3: //QS Officer Appr
+                        {
+                            create_tran2.issue_no = issue_no;
+                            create_tran2.status_id = 4; //4 = QS Dept.
+                            create_tran2.action_id = 0; //  0 = idle
+                            create_tran2.actor = "0";
+                            create_tran2.actor_date = null;
+                            create_tran2.org_id = 18;
+                            create_tran2.level_id = 3;
+                            create_tran2.comment = null;
+                            ex_doc.Transaction.Add(create_tran2);
+
+                            foreach (var item in g_review)
+                            {
+                                var add_group_review = new GroupReview();
+                                add_group_review.group_id = item.Value;
+                                add_group_review.issue_no = issue_no;
+                                ex_doc.GroupReview.Add(add_group_review);
+                            }
+
+                            break;
+                        }
+                    //case 6: //Mgr Issuer Appr after reject
+                    //    {
+                    //        create_tran2.issue_no = sql.issue_no;
+                    //        create_tran2.status_id = 3;
+                    //        create_tran2.action_id = 0;
+                    //        create_tran2.actor = "0";
+                    //        create_tran2.actor_date = null;
+                    //        create_tran2.org_id = 18;
+                    //        create_tran2.level_id = 1;
+                    //        create_tran2.comment = null;
+                    //        ex_doc.Transaction.Add(create_tran2);
+                    //        break;
+                    //    }
+
                 }
 
             } //end else
@@ -571,20 +682,31 @@ namespace ExDoc.Controllers
             else // Standart&Manual
             {
 
-                //switch (sql.status_id) //check status in last transaction for crate next transaction
-                //{
-                //    case 4: //Mgr Issuer Appr Reject
-                //        create_tran2.issue_no = sql.issue_no;
-                //        create_tran2.status_id = 1;
-                //        create_tran2.action_id = 5;
-                //        create_tran2.actor = "0";
-                //        create_tran2.actor_date = null;
-                //        create_tran2.org_id = 18;
-                //        create_tran2.level_id = 4;
-                //        create_tran2.comment = null;
-                //        ex_doc.Transaction.Add(create_tran2);
-                //        break;
-                //}
+                switch (sql.status_id) //check status in last transaction for crate next transaction
+                {
+                    case 2: //Mgr. Isuuer Reject
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 0; // 0 = Issuer edit
+                        create_tran2.action_id = 0; // 0 = Idle
+                        create_tran2.actor = data_issuer.actor;
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = data_issuer.org_id;
+                        create_tran2.level_id = data_issuer.level_id;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+                    case 3: //QS Officer Reject
+                        create_tran2.issue_no = sql.issue_no;
+                        create_tran2.status_id = 0;// 0 = Issuer edit
+                        create_tran2.action_id = 0; // 0 = Idle
+                        create_tran2.actor = data_issuer.actor;
+                        create_tran2.actor_date = null;
+                        create_tran2.org_id = data_issuer.org_id;
+                        create_tran2.level_id = data_issuer.level_id;
+                        create_tran2.comment = null;
+                        ex_doc.Transaction.Add(create_tran2);
+                        break;
+                }
 
             }
 

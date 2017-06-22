@@ -9,71 +9,100 @@
 
 </div>*@
 
-
-@*<div class="data_issue" style="position:relative;">*@
-@*    <button type="button" class="btnfloating_indiv" id="CreateIssue">
-    <i class="mdi mdi-plus mdi-36px btnF_indiv"></i>
-</button>*@
-<div id="issue" class="card shadow shadow-2">
-</div>
-@*</div>*@
-
-
-
-<div class="row ">
-    @*<div class="col-md-6">
-        <div class="card shadow shadow-2">
+<div class="row" id="SearchIssue"  >
+        <div class="col-md-12">
+        <div class="card  shadow-2">
             <form data-toggle="validator" id="myForm" role="form">
                 <div class="card-title secondary-color-md">
-                    Search
+                     @*<i class="mdi mdi-file-document mdi-24px btnF_indiv"></i>*@ 
+                  Search
                 </div>
                 <div class="card-body">
 
+                    <div class="row">
+                        <div class="form-group has-feedback col-md-6">
+                            <label for="inputName" class="control-label">Customer</label>
+                            <select id="txt_c" style="width: 100%" name="customer" class="form-control" multiple="multiple">
+                            </select>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-                    <div class="form-group has-feedback">
-                        <label for="inputName" class="control-label">Customer</label>
-                        <select id="txt_c" style="width: 100%" name="customer" class="form-control" multiple="multiple">
-                        </select>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Document name</label>
+                            <input type="text" class="form-control" name="doc_name">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-                    <div class="form-group has-feedback">
-                        <label class="control-label">Document name</label>
-                        <input type="text" class="form-control" name="doc_name">
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Receive from customer date</label>
+                            <input type="text" value='' class="form-control " name="date_rec" id="date_re">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        </div>
+@*                    <div class="row">
 
-                    <div class="form-group has-feedback">
-                        <label class="control-label">Receive from customer date</label>
-                        <input type="text" value='' class="form-control " name="date_rec" id="date_re" readonly>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Document Type</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Status</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Group Review</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-                    <div class="form-group has-feedback">
-                        <label class="control-label">TNC product name</label>
-                        <input type="text" value='' class="form-control" name="tnc_product">
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">TNC product name</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
+                    </div>*@
 
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-md-8"></div>
+                        <div class="col-md-6"></div>
                         <div class="col-md-2">
-                            <a data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success md-primary-color border-primary-color shadow-1">
+                            <a class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
+                               <span class="glyphicon glyphicon-user"></span> My Document 
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
                                 Search 
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <a href="#" class="btn btn-link primary-color-only">Clear
+                            <a href="#" class="btn btn-block btn-link primary-color-only">Clear
                             </a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-    </div>*@
+    </div>
+</div>
+
+<div class="data_issue" style="position:relative;">
+    <button type="button" class="btnfloating_indiv" id="ToggleSearch">
+    <i class="mdi mdi-magnify mdi-36px btnF_indiv"></i>
+</button>
+
+<div id="issue" class="card  shadow-2">
+</div>
+</div>
+
+
+
+<div class="row ">
+
     <div class="col-md-12">
         <div id="modalpreview">
         </div>
@@ -113,13 +142,15 @@
                 }
             });
 
-            $("#CreateIssue").click(function () {
+            $("#ToggleSearch").click(function () {
 
-                var remote = "@Url.Action("_CreateIssue")";
+                $("#SearchIssue").toggle();
+
+           @*     var remote = "@Url.Action("_CreateIssue")";
                 $.get(remote, function (data) {
                     $("#modalcreat").html(data);
                     $("#myModal3").modal({ backdrop: "static" });
-                })
+                })*@
 
             })
 
@@ -147,7 +178,7 @@
 
 
             $('#issue').jtable({
-                title: 'In Progess Document',
+                title: ' <i class="mdi mdi-file-document mdi-12px btnF_indiv"></i> In Progess Document',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -214,7 +245,7 @@
 
         function test_click(no) {
             console.log("issue no = ", no);
-            var remote = "@Url.Action("_PriviewDoc")?issue_no=" + no;
+            var remote = "@Url.Action("_PreviewDoc")?issue_no=" + no;
             $.get(remote, function (data) {
                 $("#myModal_preview").modal({ backdrop: "static" });
                 $("#modalpreview").html(data);

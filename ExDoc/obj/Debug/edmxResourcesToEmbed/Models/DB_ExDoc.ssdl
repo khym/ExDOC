@@ -6,6 +6,7 @@
     <EntitySet Name="DocFile" EntityType="EX_DOCModel.Store.DocFile" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DocFileBeforeAppr" EntityType="EX_DOCModel.Store.DocFileBeforeAppr" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DocType" EntityType="EX_DOCModel.Store.DocType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupReview" EntityType="EX_DOCModel.Store.GroupReview" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Issue" EntityType="EX_DOCModel.Store.Issue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Relation_Issue_Cust" EntityType="EX_DOCModel.Store.Relation_Issue_Cust" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Status" EntityType="EX_DOCModel.Store.Status" store:Type="Tables" Schema="dbo" />
@@ -18,6 +19,10 @@
     <AssociationSet Name="FK_DocFileBeforeAppr_Issue" Association="EX_DOCModel.Store.FK_DocFileBeforeAppr_Issue">
       <End Role="Issue" EntitySet="Issue" />
       <End Role="DocFileBeforeAppr" EntitySet="DocFileBeforeAppr" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupReview_Issue" Association="EX_DOCModel.Store.FK_GroupReview_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="GroupReview" EntitySet="GroupReview" />
     </AssociationSet>
     <AssociationSet Name="FK_Issue_DocType" Association="EX_DOCModel.Store.FK_Issue_DocType">
       <End Role="DocType" EntitySet="DocType" />
@@ -87,6 +92,14 @@
     <Property Name="doc_type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="doc_type_name" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="doc_parent" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupReview">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="group_id" />
+    </Key>
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="group_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Issue">
     <Key>
@@ -167,6 +180,20 @@
         <PropertyRef Name="issue_no" />
       </Principal>
       <Dependent Role="DocFileBeforeAppr">
+        <PropertyRef Name="issue_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupReview_Issue">
+    <End Role="Issue" Type="EX_DOCModel.Store.Issue" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GroupReview" Type="EX_DOCModel.Store.GroupReview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="issue_no" />
+      </Principal>
+      <Dependent Role="GroupReview">
         <PropertyRef Name="issue_no" />
       </Dependent>
     </ReferentialConstraint>

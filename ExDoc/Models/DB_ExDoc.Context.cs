@@ -30,6 +30,7 @@ namespace ExDoc.Models
         public DbSet<DocFile> DocFile { get; set; }
         public DbSet<DocFileBeforeAppr> DocFileBeforeAppr { get; set; }
         public DbSet<DocType> DocType { get; set; }
+        public DbSet<GroupReview> GroupReview { get; set; }
         public DbSet<Issue> Issue { get; set; }
         public DbSet<Relation_Issue_Cust> Relation_Issue_Cust { get; set; }
         public DbSet<Status> Status { get; set; }

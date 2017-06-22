@@ -15,6 +15,7 @@ namespace ExDoc.Controllers
         EX_DOCEntities tnc_costomer = new EX_DOCEntities();
         TNCSecurity tnc_se = new TNCSecurity();
         EX_DOCEntities ex_doc = new EX_DOCEntities();
+        TNC_ADMINEntities tnc_admin = new TNC_ADMINEntities();
 
         public ActionResult Index()
         {
@@ -49,11 +50,22 @@ namespace ExDoc.Controllers
                 Session["emp_lvl"] = chklogin.position_level;
                 Session["emp_org_lvl"] = chklogin.LeafOrgGroup;
 
+
                 //test show data
                 Session["d_name"] = chklogin.dept_name;
                 Session["d_id"] = chklogin.dept_id;
                 Session["email"] = chklogin.email;
-                Session["g_id"] = chklogin.group_id;
+
+                if (String.IsNullOrEmpty(chklogin.group_id.ToString()) || String.IsNullOrWhiteSpace(chklogin.group_id.ToString()))
+                {
+                    Session["g_id"] = chklogin.dept_id;
+                }
+                else
+                {
+                    Session["g_id"] = chklogin.group_id;                  
+                }
+
+                //Session["g_id"] = chklogin.group_id;
                 Session["g_name"] = chklogin.group_name;
                 Session["po_lvl"] = chklogin.position_level;
                 Session["po_name"] = chklogin.position_name;
@@ -126,18 +138,36 @@ namespace ExDoc.Controllers
             return Json(sql, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult get_tnc_group(string term)
+        {
+            var sql = tnc_admin.tnc_group_master.Select(a => new { id = a.id, text = a.group_name }).Distinct().Take(16);
+
+            if (term != null)
+            {
+                sql = tnc_admin.tnc_group_master.Where(a => a.group_name.Contains(term)).Select(a => new { id = a.id, text = a.group_name }).Distinct().Take(16);
+            }
+            return Json(sql, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult get_issue(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
         {
             try
             {
-
-                
-
                 var sql = from a in ex_doc.Issue select a;
                 string emp_code = Session["emp_code"].ToString();
+                //int g_id = 0;
+                var check1 = String.IsNullOrEmpty(Session["emp_code"].ToString());
+                var check2 = String.IsNullOrWhiteSpace(Session["emp_code"].ToString());
+                //if (String.IsNullOrEmpty(Session["emp_code"].ToString()) || String.IsNullOrWhiteSpace(Session["emp_code"].ToString()))
+                //{
+                //    g_id = int.Parse(Session["g_id"].ToString());
+                //}
                 int g_id = int.Parse(Session["g_id"].ToString());
                 int po_lvl = int.Parse(Session["po_lvl"].ToString());
+                int d_id = int.Parse(Session["d_id"].ToString());
+                
 
             //    var test_sql = ex_doc.Issue.Where(a => a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code
             //|| a.Transaction.Any(
@@ -146,16 +176,43 @@ namespace ExDoc.Controllers
             //                     b.action_id == 5
             //                     )).Select(a => a);
                 //Stopwatch stopwatch = Stopwatch.StartNew();
-                var test_sql2 = ex_doc.Issue.Where(a => 
-                                (( a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
-                                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1 )||
-                                (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
-                                po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
-                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
-                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0))&&
-                                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
-                                ).Select(a => a);
 
+
+                var test_sql2 = ex_doc.Issue.Where(a =>
+                ((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
+                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
+                (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
+                po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
+                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
+                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
+                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
+                ).Select(a => a);
+
+                // check group_id is null
+                //var test_sql2 = ex_doc.Issue.Where(a => a.doc_type_id == 0).Select(a => a);
+                //if (g_id != 0) 
+                //{
+                //    test_sql2 = ex_doc.Issue.Where(a =>
+                //                    ((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
+                //                    a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
+                //                    (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
+                //                    po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
+                //                    a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
+                //                    a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
+                //                    a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
+                //                    ).Select(a => a);
+
+                //}else {
+                // test_sql2 = ex_doc.Issue.Where(a =>
+                //                ((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
+                //                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
+                //                (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
+                //                po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
+                //                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == d_id &&
+                //                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
+                //                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
+                //                ).Select(a => a);
+                //}
                 
 
 

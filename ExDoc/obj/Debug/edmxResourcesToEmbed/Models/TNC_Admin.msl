@@ -57,5 +57,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tnc_group_master">
+      <EntityTypeMapping TypeName="TNC_ADMINModel.tnc_group_master">
+        <MappingFragment StoreEntitySet="tnc_group_master">
+          <ScalarProperty Name="subname" ColumnName="subname" />
+          <ScalarProperty Name="s_name" ColumnName="s_name" />
+          <ScalarProperty Name="group_name" ColumnName="group_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -46,7 +46,7 @@
 <nav class="navbar navbar-default shadow-3 navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="@Url.Action("Index", "Home")">External Document</a>
+      <a class="navbar-brand" href="@Url.Action("Index", "Home")"> <i class="mdi mdi-file-multiple mdi-24px btnF_indiv"></i> External Document</a>
     </div>
       @{
           if(Session["emp_code"] != null){
@@ -56,8 +56,8 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Request
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("NewDoc", "Issue")">New Document</a></li>
-          <li><a href="@Url.Action("NewIssue", "Issue")">New Document(Old)</a></li>
+            @*<li><a href="@Url.Action("NewDoc", "Issue")">New Document</a></li>*@
+          <li><a href="@Url.Action("NewIssue", "Issue")">New Document</a></li>
           <li><a href="@Url.Action("NewRevise", "Issue")">Revise Document</a></li>
         </ul>
       </li>
@@ -94,6 +94,8 @@
                 (@Session["g_id"])  <br />
                 @Session["po_name"]
                 (@Session["po_lvl"]) <br />
+                 @Session["d_name"]
+                (@Session["d_id"]) <br />
                 @Session["p_name"]
                 (@Session["p_id"])  <br />
             </div>

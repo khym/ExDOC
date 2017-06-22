@@ -3,6 +3,7 @@
   <EntityContainer Name="TNC_ADMINEntities" p1:LazyLoadingEnabled="true">
     <EntitySet Name="V_Employee_Info" EntityType="TNC_ADMINModel.V_Employee_Info" />
     <EntitySet Name="View_Organization" EntityType="TNC_ADMINModel.View_Organization" />
+    <EntitySet Name="tnc_group_master" EntityType="TNC_ADMINModel.tnc_group_master" />
   </EntityContainer>
   <EntityType Name="V_Employee_Info">
     <Key>
@@ -60,5 +61,14 @@
     <Property Name="GroupMgr_email" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
     <Property Name="subgroup_id" Type="Int32" Nullable="false" />
     <Property Name="sub_group" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tnc_group_master">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="group_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="s_name" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="subname" MaxLength="10" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

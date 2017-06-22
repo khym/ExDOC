@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TNC_ADMINModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="TNC_ADMINModelStoreContainer">
+    <EntitySet Name="tnc_group_master" EntityType="TNC_ADMINModel.Store.tnc_group_master" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="V_Employee_Info" EntityType="TNC_ADMINModel.Store.V_Employee_Info" store:Type="Views" store:Schema="dbo" store:Name="V_Employee_Info">
       <DefiningQuery>SELECT 
       [V_Employee_Info].[emp_code] AS [emp_code], 
@@ -54,6 +55,15 @@
       FROM [dbo].[View_Organization] AS [View_Organization]</DefiningQuery>
     </EntitySet>
   </EntityContainer>
+  <EntityType Name="tnc_group_master">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="group_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="s_name" Type="nvarchar" MaxLength="10" />
+    <Property Name="subname" Type="nvarchar" MaxLength="10" />
+  </EntityType>
   <!--Errors Found During Generation:
       warning 6002: The table/view 'TNC_ADMIN.dbo.V_Employee_Info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->

@@ -27,5 +27,6 @@ namespace ExDoc.Models
     
         public DbSet<V_Employee_Info> V_Employee_Info { get; set; }
         public DbSet<View_Organization> View_Organization { get; set; }
+        public DbSet<tnc_group_master> tnc_group_master { get; set; }
     }
 }

@@ -105,11 +105,11 @@
         right: 20px;
     }
 
-    .card-body {
+    /*.card-body {
         padding-left: 40px;
         padding-right: 25px;
         padding-bottom: 25px;
-    }
+    }*/
 
     .Secondary-text {
         color: #757575;
@@ -238,7 +238,7 @@
 @*<div class=" modal-dialog ">*@
 <div>
 
-    <div class="card shadow shadow-2">
+    <div class="card  shadow-2">
 
         @*<div class="card-body">*@
 
@@ -260,33 +260,36 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_default_1">
-                        <div class="doc_name">
-                            <h3>@Model.doc_name</h3>
+                        @*<div class="no-border-left-width bs-callout   shadow-1">*@
+                            <div class="doc_name">
+                                <h3>Document Name : @Model.doc_name</h3>
 
-                        </div>
-                        <div class="type Secondary-text">Document Type : @Model.doc_type</div>
+                            </div>
+                            <div class="type Secondary-text">Document Type : @Model.doc_type</div>
 
-                        <div class="information_doc">
+                            <div class="information_doc">
 
-                            <div class="Secondary-text title">Document Nomber</div>
-                            <div class="doc_rev data-text">@Model.doc_no</div>
+                                <div class="Secondary-text title">Document Number</div>
+                                <div class="doc_rev data-text">@Model.doc_no</div>
 
-                            <div class="Secondary-text title">Document Revision</div>
-                            <div class="doc_rev data-text">@Model.doc_rev</div>
+                                <div class="Secondary-text title">Document Revision</div>
+                                <div class="doc_rev data-text">@Model.doc_rev</div>
 
-                            <div class="Secondary-text title">Receive date doc. from customer</div>
-                            <div class="doc_rev data-text">@Model.rec_date</div>
+                                <div class="Secondary-text title">Receive date doc. from customer</div>
+                                <div class="doc_rev data-text">@Model.rec_date</div>
 
-                            <div class="Secondary-text title">TNC Product</div>
-                            <p>@Model.tnc_product</p>
+                                <div class="Secondary-text title">TNC Product</div>
+                                <p>@Model.tnc_product</p>
 
-                            @if (@Model.change_point != null)
-                            {
-                                <div class="Secondary-text title">Change Point</div>
-                                <p>@Model.change_point</p>
-                            }
+                                @if (@Model.change_point != null)
+                                {
+                                    <div class="Secondary-text title">Change Point</div>
+                                    <p>@Model.change_point</p>
+                                }
 
-                        </div>
+                                <div id="text_group_review"> </div>
+                            </div>
+                        @*</div>*@
                     </div>
                     <div class="tab-pane" id="tab_default_2">
                         <div id="tab2">
@@ -320,16 +323,62 @@
           @if (ViewBag.user_lvl >= Model.last_tran_lvl_min && ViewBag.user_lvl <= Model.last_tran_lvl_max && ViewBag.g_id == Model.last_tran_org_id && Model.last_tran_status_id != 100 && Model.last_tran_status_id != 0)
           {
           
-                
+              
             
             <div class="card-footer">
 
+                            <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                    <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                    <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                    <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+
+                                    <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                    <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                    <input type="text" id="group_review" name="group_review" value="" hidden/>
+
+                                    @* <input type="text" name="doc_type_id" value="@Model.c" hidden/>
+                                    <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                                </div>
+
+                            </div>
+                    
+                        @if (Model.last_tran_org_id == 18 || Model.last_tran_org_id == 49)
+                        {
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group ">
+                                        <label class="control-label">Group Review</label>
+                                        <select id="g_review" style="width: 100%" name="g_review" class="form-control" multiple="multiple" data-validate="required">
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group ">
+                                        <label class="control-label">Remark</label>
+                                        <textarea class="form-control" name="Remark"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div> 
+                            
+                        }
+                        </form>
 
                 <div class="row">
                     <div class="col-md-8"></div>
                     <div class="col-md-2">
 
-                        <a class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
+                        <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
                             data-toggle="modal" data-target="#ModalAppr">
                             <span class="glyphicon glyphicon-ok"></span>Approve 
                         </a>
@@ -386,26 +435,29 @@
             <div class="card-footer">
                 <h3>Confirm Approve?</h3>
                 <div class="group_button_footer">
-                    <form class="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
-                        <div class="row">
+
+                  @*  <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">*@
+                       
+                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                               @* <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
                                 <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
                                 <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
                                 <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
 
                                 <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
                                 <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                <input type="text" id="group_review" name="group_review" value="" hidden/>*@
 
                                 @* <input type="text" name="doc_type_id" value="@Model.c" hidden/>
                                 <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
                             </div>
                             <div class="col-md-6 col-md-push-1">
-                                <button type="submit" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
+                                <button type="button" id="btn-confirm-appr" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
                                 <button type="button" class="btn btn-link primary-color-only" data-dismiss="modal">No</button>
                             </div>
                         </div>
-                    </form>
+                   @* </form>*@
                 </div>
             </div>
 
@@ -505,6 +557,72 @@
 <script>
     $(document).ready(function () {
 
+        var const_URL = "@Url.Action("get_tnc_group", "Home")";
+        var $group_review_select2 =   $("#g_review").select2({
+            theme: "bootstrap",
+            placeholder: {
+                id: "0",
+                text: "Select a Group"
+            },
+            minimumInputLength: 0,
+            ajax: {
+                url: const_URL,
+                type: "POST",
+                dataType: 'json',
+                data: function (params) {
+                    //console.log(params)
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+
+                    };
+                }
+
+            }
+        });
+
+
+        $.get('@Url.Action("IssueGetGroup", "Issue")?issue_no=@Model.issue_no', function (x) {
+
+            console.log("x",x);
+
+            //"<div class='Secondary-text title'>Group Reiview</div><div class='doc_rev data-text' id='text_group_review'> </div>"
+
+            var selected = [];
+            var initials = [];
+            var str = ""
+            for (var s in x) {
+                selected.push(x[s].id);
+                $group_review_select2.append('<option value="' + x[s].id + '" selected="selected">' + x[s].text + '</option>');
+                if (s >= (x.length-1)) {
+                    str += x[s].text 
+                } else {
+                    str += x[s].text + " , "
+                }
+            }
+            if (x.length > 0) {
+                $("#text_group_review").append("<div class='Secondary-text title'>Group Reiview</div> <p>" + str + "</p> ");
+            }
+            $('select').trigger('change.select2');
+        });
+
+        $("#btn-confirm-appr").click(function () {
+            console.log("Confirm Appr!!");
+            $("#form_appr").submit();
+        });
+
+        $("#btn-appr").click(function () {
+
+            
+            var x = $("#g_review").val();
+           var y = $("#group_review").val(x);
+            console.log("Click!! Appr", x,y);
+        });
 
         @*     $("#click_tab_default_2").click(function () {
 
@@ -539,7 +657,7 @@
     }
 
     function get_tap3(dd) {
-        var remote = "@Url.Action("_TransactionDetial")?issue_no=" + dd;
+        var remote = "@Url.Action("_TransactionDetail")?issue_no=" + dd;
         $.get(remote, function (data) {
             $("#tab3").html(data);
 
