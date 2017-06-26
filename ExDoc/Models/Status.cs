@@ -21,6 +21,7 @@ namespace ExDoc.Models
     
         public int status_id { get; set; }
         public string status_name { get; set; }
+        public string description { get; set; }
     
         public virtual ICollection<Transaction> Transaction { get; set; }
     }

@@ -13,6 +13,7 @@ namespace ExDoc.ViewModel
         public string position_name { get; set; }
         public string org_name { get; set; }
         public Nullable<DateTime> actor_date { get; set; }
+        public int status_id { get; set; }
         public string status_name { get; set; }
         public string comment { get; set; }
         public string comment_pic { get; set; }

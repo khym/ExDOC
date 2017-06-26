@@ -293,13 +293,27 @@
     <Compile Include="Models\View_Organization.cs">
       <DependentUpon>TNC_Admin.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_ControlledDocument.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_Employee_Info.cs">
       <DependentUpon>TNC_Admin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_ExDoc_Employee_Info.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_ExDoc_Organization.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_TransactionEmp.cs">
+      <DependentUpon>DB_ExDoc.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CustomerFile.cs" />
     <Compile Include="ViewModel\DocDetail.cs" />
+    <Compile Include="ViewModel\DocDetail_V2.cs" />
     <Compile Include="ViewModel\IssueAndEmp.cs" />
+    <Compile Include="ViewModel\ManageIssue.cs" />
     <Compile Include="ViewModel\TranVSEmpInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -710,6 +724,8 @@
     <Content Include="Views\Issue\EditIssue.cshtml" />
     <Content Include="Views\Issue\_PreviewCompleteDoc.cshtml" />
     <Content Include="Views\Issue\_CustomerAndFileV2.cshtml" />
+    <Content Include="Views\Issue\_PreviewDocV2.cshtml" />
+    <Content Include="Views\Issue\_FooterPreviewDoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

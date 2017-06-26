@@ -81,6 +81,7 @@
     <EntitySetMapping Name="Status">
       <EntityTypeMapping TypeName="EX_DOCModel.Status">
         <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="status_name" ColumnName="status_name" />
           <ScalarProperty Name="status_id" ColumnName="status_id" />
         </MappingFragment>
@@ -110,6 +111,101 @@
           <ScalarProperty Name="position_min" ColumnName="position_min" />
           <ScalarProperty Name="level_name" ColumnName="level_name" />
           <ScalarProperty Name="level_id" ColumnName="level_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_ControlledDocument">
+      <EntityTypeMapping TypeName="EX_DOCModel.V_ControlledDocument">
+        <MappingFragment StoreEntitySet="V_ControlledDocument">
+          <ScalarProperty Name="action_id" ColumnName="action_id" />
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="tnc_product" ColumnName="tnc_product" />
+          <ScalarProperty Name="change_point" ColumnName="change_point" />
+          <ScalarProperty Name="rec_date" ColumnName="rec_date" />
+          <ScalarProperty Name="doc_rev" ColumnName="doc_rev" />
+          <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+          <ScalarProperty Name="doc_name" ColumnName="doc_name" />
+          <ScalarProperty Name="doc_type_name" ColumnName="doc_type_name" />
+          <ScalarProperty Name="cust_name" ColumnName="cust_name" />
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_ExDoc_Employee_Info">
+      <EntityTypeMapping TypeName="EX_DOCModel.V_ExDoc_Employee_Info">
+        <MappingFragment StoreEntitySet="V_ExDoc_Employee_Info">
+          <ScalarProperty Name="level" ColumnName="level" />
+          <ScalarProperty Name="ext" ColumnName="ext" />
+          <ScalarProperty Name="LeafOrgLevel" ColumnName="LeafOrgLevel" />
+          <ScalarProperty Name="position_level" ColumnName="position_level" />
+          <ScalarProperty Name="LeafOrgGroup" ColumnName="LeafOrgGroup" />
+          <ScalarProperty Name="LeafOrgGroupId" ColumnName="LeafOrgGroupId" />
+          <ScalarProperty Name="LeafOrganize" ColumnName="LeafOrganize" />
+          <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+          <ScalarProperty Name="sub_group" ColumnName="sub_group" />
+          <ScalarProperty Name="sub_group_id" ColumnName="sub_group_id" />
+          <ScalarProperty Name="group_name" ColumnName="group_name" />
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="dept_name" ColumnName="dept_name" />
+          <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+          <ScalarProperty Name="plant_name" ColumnName="plant_name" />
+          <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="position_name" ColumnName="position_name" />
+          <ScalarProperty Name="emp_position" ColumnName="emp_position" />
+          <ScalarProperty Name="emp_lname" ColumnName="emp_lname" />
+          <ScalarProperty Name="emp_fname" ColumnName="emp_fname" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="emp_code" ColumnName="emp_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_ExDoc_Organization">
+      <EntityTypeMapping TypeName="EX_DOCModel.V_ExDoc_Organization">
+        <MappingFragment StoreEntitySet="V_ExDoc_Organization">
+          <ScalarProperty Name="sub_group" ColumnName="sub_group" />
+          <ScalarProperty Name="subgroup_id" ColumnName="subgroup_id" />
+          <ScalarProperty Name="GroupMgr_email" ColumnName="GroupMgr_email" />
+          <ScalarProperty Name="GroupMgr" ColumnName="GroupMgr" />
+          <ScalarProperty Name="group_name" ColumnName="group_name" />
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="DeptMgr_email" ColumnName="DeptMgr_email" />
+          <ScalarProperty Name="DeptMgr" ColumnName="DeptMgr" />
+          <ScalarProperty Name="dept_name" ColumnName="dept_name" />
+          <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+          <ScalarProperty Name="PlantMgr_email" ColumnName="PlantMgr_email" />
+          <ScalarProperty Name="PlantMgr" ColumnName="PlantMgr" />
+          <ScalarProperty Name="plant_name" ColumnName="plant_name" />
+          <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+          <ScalarProperty Name="LeafTitle" ColumnName="LeafTitle" />
+          <ScalarProperty Name="LeafLevel" ColumnName="LeafLevel" />
+          <ScalarProperty Name="LeafId" ColumnName="LeafId" />
+          <ScalarProperty Name="cost_code" ColumnName="cost_code" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="IsRealCostCode" ColumnName="IsRealCostCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_TransactionEmp">
+      <EntityTypeMapping TypeName="EX_DOCModel.V_TransactionEmp">
+        <MappingFragment StoreEntitySet="V_TransactionEmp">
+          <ScalarProperty Name="actor_date" ColumnName="actor_date" />
+          <ScalarProperty Name="position_name" ColumnName="position_name" />
+          <ScalarProperty Name="actor_name" ColumnName="actor_name" />
+          <ScalarProperty Name="actor" ColumnName="actor" />
+          <ScalarProperty Name="comment_pic" ColumnName="comment_pic" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="lvl_name" ColumnName="lvl_name" />
+          <ScalarProperty Name="org_name" ColumnName="org_name" />
+          <ScalarProperty Name="org_id" ColumnName="org_id" />
+          <ScalarProperty Name="status_name" ColumnName="status_name" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="action_name" ColumnName="action_name" />
+          <ScalarProperty Name="action_id" ColumnName="action_id" />
+          <ScalarProperty Name="seq" ColumnName="seq" />
+          <ScalarProperty Name="issue_no" ColumnName="issue_no" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

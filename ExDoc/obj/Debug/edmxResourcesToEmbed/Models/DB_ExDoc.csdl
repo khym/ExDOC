@@ -12,6 +12,10 @@
     <EntitySet Name="Status" EntityType="EX_DOCModel.Status" />
     <EntitySet Name="Transaction" EntityType="EX_DOCModel.Transaction" />
     <EntitySet Name="User_level" EntityType="EX_DOCModel.User_level" />
+    <EntitySet Name="V_ControlledDocument" EntityType="EX_DOCModel.V_ControlledDocument" />
+    <EntitySet Name="V_ExDoc_Employee_Info" EntityType="EX_DOCModel.V_ExDoc_Employee_Info" />
+    <EntitySet Name="V_ExDoc_Organization" EntityType="EX_DOCModel.V_ExDoc_Organization" />
+    <EntitySet Name="V_TransactionEmp" EntityType="EX_DOCModel.V_TransactionEmp" />
     <AssociationSet Name="FK_Transaction_Action" Association="EX_DOCModel.FK_Transaction_Action">
       <End Role="Action" EntitySet="Action" />
       <End Role="Transaction" EntitySet="Transaction" />
@@ -143,6 +147,7 @@
     </Key>
     <Property Type="Int32" Name="status_id" Nullable="false" />
     <Property Type="String" Name="status_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="description" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_Status" FromRole="Status" ToRole="Transaction" />
   </EntityType>
   <EntityType Name="Transaction">
@@ -175,6 +180,110 @@
     <Property Type="Int32" Name="position_min" Nullable="false" />
     <Property Type="Int32" Name="position_max" Nullable="false" />
     <NavigationProperty Name="Transaction" Relationship="EX_DOCModel.FK_Stransaction_User_level" FromRole="User_level" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="V_ControlledDocument">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="cust_name" />
+      <PropertyRef Name="doc_type_name" />
+      <PropertyRef Name="doc_name" />
+      <PropertyRef Name="doc_no" />
+      <PropertyRef Name="doc_rev" />
+      <PropertyRef Name="rec_date" />
+      <PropertyRef Name="tnc_product" />
+      <PropertyRef Name="file_name" />
+    </Key>
+    <Property Type="String" Name="issue_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="cust_name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="doc_type_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="doc_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="doc_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="doc_rev" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="rec_date" Nullable="false" Precision="0" />
+    <Property Type="String" Name="change_point" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="tnc_product" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="file_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="action_id" />
+  </EntityType>
+  <EntityType Name="V_ExDoc_Employee_Info">
+    <Key>
+      <PropertyRef Name="emp_code" />
+      <PropertyRef Name="LeafOrgLevel" />
+    </Key>
+    <Property Type="String" Name="emp_code" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="username" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="password" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="emp_fname" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="emp_lname" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Byte" Name="emp_position" />
+    <Property Type="String" Name="position_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="plant_id" />
+    <Property Type="String" Name="plant_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="dept_id" />
+    <Property Type="String" Name="dept_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="group_id" />
+    <Property Type="String" Name="group_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="sub_group_id" />
+    <Property Type="String" Name="sub_group" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="emp_status" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="LeafOrganize" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="LeafOrgGroupId" />
+    <Property Type="String" Name="LeafOrgGroup" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Byte" Name="position_level" />
+    <Property Type="Int32" Name="LeafOrgLevel" Nullable="false" />
+    <Property Type="String" Name="ext" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Byte" Name="level" />
+  </EntityType>
+  <EntityType Name="V_ExDoc_Organization">
+    <Key>
+      <PropertyRef Name="active" />
+      <PropertyRef Name="cost_code" />
+      <PropertyRef Name="subgroup_id" />
+    </Key>
+    <Property Type="Int32" Name="IsRealCostCode" />
+    <Property Type="Boolean" Name="active" Nullable="false" />
+    <Property Type="String" Name="cost_code" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="LeafId" />
+    <Property Type="Int32" Name="LeafLevel" />
+    <Property Type="String" Name="LeafTitle" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="plant_id" />
+    <Property Type="String" Name="plant_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PlantMgr" MaxLength="41" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PlantMgr_email" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="dept_id" />
+    <Property Type="String" Name="dept_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DeptMgr" MaxLength="41" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DeptMgr_email" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="group_id" />
+    <Property Type="String" Name="group_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="GroupMgr" MaxLength="41" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="GroupMgr_email" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="subgroup_id" Nullable="false" />
+    <Property Type="String" Name="sub_group" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_TransactionEmp">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="seq" />
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Type="String" Name="issue_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="seq" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="action_id" />
+    <Property Type="String" Name="action_name" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="status_id" Nullable="false" />
+    <Property Type="String" Name="status_name" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="org_id" />
+    <Property Type="String" Name="org_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="lvl_name" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="comment" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="remark" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="comment_pic" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="actor" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="actor_name" MaxLength="259" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="position_name" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="actor_date" Precision="3" />
   </EntityType>
   <Association Name="FK_Transaction_Action">
     <End Type="EX_DOCModel.Action" Role="Action" Multiplicity="0..1" />

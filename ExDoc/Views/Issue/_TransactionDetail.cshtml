@@ -68,9 +68,33 @@
                             </div>
                     break;
                     
+                    case 4:
+                            <div class="bs-callout bs-callout-primary shadow-1">
+                              <h4>@item.status_name : @item.action_name </h4>
+                          
+                                <div class="Secondary-text title">Actor</div>
+                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
+
+                                <div class="Secondary-text title">Actor Date</div>
+                                <div class="doc_rev data-text">@item.actor_date</div>
+                            </div>
+                    break;
+                    
                     case 0:
                             <div class="bs-callout bs-callout-warning shadow-1">
-                              <h4> Waitng @item.status_name</h4>
+                              <h4> Waitng @item.status_name (@item.org_name)</h4>
+                            </div>
+                    break;
+                    
+                    case 5:
+                            <div class="bs-callout bs-callout-warning shadow-1">
+                                <h4>@item.status_name : @item.action_name</h4>
+                          
+                                <div class="Secondary-text title">Actor</div>
+                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
+
+                                <div class="Secondary-text title">Actor Date</div>
+                                <div class="doc_rev data-text">@item.actor_date</div>
                             </div>
                     break;
 
@@ -85,16 +109,19 @@
                                 <div class="doc_rev data-text">@item.actor_date</div>
                             
                             </div>
-                    break; 
-                        case 100:
+                    break;
+                    
+
+                     
+                    case 100:
                             <div class="bs-callout bs-callout-success shadow-1">
-                              <h4>@item.status_name : @item.action_name</h4>
+                              <h4> @item.action_name</h4>
                           
-                                <div class="Secondary-text title">Actor</div>
+                         @*       <div class="Secondary-text title">Actor</div>
                                 <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
 
                                 <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
+                                <div class="doc_rev data-text">@item.actor_date</div>*@
                             
                             </div>
                     break;                                        

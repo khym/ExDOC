@@ -59,10 +59,12 @@ namespace ExDoc.Controllers
                 if (String.IsNullOrEmpty(chklogin.group_id.ToString()) || String.IsNullOrWhiteSpace(chklogin.group_id.ToString()))
                 {
                     Session["g_id"] = chklogin.dept_id;
+                    int? sds = chklogin.dept_id;
                 }
                 else
                 {
-                    Session["g_id"] = chklogin.group_id;                  
+                    Session["g_id"] = chklogin.group_id;
+                    int? ss = chklogin.group_id;  
                 }
 
                 //Session["g_id"] = chklogin.group_id;
@@ -179,14 +181,34 @@ namespace ExDoc.Controllers
 
 
                 var test_sql2 = ex_doc.Issue.Where(a =>
+                (
                 ((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
                 a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
                 (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
                 po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
                 a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
                 a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
-                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100
+                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100) ||
+                a.Transaction.Any(b => b.status_id == 5 && b.org_id == g_id && po_lvl >= b.User_level.position_min &&
+                  po_lvl <= b.User_level.position_max && b.action_id == 0  )
                 ).Select(a => a);
+
+                //var test00 = ex_doc.Transaction.Where(a=>
+                //                                      (a.actor == emp_code && a.action_id == 1) ||
+                //                                      (a.action_id == 0 && 
+                //                                      a.org_id == g_id &&
+                //                                      po_lvl >= a.User_level.position_min &&
+                //                                      po_lvl <= a.User_level.position_max &&
+                //                                      a.action_id < 99
+                //                                      )
+                //                                      ).Select(a=>a.Issue);
+
+                //var inprogress = ex_doc.Issue.Where(a=>a.Transaction.All(b=>b.status_id<99)).Select(a=>a);
+
+                //var not_issuer = inprogress.Where(a => a.Transaction.Any(b => b.action_id != 1)).Select(a => a);
+
+
+                
 
                 // check group_id is null
                 //var test_sql2 = ex_doc.Issue.Where(a => a.doc_type_id == 0).Select(a => a);

@@ -12,6 +12,93 @@
     <EntitySet Name="Status" EntityType="EX_DOCModel.Store.Status" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transaction" EntityType="EX_DOCModel.Store.Transaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="User_level" EntityType="EX_DOCModel.Store.User_level" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="V_ControlledDocument" EntityType="EX_DOCModel.Store.V_ControlledDocument" store:Type="Views" store:Schema="dbo" store:Name="V_ControlledDocument">
+      <DefiningQuery>SELECT 
+      [V_ControlledDocument].[issue_no] AS [issue_no], 
+      [V_ControlledDocument].[cust_name] AS [cust_name], 
+      [V_ControlledDocument].[doc_type_name] AS [doc_type_name], 
+      [V_ControlledDocument].[doc_name] AS [doc_name], 
+      [V_ControlledDocument].[doc_no] AS [doc_no], 
+      [V_ControlledDocument].[doc_rev] AS [doc_rev], 
+      [V_ControlledDocument].[rec_date] AS [rec_date], 
+      [V_ControlledDocument].[change_point] AS [change_point], 
+      [V_ControlledDocument].[tnc_product] AS [tnc_product], 
+      [V_ControlledDocument].[file_name] AS [file_name], 
+      [V_ControlledDocument].[action_id] AS [action_id]
+      FROM [dbo].[V_ControlledDocument] AS [V_ControlledDocument]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_ExDoc_Employee_Info" EntityType="EX_DOCModel.Store.V_ExDoc_Employee_Info" store:Type="Views" store:Schema="dbo" store:Name="V_ExDoc_Employee_Info">
+      <DefiningQuery>SELECT 
+      [V_ExDoc_Employee_Info].[emp_code] AS [emp_code], 
+      [V_ExDoc_Employee_Info].[username] AS [username], 
+      [V_ExDoc_Employee_Info].[password] AS [password], 
+      [V_ExDoc_Employee_Info].[emp_fname] AS [emp_fname], 
+      [V_ExDoc_Employee_Info].[emp_lname] AS [emp_lname], 
+      [V_ExDoc_Employee_Info].[emp_position] AS [emp_position], 
+      [V_ExDoc_Employee_Info].[position_name] AS [position_name], 
+      [V_ExDoc_Employee_Info].[email] AS [email], 
+      [V_ExDoc_Employee_Info].[plant_id] AS [plant_id], 
+      [V_ExDoc_Employee_Info].[plant_name] AS [plant_name], 
+      [V_ExDoc_Employee_Info].[dept_id] AS [dept_id], 
+      [V_ExDoc_Employee_Info].[dept_name] AS [dept_name], 
+      [V_ExDoc_Employee_Info].[group_id] AS [group_id], 
+      [V_ExDoc_Employee_Info].[group_name] AS [group_name], 
+      [V_ExDoc_Employee_Info].[sub_group_id] AS [sub_group_id], 
+      [V_ExDoc_Employee_Info].[sub_group] AS [sub_group], 
+      [V_ExDoc_Employee_Info].[emp_status] AS [emp_status], 
+      [V_ExDoc_Employee_Info].[LeafOrganize] AS [LeafOrganize], 
+      [V_ExDoc_Employee_Info].[LeafOrgGroupId] AS [LeafOrgGroupId], 
+      [V_ExDoc_Employee_Info].[LeafOrgGroup] AS [LeafOrgGroup], 
+      [V_ExDoc_Employee_Info].[position_level] AS [position_level], 
+      [V_ExDoc_Employee_Info].[LeafOrgLevel] AS [LeafOrgLevel], 
+      [V_ExDoc_Employee_Info].[ext] AS [ext], 
+      [V_ExDoc_Employee_Info].[level] AS [level]
+      FROM [dbo].[V_ExDoc_Employee_Info] AS [V_ExDoc_Employee_Info]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_ExDoc_Organization" EntityType="EX_DOCModel.Store.V_ExDoc_Organization" store:Type="Views" store:Schema="dbo" store:Name="V_ExDoc_Organization">
+      <DefiningQuery>SELECT 
+      [V_ExDoc_Organization].[IsRealCostCode] AS [IsRealCostCode], 
+      [V_ExDoc_Organization].[active] AS [active], 
+      [V_ExDoc_Organization].[cost_code] AS [cost_code], 
+      [V_ExDoc_Organization].[LeafId] AS [LeafId], 
+      [V_ExDoc_Organization].[LeafLevel] AS [LeafLevel], 
+      [V_ExDoc_Organization].[LeafTitle] AS [LeafTitle], 
+      [V_ExDoc_Organization].[plant_id] AS [plant_id], 
+      [V_ExDoc_Organization].[plant_name] AS [plant_name], 
+      [V_ExDoc_Organization].[PlantMgr] AS [PlantMgr], 
+      [V_ExDoc_Organization].[PlantMgr_email] AS [PlantMgr_email], 
+      [V_ExDoc_Organization].[dept_id] AS [dept_id], 
+      [V_ExDoc_Organization].[dept_name] AS [dept_name], 
+      [V_ExDoc_Organization].[DeptMgr] AS [DeptMgr], 
+      [V_ExDoc_Organization].[DeptMgr_email] AS [DeptMgr_email], 
+      [V_ExDoc_Organization].[group_id] AS [group_id], 
+      [V_ExDoc_Organization].[group_name] AS [group_name], 
+      [V_ExDoc_Organization].[GroupMgr] AS [GroupMgr], 
+      [V_ExDoc_Organization].[GroupMgr_email] AS [GroupMgr_email], 
+      [V_ExDoc_Organization].[subgroup_id] AS [subgroup_id], 
+      [V_ExDoc_Organization].[sub_group] AS [sub_group]
+      FROM [dbo].[V_ExDoc_Organization] AS [V_ExDoc_Organization]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_TransactionEmp" EntityType="EX_DOCModel.Store.V_TransactionEmp" store:Type="Views" store:Schema="dbo" store:Name="V_TransactionEmp">
+      <DefiningQuery>SELECT 
+      [V_TransactionEmp].[issue_no] AS [issue_no], 
+      [V_TransactionEmp].[seq] AS [seq], 
+      [V_TransactionEmp].[action_id] AS [action_id], 
+      [V_TransactionEmp].[action_name] AS [action_name], 
+      [V_TransactionEmp].[status_id] AS [status_id], 
+      [V_TransactionEmp].[status_name] AS [status_name], 
+      [V_TransactionEmp].[org_id] AS [org_id], 
+      [V_TransactionEmp].[org_name] AS [org_name], 
+      [V_TransactionEmp].[lvl_name] AS [lvl_name], 
+      [V_TransactionEmp].[comment] AS [comment], 
+      [V_TransactionEmp].[remark] AS [remark], 
+      [V_TransactionEmp].[comment_pic] AS [comment_pic], 
+      [V_TransactionEmp].[actor] AS [actor], 
+      [V_TransactionEmp].[actor_name] AS [actor_name], 
+      [V_TransactionEmp].[position_name] AS [position_name], 
+      [V_TransactionEmp].[actor_date] AS [actor_date]
+      FROM [dbo].[V_TransactionEmp] AS [V_TransactionEmp]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_DocFile_Relation_Issue_Cust" Association="EX_DOCModel.Store.FK_DocFile_Relation_Issue_Cust">
       <End Role="Relation_Issue_Cust" EntitySet="Relation_Issue_Cust" />
       <End Role="DocFile" EntitySet="DocFile" />
@@ -129,6 +216,7 @@
     </Key>
     <Property Name="status_id" Type="int" Nullable="false" />
     <Property Name="status_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="description" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Transaction">
     <Key>
@@ -155,6 +243,122 @@
     <Property Name="level_name" Type="varchar" Nullable="false" MaxLength="10" />
     <Property Name="position_min" Type="int" Nullable="false" />
     <Property Name="position_max" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'EX_DOC.dbo.V_ControlledDocument' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="V_ControlledDocument">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="cust_name" />
+      <PropertyRef Name="doc_type_name" />
+      <PropertyRef Name="doc_name" />
+      <PropertyRef Name="doc_no" />
+      <PropertyRef Name="doc_rev" />
+      <PropertyRef Name="rec_date" />
+      <PropertyRef Name="tnc_product" />
+      <PropertyRef Name="file_name" />
+    </Key>
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="cust_name" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="doc_type_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_rev" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="rec_date" Type="date" Nullable="false" />
+    <Property Name="change_point" Type="varchar" MaxLength="50" />
+    <Property Name="tnc_product" Type="varchar(max)" Nullable="false" />
+    <Property Name="file_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="action_id" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'EX_DOC.dbo.V_ExDoc_Employee_Info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="V_ExDoc_Employee_Info">
+    <Key>
+      <PropertyRef Name="emp_code" />
+      <PropertyRef Name="LeafOrgLevel" />
+    </Key>
+    <Property Name="emp_code" Type="nvarchar" Nullable="false" MaxLength="25" />
+    <Property Name="username" Type="nvarchar" MaxLength="255" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="emp_fname" Type="nvarchar" MaxLength="255" />
+    <Property Name="emp_lname" Type="nvarchar" MaxLength="255" />
+    <Property Name="emp_position" Type="tinyint" />
+    <Property Name="position_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="plant_id" Type="int" />
+    <Property Name="plant_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="dept_id" Type="int" />
+    <Property Name="dept_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="group_id" Type="int" />
+    <Property Name="group_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="sub_group_id" Type="int" />
+    <Property Name="sub_group" Type="nvarchar" MaxLength="255" />
+    <Property Name="emp_status" Type="nchar" MaxLength="10" />
+    <Property Name="LeafOrganize" Type="nvarchar" MaxLength="255" />
+    <Property Name="LeafOrgGroupId" Type="int" />
+    <Property Name="LeafOrgGroup" Type="nvarchar" MaxLength="255" />
+    <Property Name="position_level" Type="tinyint" />
+    <Property Name="LeafOrgLevel" Type="int" Nullable="false" />
+    <Property Name="ext" Type="nvarchar" MaxLength="50" />
+    <Property Name="level" Type="tinyint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'EX_DOC.dbo.V_ExDoc_Organization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="V_ExDoc_Organization">
+    <Key>
+      <PropertyRef Name="active" />
+      <PropertyRef Name="cost_code" />
+      <PropertyRef Name="subgroup_id" />
+    </Key>
+    <Property Name="IsRealCostCode" Type="int" />
+    <Property Name="active" Type="bit" Nullable="false" />
+    <Property Name="cost_code" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="LeafId" Type="int" />
+    <Property Name="LeafLevel" Type="int" />
+    <Property Name="LeafTitle" Type="nvarchar" MaxLength="255" />
+    <Property Name="plant_id" Type="int" />
+    <Property Name="plant_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="PlantMgr" Type="nvarchar" MaxLength="41" />
+    <Property Name="PlantMgr_email" Type="nvarchar" MaxLength="255" />
+    <Property Name="dept_id" Type="int" />
+    <Property Name="dept_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="DeptMgr" Type="nvarchar" MaxLength="41" />
+    <Property Name="DeptMgr_email" Type="nvarchar" MaxLength="255" />
+    <Property Name="group_id" Type="int" />
+    <Property Name="group_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="GroupMgr" Type="nvarchar" MaxLength="41" />
+    <Property Name="GroupMgr_email" Type="nvarchar" MaxLength="255" />
+    <Property Name="subgroup_id" Type="int" Nullable="false" />
+    <Property Name="sub_group" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'EX_DOC.dbo.V_TransactionEmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="V_TransactionEmp">
+    <Key>
+      <PropertyRef Name="issue_no" />
+      <PropertyRef Name="seq" />
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Name="issue_no" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="seq" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="action_id" Type="int" />
+    <Property Name="action_name" Type="varchar" MaxLength="50" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="status_name" Type="varchar" MaxLength="50" />
+    <Property Name="org_id" Type="int" />
+    <Property Name="org_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="lvl_name" Type="varchar" MaxLength="10" />
+    <Property Name="comment" Type="varchar" MaxLength="50" />
+    <Property Name="remark" Type="varchar" MaxLength="50" />
+    <Property Name="comment_pic" Type="varchar" MaxLength="50" />
+    <Property Name="actor" Type="varchar" MaxLength="50" />
+    <Property Name="actor_name" Type="nvarchar" MaxLength="259" />
+    <Property Name="position_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="actor_date" Type="datetime" />
   </EntityType>
   <Association Name="FK_DocFile_Relation_Issue_Cust">
     <End Role="Relation_Issue_Cust" Type="EX_DOCModel.Store.Relation_Issue_Cust" Multiplicity="0..1">

@@ -319,7 +319,8 @@
 
         }
         @if (ViewBag.user_lvl >= ss.User_level.position_min && ViewBag.user_lvl <= ss.User_level.position_max && ViewBag.g_id == ss.org_id && ss.status_id != 100 && ss.status_id != 0)
-        *@    
+        *@ 
+           
           @if (ViewBag.user_lvl >= Model.last_tran_lvl_min && ViewBag.user_lvl <= Model.last_tran_lvl_max && ViewBag.g_id == Model.last_tran_org_id && Model.last_tran_status_id != 100 && Model.last_tran_status_id != 0)
           {
           
@@ -344,8 +345,8 @@
                                 </div>
 
                             </div>
-                    
-                        @if (Model.last_tran_org_id == 18 || Model.last_tran_org_id == 49)
+                               
+                        @if ((Model.last_tran_org_id == 18 || Model.last_tran_org_id == 49) && Model.last_tran_status_id != 5 )
                         {
                             <div class="row">
                                 <div class="col-md-1"></div>
@@ -380,14 +381,17 @@
 
                         <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
                             data-toggle="modal" data-target="#ModalAppr">
-                            <span class="glyphicon glyphicon-ok"></span>Approve 
+                            <span class="glyphicon glyphicon-ok"></span>
+                            @if (@Model.last_tran_status_id == 5){ <ps>Accept</ps> }else{<sa>Approve</sa>  }        
+                             
                         </a>
 
 
                     </div>
                     <div class="col-md-2"
                         data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
-                        <a href="#" class="btn btn-block btn-link primary-color-only">Reject
+                        <a href="#" class="btn btn-block btn-link primary-color-only">
+                            Reject
                         </a>
                     </div>
                 </div>
@@ -433,7 +437,7 @@
 
         <div class="card shadow-2">
             <div class="card-footer">
-                <h3>Confirm Approve?</h3>
+                <h3>Confirm @if (@Model.last_tran_status_id == 5){ <ps>Accept</ps> }else{<sa>Approve</sa>  } ?</h3>
                 <div class="group_button_footer">
 
                   @*  <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">*@

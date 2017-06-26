@@ -36,5 +36,9 @@ namespace ExDoc.Models
         public DbSet<Status> Status { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<User_level> User_level { get; set; }
+        public DbSet<V_ControlledDocument> V_ControlledDocument { get; set; }
+        public DbSet<V_ExDoc_Employee_Info> V_ExDoc_Employee_Info { get; set; }
+        public DbSet<V_ExDoc_Organization> V_ExDoc_Organization { get; set; }
+        public DbSet<V_TransactionEmp> V_TransactionEmp { get; set; }
     }
 }
