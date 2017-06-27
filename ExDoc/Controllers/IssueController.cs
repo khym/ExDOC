@@ -931,7 +931,7 @@ namespace ExDoc.Controllers
 
             if (sql.status_id == 5) // mgr. group review
             {
-                sql.action_id = 7; // 7 = new accepted
+                sql.action_id = 7; // 7 = not accepted
             }
             else
             {
