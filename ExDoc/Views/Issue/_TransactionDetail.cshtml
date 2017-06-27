@@ -62,9 +62,11 @@
                                 <div class="doc_rev data-text">@item.actor_date</div>
                                 <div class="Secondary-text title">Comment</div>
                                     <p>@item.comment</p>
+                                @if (item.comment_pic != null)
+                                {
                                 <div class="Secondary-text title">Attachment File</div>
                                  <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
-                            
+                                }
                             </div>
                     break;
                     
