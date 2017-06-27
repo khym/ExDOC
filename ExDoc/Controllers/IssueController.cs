@@ -554,6 +554,15 @@ namespace ExDoc.Controllers
             return PartialView(sql);
         }
 
+        public ActionResult _PreviewCanceledDoc(string issue_no)
+        {
+            ViewBag.emp_code = Session["emp_code"].ToString();
+            ViewBag.user_lvl = int.Parse(Session["po_lvl"].ToString());
+            ViewBag.g_id = int.Parse(Session["g_id"].ToString());
+            var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => a).FirstOrDefault();
+            return PartialView(sql);
+        }
+
         public ActionResult _PreviewIssue(string issue_no)
         {
             var sql = ex_doc.Issue.Where(a => a.issue_no.Contains(issue_no)).Select(a => a).FirstOrDefault();
