@@ -111,7 +111,23 @@
                             </div>
                     break;
                     
+                    case 7:
+                            <div class="bs-callout bs-callout-danger shadow-1">
+                              <h4>@item.status_name : @item.action_name  </h4>
+                          
+                                <div class="Secondary-text title">Actor</div>
+                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
 
+                                <div class="Secondary-text title">Actor Date</div>
+                                <div class="doc_rev data-text">@item.actor_date</div>
+                                <div class="Secondary-text title">Comment</div>
+                                    <p>@item.comment</p>
+                                <div class="Secondary-text title">Attachment File</div>
+                                 <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
+                            
+                            </div>
+                    break;
+                    
                      
                     case 100:
                             <div class="bs-callout bs-callout-success shadow-1">
