@@ -1,7 +1,7 @@
 ﻿@model ExDoc.ViewModel.ManageIssue
 
 
-        <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+        <form id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
@@ -125,7 +125,7 @@
             <div class="card-footer">
                 <h3>Confirm Reject?</h3>
                 <div class="group_button_footer">
-                    <form class="form_appr" action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                    <form action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-xs-4 col-md-12">
                                 <label for="name" class="control-label">Comment</label>
@@ -169,7 +169,7 @@
             <div class="card-footer">
                 <h3>Confirm Cancel Issue?</h3>
                 <div class="group_button_footer">
-                    <form class="form_appr" action="@Url.Action("Cancel", "Issue")" method="post" enctype="multipart/form-data">
+                    <form action="@Url.Action("Cancel", "Issue")" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
