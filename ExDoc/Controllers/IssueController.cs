@@ -202,19 +202,25 @@ namespace ExDoc.Controllers
 
             // remove Relation_Issue_Cust.issue_no == issue_no
             var remove_rc = search_issue.Relation_Issue_Cust.Select(a => a).ToList();
-            foreach (var item in remove_rc)
-	        {
-		        ex_doc.Relation_Issue_Cust.Remove(item);
-	        }
-            ex_doc.SaveChanges();
+            if (remove_rc.Count > 0)
+            {
+                foreach (var item in remove_rc)
+                {
+                    ex_doc.Relation_Issue_Cust.Remove(item);
+                }
+                ex_doc.SaveChanges();
+            }
 
             // remove DocFileBeforeAppr.issue_no == issue_no
             var remove_df = search_issue.DocFileBeforeAppr.Select(a => a).ToList();
-            foreach (var item in remove_df)
+            if (remove_df.Count > 0)
             {
-                ex_doc.DocFileBeforeAppr.Remove(item);
+                foreach (var item in remove_df)
+                {
+                    ex_doc.DocFileBeforeAppr.Remove(item);
+                }
+                ex_doc.SaveChanges();
             }
-            ex_doc.SaveChanges();
 
             //update issue table
             search_issue.doc_name = doc_name;
@@ -248,23 +254,28 @@ namespace ExDoc.Controllers
                 }
             }
 
-
-            //add old file to DocFileBeforeAppr table
-            foreach (var item in old_file_id)
+            if (old_file_id != null)
             {
-                var filedb = new DocFileBeforeAppr();
-                filedb.path_file = item;
-                filedb.issue_no = issue_no;
-                ex_doc.DocFileBeforeAppr.Add(filedb);
+                //add old file to DocFileBeforeAppr table
+                foreach (var item in old_file_id)
+                {
+                    var filedb = new DocFileBeforeAppr();
+                    filedb.path_file = item;
+                    filedb.issue_no = issue_no;
+                    ex_doc.DocFileBeforeAppr.Add(filedb);
+                }
             }
 
-            //add new data to Relation_Issue_Cust table
-            foreach (var item in customer)
+            if (customer != null)
             {
-                var indy_cust = new Relation_Issue_Cust();
-                indy_cust.cust_no = item;
-                indy_cust.issue_id = issue_no;
-                ex_doc.Relation_Issue_Cust.Add(indy_cust);
+                //add new data to Relation_Issue_Cust table
+                foreach (var item in customer)
+                {
+                    var indy_cust = new Relation_Issue_Cust();
+                    indy_cust.cust_no = item;
+                    indy_cust.issue_id = issue_no;
+                    ex_doc.Relation_Issue_Cust.Add(indy_cust);
+                }
             }
 
             //select last transaction for update
@@ -277,18 +288,34 @@ namespace ExDoc.Controllers
             sql.actor_date = DateTime.Now;
 
             //new transaction 
-            //create wait Mgr. (Issuer) Appr
-            var create_tran2 = new Transaction();
-            create_tran2.issue_no = issue_no;
-            create_tran2.status_id = 2; // 2 = Mgr. (Issuer)
-            create_tran2.action_id = 0; // 0 = idle
-            create_tran2.actor = null;
-            create_tran2.actor_date = null;
-            create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
-            create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
-            create_tran2.comment = null;
-            ex_doc.Transaction.Add(create_tran2);
-
+            if (sql.status_id == 8)
+            {
+                    //create wait Mgr. (Issuer) Appr after Mgr. group (not accept)
+                    var create_tran2 = new Transaction();
+                    create_tran2.issue_no = issue_no;
+                    create_tran2.status_id = 6; // 6 = Mgr. (Issuer) After Mgr. Review (Not Accept)
+                    create_tran2.action_id = 0; // 0 = idle
+                    create_tran2.actor = null;
+                    create_tran2.actor_date = null;
+                    create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
+                    create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
+                    create_tran2.comment = null;
+                    ex_doc.Transaction.Add(create_tran2);
+            }
+            else
+            {
+                //create wait Mgr. (Issuer) Appr
+                var create_tran2 = new Transaction();
+                create_tran2.issue_no = issue_no;
+                create_tran2.status_id = 2; // 2 = Mgr. (Issuer)
+                create_tran2.action_id = 0; // 0 = idle
+                create_tran2.actor = null;
+                create_tran2.actor_date = null;
+                create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
+                create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
+                create_tran2.comment = null;
+                ex_doc.Transaction.Add(create_tran2);
+            }
 
             ex_doc.SaveChanges(); // save to database
 
@@ -815,34 +842,51 @@ namespace ExDoc.Controllers
                                 }
                                 else // have remark
                                 {
+                                            //create_tran2.issue_no = issue_no;
+                                            //create_tran2.status_id = 7; //7 last QS Offcer check
+                                            //create_tran2.action_id = 0; //  0 = idle
+                                            //create_tran2.actor = "0";
+                                            //create_tran2.actor_date = null;
+                                            //create_tran2.org_id = 18; // 18 = qs dcc
+                                            //create_tran2.level_id = 1;
+                                            //create_tran2.comment = null;
+                                            //ex_doc.Transaction.Add(create_tran2);
+
                                             create_tran2.issue_no = issue_no;
-                                            create_tran2.status_id = 7; //7 last QS Offcer check
+                                            create_tran2.status_id = 7; //7  QS Dept last check
                                             create_tran2.action_id = 0; //  0 = idle
                                             create_tran2.actor = "0";
                                             create_tran2.actor_date = null;
-                                            create_tran2.org_id = 18; // 18 = qs dcc
-                                            create_tran2.level_id = 1;
+                                            create_tran2.org_id = 49; // 18 = qs
+                                            create_tran2.level_id = 3; // 3 = edpt.
                                             create_tran2.comment = null;
                                             ex_doc.Transaction.Add(create_tran2);
+
                                 }
 
                             }
 
                             break;
                         }
-                    //case 6: //Mgr Issuer Appr after reject
-                    //    {
-                    //        create_tran2.issue_no = sql.issue_no;
-                    //        create_tran2.status_id = 3;
-                    //        create_tran2.action_id = 0;
-                    //        create_tran2.actor = "0";
-                    //        create_tran2.actor_date = null;
-                    //        create_tran2.org_id = 18;
-                    //        create_tran2.level_id = 1;
-                    //        create_tran2.comment = null;
-                    //        ex_doc.Transaction.Add(create_tran2);
-                    //        break;
-                    //    }
+                    case 6: //Mgr Issuer Appr after reject
+                        {
+                            var get_mgr_notaccpet = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5 && a.action_id == 3).Select(a => a.org_id).Distinct();
+
+                            foreach (var item in get_mgr_notaccpet.ToList())
+                            {
+                                var many_tran = new Transaction();
+                                many_tran.issue_no = sql.issue_no;
+                                many_tran.status_id = 5; // Mgr. group review
+                                many_tran.action_id = 0;
+                                many_tran.actor = "0";
+                                many_tran.actor_date = null;
+                                many_tran.org_id = item;
+                                many_tran.level_id = 2; // 2 = Mgr. level
+                                many_tran.comment = null;
+                                ex_doc.Transaction.Add(many_tran);
+                            }
+                            break;
+                        }
 
                 }
 
@@ -880,6 +924,7 @@ namespace ExDoc.Controllers
             sql.actor = emp_code;
             sql.actor_date = DateTime.Now;
             sql.comment = comment;
+            sql.remark = null;
 
             string subPath = "~/CommentFile/" + issue_no + "/";
             if (!Directory.Exists(Server.MapPath(subPath)))
@@ -898,90 +943,118 @@ namespace ExDoc.Controllers
 
             var data_issuer = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderBy(b => b.seq).FirstOrDefault();
 
-            // check document type
-            if (doc_type_id == 3) //Format
+
+            if (sql.status_id == 5)
             {
-                switch (sql.status_id) //check status in last transaction for crate next transaction
-                {
-                    case 2: //Mgr. Isuuer Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0; // 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-                    case 3: //QS Officer Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0;// 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-
-                }
+                //Mgr. group not accept
+                create_tran2.issue_no = sql.issue_no;
+                create_tran2.status_id = 8; // 0 = Issuer edit
+                create_tran2.action_id = 0; // 0 = Idle
+                create_tran2.actor = data_issuer.actor;
+                create_tran2.actor_date = null;
+                create_tran2.org_id = data_issuer.org_id;
+                create_tran2.level_id = data_issuer.level_id;
+                create_tran2.comment = null;
+                ex_doc.Transaction.Add(create_tran2);
             }
-            else // Standart&Manual
+            else
             {
-
-                switch (sql.status_id) //check status in last transaction for crate next transaction
-                {
-                    case 2: //Mgr. Isuuer Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0; // 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-                    case 3: //QS Officer Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0;// 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-                    case 4: //QS Dept. Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0;// 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-
-                    case 5: //Mgr. Group (Review) Reject
-                        create_tran2.issue_no = sql.issue_no;
-                        create_tran2.status_id = 0;// 0 = Issuer edit
-                        create_tran2.action_id = 0; // 0 = Idle
-                        create_tran2.actor = data_issuer.actor;
-                        create_tran2.actor_date = null;
-                        create_tran2.org_id = data_issuer.org_id;
-                        create_tran2.level_id = data_issuer.level_id;
-                        create_tran2.comment = null;
-                        ex_doc.Transaction.Add(create_tran2);
-                        break;
-
-                }
-
+                //all reject
+                create_tran2.issue_no = sql.issue_no;
+                create_tran2.status_id = 0; // 0 = Issuer edit
+                create_tran2.action_id = 0; // 0 = Idle
+                create_tran2.actor = data_issuer.actor;
+                create_tran2.actor_date = null;
+                create_tran2.org_id = data_issuer.org_id;
+                create_tran2.level_id = data_issuer.level_id;
+                create_tran2.comment = null;
+                ex_doc.Transaction.Add(create_tran2);
             }
+
+            //// check document type
+            //if (doc_type_id == 3) //Format
+            //{
+            //    switch (sql.status_id) //check status in last transaction for crate next transaction
+            //    {
+            //        case 2: //Mgr. Isuuer Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0; // 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+            //        case 3: //QS Officer Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0;// 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+
+            //    }
+            //}
+            //else // Standart&Manual
+            //{
+
+            //    switch (sql.status_id) //check status in last transaction for crate next transaction
+            //    {
+            //        case 2: //Mgr. Isuuer Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0; // 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+            //        case 3: //QS Officer Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0;// 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+            //        case 4: //QS Dept. Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0;// 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+
+            //        case 5: //Mgr. Group (Review) Reject
+            //            create_tran2.issue_no = sql.issue_no;
+            //            create_tran2.status_id = 0;// 0 = Issuer edit
+            //            create_tran2.action_id = 0; // 0 = Idle
+            //            create_tran2.actor = data_issuer.actor;
+            //            create_tran2.actor_date = null;
+            //            create_tran2.org_id = data_issuer.org_id;
+            //            create_tran2.level_id = data_issuer.level_id;
+            //            create_tran2.comment = null;
+            //            ex_doc.Transaction.Add(create_tran2);
+            //            break;
+
+            //    }
+
+            //}
 
 
             ex_doc.SaveChanges();

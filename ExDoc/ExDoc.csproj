@@ -726,6 +726,7 @@
     <Content Include="Views\Issue\_CustomerAndFileV2.cshtml" />
     <Content Include="Views\Issue\_PreviewDocV2.cshtml" />
     <Content Include="Views\Issue\_FooterPreviewDoc.cshtml" />
+    <Content Include="Views\ControlDoc\DocCancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

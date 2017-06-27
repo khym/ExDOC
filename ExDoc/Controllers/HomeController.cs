@@ -180,18 +180,50 @@ namespace ExDoc.Controllers
                 //Stopwatch stopwatch = Stopwatch.StartNew();
 
 
-                var test_sql2 = ex_doc.Issue.Where(a =>
-                (
-                ((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
-                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
-                (po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
-                po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
-                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
-                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
-                a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100) ||
-                a.Transaction.Any(b => b.status_id == 5 && b.org_id == g_id && po_lvl >= b.User_level.position_min &&
-                  po_lvl <= b.User_level.position_max && b.action_id == 0  )
-                ).Select(a => a);
+                //old
+                //var test_sql2 = ex_doc.Issue.Where(a =>
+                //(
+                //((a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code &&
+                //a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1) ||
+                //(po_lvl >= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_min &&
+                //po_lvl <= a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().User_level.position_max &&
+                //a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().org_id == g_id &&
+                //a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 0)) &&
+                //a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id < 100) ||
+                //a.Transaction.Any(b => b.status_id == 5 && b.org_id == g_id && po_lvl >= b.User_level.position_min &&
+                //  po_lvl <= b.User_level.position_max && b.action_id == 0  && b.action_id != 5 ) 
+                //).Select(a => a);
+
+
+var test_sql2 = ex_doc.Issue.Where(a =>
+                                (
+                                    (
+                                            (
+                                                a.Transaction.OrderBy(b => b.seq).FirstOrDefault().actor == emp_code
+                                                && a.Transaction.OrderBy(b => b.seq).FirstOrDefault().action_id == 1
+                                            )
+                                            ||
+                                            (
+                                                a.Transaction.Any(b => (b.status_id == 2
+                                                                        || b.status_id == 3
+                                                                        || b.status_id == 4
+                                                                        || b.status_id == 5
+                                                                        || b.status_id == 6
+                                                                        || b.status_id == 7)
+                                                && b.org_id == g_id
+                                                && po_lvl >= b.User_level.position_min
+                                                && po_lvl <= b.User_level.position_max
+                                                && b.action_id == 0
+                                                && b.action_id != 5)
+                                            )
+                                    )
+                                    && !(
+                                        a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id == 100 
+                                        || a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().action_id == 5
+                                       )
+                                )
+                            ).Select(a => a);
+
 
                 //var test00 = ex_doc.Transaction.Where(a=>
                 //                                      (a.actor == emp_code && a.action_id == 1) ||
@@ -261,6 +293,36 @@ namespace ExDoc.Controllers
                                     a.rec_date,
                                     a.tnc_product,
                                     status_name = a.Transaction.OrderByDescending(v=>v.seq).FirstOrDefault().Status.status_name
+                                }).OrderBy(jtSorting).Skip(jtStartIndex).Take(jtPageSize);
+
+                return Json(new { Result = "OK", Records = data_out, TotalRecordCount = TotalRecord });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        public JsonResult canceled_issue(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+        {
+            try
+            {
+                var test_sql = ex_doc.Issue.Where(a => a.Transaction.Any(b => b.action_id == 5)).Select(a=>a);
+
+                //var test_sql2 = ex_doc.Issue.Where(a => a.Transaction.OrderByDescending(b => b.seq).FirstOrDefault().status_id == 100).Select(a => a);
+
+                int TotalRecord = test_sql.ToList().Count();
+                var data_out = (from a in test_sql
+                                select new
+                                {
+                                    a.issue_no,
+                                    doc_type_name = a.DocType.doc_type_name,
+                                    a.doc_name,
+                                    a.doc_no,
+                                    a.doc_rev,
+                                    a.rec_date,
+                                    a.tnc_product,
+                                    status_name = a.Transaction.OrderByDescending(v => v.seq).FirstOrDefault().Status.status_name
                                 }).OrderBy(jtSorting).Skip(jtStartIndex).Take(jtPageSize);
 
                 return Json(new { Result = "OK", Records = data_out, TotalRecordCount = TotalRecord });

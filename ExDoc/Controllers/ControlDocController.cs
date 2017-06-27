@@ -16,5 +16,11 @@ namespace ExDoc.Controllers
             return View();
         }
 
+        [Tnc_Auth]
+        public ActionResult DocCancel()
+        {
+            return View();
+        }
+
     }
 }
