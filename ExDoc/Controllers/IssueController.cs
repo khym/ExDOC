@@ -31,30 +31,20 @@ namespace ExDoc.Controllers
             return View();
         }
 
-        public ActionResult NewDoc()
-        {
-            return View();
-        }
-
         [Tnc_Auth]
         public ActionResult NewRevise()
         {
             return View();
         }
 
-        public  ActionResult _CreateIssue()
-        {
-            return PartialView();
-        }
-
-        public void Add_transaction(string issue_no, int sta_id, int act_id, string act, string act_date, int? org_id, int? lvl_id, string comment, HttpPostedFileBase comment_pic)
+        public void Add_transaction(string issue_no, int sta_id, int act_id, string act, DateTime? act_date, int? org_id, int? lvl_id, string comment, HttpPostedFileBase comment_pic)
         {
             var t = new Transaction();
             t.issue_no = issue_no;
             t.status_id = sta_id;
             t.action_id = act_id;
             t.actor = act;
-            t.actor_date = Convert.ToDateTime(act_date);
+            t.actor_date = act_date;
             t.org_id = org_id;
             t.level_id = lvl_id;
             t.comment = comment;
@@ -528,7 +518,7 @@ namespace ExDoc.Controllers
                             //create_tran2.comment = null;
                             //ex_doc.Transaction.Add(create_tran2);
 
-                            Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now.ToString(), 18, 1, null, null);
+                            Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now, 18, 1, null, null);
 
                         //select file form DocFileBeforeAppr table 
                         var doc_file = ex_doc.DocFileBeforeAppr.Where(a=>a.issue_no == issue_no).Select(a=>a).ToList();
@@ -704,7 +694,7 @@ namespace ExDoc.Controllers
                                         //create_tran2.comment = null;
                                         //ex_doc.Transaction.Add(create_tran2);
 
-                                        Add_transaction(issue_no, 100, 100, "0", DateTime.Now.ToString(), null, null, null, null);
+                                        Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null);
 
                                         //select file form DocFileBeforeAppr table 
                                         var doc_file = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
@@ -817,7 +807,7 @@ namespace ExDoc.Controllers
                                  //   create_tran2.comment = null;
                                  //   ex_doc.Transaction.Add(create_tran2);
 
-                                    Add_transaction(issue_no, 100, 100, "0", DateTime.Now.ToString(), null, null, null, null);
+                                    Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null);
 
                                     //select file form DocFileBeforeAppr table 
                                     var doc_file = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
@@ -912,58 +902,39 @@ namespace ExDoc.Controllers
             sql.comment = comment;
             sql.remark = null;
 
-            string subPath = "~/CommentFile/" + issue_no + "/";
-            if (!Directory.Exists(Server.MapPath(subPath)))
+            if (pic != null)
             {
-                Directory.CreateDirectory(Server.MapPath(subPath));
+                string subPath = "~/CommentFile/" + issue_no + "/";
+                if (!Directory.Exists(Server.MapPath(subPath)))
+                {
+                    Directory.CreateDirectory(Server.MapPath(subPath));
+                }
+
+                var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(pic.FileName.Replace('#', ' ').Replace('%', ' '));
+                var path = Path.Combine(Server.MapPath(subPath), fileName);
+                pic.SaveAs(path);
+
+                sql.comment_pic = subPath + fileName;
             }
 
-            var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(pic.FileName.Replace('#', ' ').Replace('%', ' '));
-            var path = Path.Combine(Server.MapPath(subPath), fileName);
-            pic.SaveAs(path);
-
-            sql.comment_pic = subPath + fileName;
-
-
             var create_tran2 = new Transaction();
-
             var data_issuer = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderBy(b => b.seq).FirstOrDefault();
-
 
             if (sql.status_id == 5)
             {
-                //Mgr. group not accept
-                //create_tran2.issue_no = sql.issue_no;
-                //create_tran2.status_id = 8; // 0 = Issuer edit
-                //create_tran2.action_id = 0; // 0 = Idle
-                //create_tran2.actor = data_issuer.actor;
-                //create_tran2.actor_date = null;
-                //create_tran2.org_id = data_issuer.org_id;
-                //create_tran2.level_id = data_issuer.level_id;
-                //create_tran2.comment = null;
-                //ex_doc.Transaction.Add(create_tran2);
-
+                //status_id = 8 = Issuer edit after mgr. review (not accept)
+                //action_id = 0 = Idle
                 Add_transaction(sql.issue_no, 8, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null);
             }
             else
             {
                 //all reject
-                //create_tran2.issue_no = sql.issue_no;
                 //create_tran2.status_id = 0; // 0 = Issuer edit
                 //create_tran2.action_id = 0; // 0 = Idle
-                //create_tran2.actor = data_issuer.actor;
-                //create_tran2.actor_date = null;
-                //create_tran2.org_id = data_issuer.org_id;
-                //create_tran2.level_id = data_issuer.level_id;
-                //create_tran2.comment = null;
-                //ex_doc.Transaction.Add(create_tran2);
-
                 Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null);
-
             }
 
             ex_doc.SaveChanges();
-
             return RedirectToAction("Index", "Issue");
 
         }
@@ -1054,94 +1025,25 @@ namespace ExDoc.Controllers
             }
 
             //create issuer transaction
-            //var create_tran = new Transaction();
-            //create_tran.issue_no = issue_no;
-            //create_tran.status_id = 1; // 1 = Request Issue
-            //create_tran.action_id = 1; // 1 = Requested
-            //create_tran.actor = Session["emp_code"].ToString(); // emp_code issuer
-            //create_tran.actor_date = DateTime.Now;
-            //create_tran.org_id = int.Parse(Session["g_id"].ToString()); // group_id issuer
-            //create_tran.level_id = 1; // 1 = Issuer	,position_min = 1 ,	position_max = 4
-            //create_tran.comment = null;
+            //issue_no = issue_no;
+            //status_id = 1; // 1 = Request Issue
+            //action_id = 1; // 1 = Requested
+            //actor = Session["emp_code"].ToString(); // emp_code issuer
+            //org_id = int.Parse(Session["g_id"].ToString()); // group_id issuer
+            //level_id = 1; // 1 = Issuer	,position_min = 1 ,	position_max = 4
 
-            //ex_doc.Transaction.Add(create_tran);
-
-            Add_transaction(issue_no, 1, 1, Session["emp_code"].ToString(), DateTime.Now.ToString(), int.Parse(Session["g_id"].ToString()), 1, null, null);
+            Add_transaction(issue_no, 1, 1, Session["emp_code"].ToString(), DateTime.Now, int.Parse(Session["g_id"].ToString()), 1, null, null);
 
             //create wait Mgr. (Issuer) Appr
-            //var create_tran2 = new Transaction();
-            //create_tran2.issue_no = issue_no;
-            //create_tran2.status_id = 2; // 2 = Mgr. (Issuer)
-            //create_tran2.action_id = 0; // 0 = idle
-            //create_tran2.actor = null;
-            //create_tran2.actor_date = null;
-            //create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
-            //create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
-            //create_tran2.comment = null;
-            //ex_doc.Transaction.Add(create_tran2);
+            //status_id = 2; // 2 = Mgr. (Issuer)
+            //action_id = 0; // 0 = idle
+            //org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
+            //level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
 
             Add_transaction(issue_no, 2, 0, null, null, int.Parse(Session["g_id"].ToString()), 2, null, null);
 
             ex_doc.SaveChanges(); // save to database
 
-            return RedirectToAction("Index", "Issue");
-        }
-
-        [HttpPost]
-        public ActionResult SaveIssue(string[] customer, string doc_name, string doc_no, string doc_rev, string date_rec, string ch_point, string tnc_product, HttpPostedFileBase[] doc_file, string customer_type, int doc_type)
-        {
-
-            Issue save_issue = new Issue();
-            DateTime d = Convert.ToDateTime(date_rec);
-
-            string issue_no = run.GetRunNumber(programId);
-            run.SetRunNumber(programId);
-            
-            save_issue.issue_no = issue_no;
-            save_issue.doc_name = doc_name;
-            save_issue.doc_no = doc_no;
-            save_issue.doc_rev = doc_rev;
-            save_issue.rec_date = d;
-            save_issue.tnc_product = tnc_product;
-            save_issue.doc_type_id = doc_type;
-            save_issue.issue_date = DateTime.Now;
-
-            ex_doc.Issue.Add(save_issue);
-
-            foreach (var item in customer)
-            {
-                    File2DB(issue_no, doc_file, item);
-            }
-
-            //var create_tran = new Transaction();
-            //create_tran.issue_no = issue_no;
-            //create_tran.status_id = 0;
-            //create_tran.action_id = 4;
-            //create_tran.actor = Session["emp_code"].ToString();
-            //create_tran.actor_date = DateTime.Now;
-            //create_tran.org_id = int.Parse(Session["g_id"].ToString());
-            //create_tran.level_id = 1;
-            //create_tran.comment = null;
-
-            //ex_doc.Transaction.Add(create_tran);
-
-            Add_transaction(issue_no, 0, 4, Session["emp_code"].ToString(), DateTime.Now.ToString(), int.Parse(Session["g_id"].ToString()), 1, null, null);
-
-            //var create_tran2 = new Transaction();
-            //create_tran2.issue_no = issue_no;
-            //create_tran2.status_id = 4;
-            //create_tran2.action_id = 5;
-            //create_tran2.actor = null;
-            //create_tran2.actor_date = null;
-            //create_tran2.org_id = int.Parse(Session["g_id"].ToString());
-            //create_tran2.level_id = 2;
-            //create_tran2.comment = null;
-            //ex_doc.Transaction.Add(create_tran2);
-
-
-            Add_transaction(issue_no, 4, 5, null, null, int.Parse(Session["g_id"].ToString()), 2, null,null);
-
-            ex_doc.SaveChanges();
             return RedirectToAction("Index", "Issue");
         }
 
