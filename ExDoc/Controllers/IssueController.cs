@@ -608,7 +608,7 @@ namespace ExDoc.Controllers
             sql.actor = emp_code;
             sql.actor_date = DateTime.Now;
 
-            if (remark != null)
+            if (!(string.IsNullOrWhiteSpace(remark) || string.IsNullOrEmpty(remark)))
             {
                 sql.remark = remark;
             }
