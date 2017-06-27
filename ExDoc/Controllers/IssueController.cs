@@ -920,7 +920,15 @@ namespace ExDoc.Controllers
 
             var sql = ex_doc.Transaction.Where(a => a.seq == seq).FirstOrDefault();
 
-            sql.action_id = 3; // 3 = rejected
+            if (sql.status_id == 5) // mgr. group review
+            {
+                sql.action_id = 7; // 7 = new accepted
+            }
+            else
+            {
+                sql.action_id = 3; // 3 = rejected
+            }
+
             sql.actor = emp_code;
             sql.actor_date = DateTime.Now;
             sql.comment = comment;
