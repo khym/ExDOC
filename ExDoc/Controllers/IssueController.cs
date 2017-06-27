@@ -791,9 +791,123 @@ namespace ExDoc.Controllers
                             {
                                 var check_not_remark = ex_doc.Transaction.Where(a => a.issue_no == issue_no)
                                                                      .All(a=> a.remark == null );
-                                if (check_not_remark)
+
+                                var check_action_all = ex_doc.Transaction.Where(a => a.issue_no == issue_no)
+                                     .All(a => a.action_id != 0);
+
+
+                                if (check_action_all)
                                 {
-                                    create_tran2.issue_no = issue_no;
+                                    if (check_not_remark)
+                                    {
+                                        create_tran2.issue_no = issue_no;
+                                        create_tran2.status_id = 100; //complete
+                                        create_tran2.action_id = 100;//completed
+                                        create_tran2.actor = "0";
+                                        create_tran2.actor_date = DateTime.Now;
+                                        create_tran2.org_id = null;
+                                        create_tran2.level_id = null;
+                                        create_tran2.comment = null;
+                                        ex_doc.Transaction.Add(create_tran2);
+
+                                        //select file form DocFileBeforeAppr table 
+                                        var doc_file = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
+
+                                        //select cust in this issue
+                                        var get_cust = ex_doc.Relation_Issue_Cust.Where(a => a.issue_id == issue_no).Select(a => a).ToList();
+
+                                        //loop customer
+                                        foreach (var item in get_cust)
+                                        {
+                                            //loop add file to new path
+                                            foreach (var item2 in doc_file)
+                                            {
+                                                //get file name ex. 412_dog.pdf
+                                                string fileName = Path.GetFileName(item2.path_file);
+
+                                                // MapPath ex. c/webapp/UploadFiles/TempFile/ use in Path.Combine
+                                                string PathFile = Server.MapPath("~/UploadFiles/TempFile/");
+
+                                                //create folder if not found
+                                                string targetPath1 = "~/UploadFiles/" + item.cust_no + "/";
+                                                if (!Directory.Exists(Server.MapPath(targetPath1)))
+                                                {
+                                                    Directory.CreateDirectory(Server.MapPath(targetPath1));
+                                                }
+
+                                                // use in Path.Combine
+                                                string targetPath = Server.MapPath("~/UploadFiles/" + item.cust_no + "/");
+
+                                                //create new file name
+                                                var new_fileName = DateTime.Now.Millisecond + "_" + fileName;
+
+                                                string sourceFile = Path.Combine(PathFile, fileName);
+                                                string destFile = Path.Combine(targetPath, new_fileName);
+
+                                                //copy file form sourceFile to destFile
+                                                System.IO.File.Copy(sourceFile, destFile, true);
+
+                                                //add data to DocFile table
+                                                var copy_file = new DocFile();
+                                                copy_file.file_name = targetPath1 + new_fileName;
+                                                copy_file.relation_id = item.id;
+                                                ex_doc.DocFile.Add(copy_file);
+
+                                            }
+                                        }
+                                    }
+                                    else // have remark
+                                    {
+                                        //create_tran2.issue_no = issue_no;
+                                        //create_tran2.status_id = 7; //7 last QS Offcer check
+                                        //create_tran2.action_id = 0; //  0 = idle
+                                        //create_tran2.actor = "0";
+                                        //create_tran2.actor_date = null;
+                                        //create_tran2.org_id = 18; // 18 = qs dcc
+                                        //create_tran2.level_id = 1;
+                                        //create_tran2.comment = null;
+                                        //ex_doc.Transaction.Add(create_tran2);
+
+                                        create_tran2.issue_no = issue_no;
+                                        create_tran2.status_id = 7; //7  QS Dept last check
+                                        create_tran2.action_id = 0; //  0 = idle
+                                        create_tran2.actor = "0";
+                                        create_tran2.actor_date = null;
+                                        create_tran2.org_id = 49; // 18 = qs
+                                        create_tran2.level_id = 3; // 3 = edpt.
+                                        create_tran2.comment = null;
+                                        ex_doc.Transaction.Add(create_tran2);
+
+                                    }
+                                }
+
+                            }
+
+                            break;
+                        }
+                    case 6: //Mgr Issuer Appr after reject
+                        {
+                            var get_mgr_notaccpet = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5 && a.action_id == 7).Select(a => a.org_id).Distinct();
+
+                            foreach (var item in get_mgr_notaccpet.ToList())
+                            {
+                                var many_tran = new Transaction();
+                                many_tran.issue_no = sql.issue_no;
+                                many_tran.status_id = 5; // Mgr. group review
+                                many_tran.action_id = 0;
+                                many_tran.actor = "0";
+                                many_tran.actor_date = null;
+                                many_tran.org_id = item;
+                                many_tran.level_id = 2; // 2 = Mgr. level
+                                many_tran.comment = null;
+                                ex_doc.Transaction.Add(many_tran);
+                            }
+                            break;
+                        }
+
+                    case 7: //QS Dept. Last check
+                        {
+                                 create_tran2.issue_no = issue_no;
                                     create_tran2.status_id = 100; //complete
                                     create_tran2.action_id = 100;//completed
                                     create_tran2.actor = "0";
@@ -845,55 +959,8 @@ namespace ExDoc.Controllers
                                             copy_file.file_name = targetPath1 + new_fileName;
                                             copy_file.relation_id = item.id;
                                             ex_doc.DocFile.Add(copy_file);
-
                                         }
                                     }
-                                }
-                                else // have remark
-                                {
-                                            //create_tran2.issue_no = issue_no;
-                                            //create_tran2.status_id = 7; //7 last QS Offcer check
-                                            //create_tran2.action_id = 0; //  0 = idle
-                                            //create_tran2.actor = "0";
-                                            //create_tran2.actor_date = null;
-                                            //create_tran2.org_id = 18; // 18 = qs dcc
-                                            //create_tran2.level_id = 1;
-                                            //create_tran2.comment = null;
-                                            //ex_doc.Transaction.Add(create_tran2);
-
-                                            create_tran2.issue_no = issue_no;
-                                            create_tran2.status_id = 7; //7  QS Dept last check
-                                            create_tran2.action_id = 0; //  0 = idle
-                                            create_tran2.actor = "0";
-                                            create_tran2.actor_date = null;
-                                            create_tran2.org_id = 49; // 18 = qs
-                                            create_tran2.level_id = 3; // 3 = edpt.
-                                            create_tran2.comment = null;
-                                            ex_doc.Transaction.Add(create_tran2);
-
-                                }
-
-                            }
-
-                            break;
-                        }
-                    case 6: //Mgr Issuer Appr after reject
-                        {
-                            var get_mgr_notaccpet = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5 && a.action_id == 3).Select(a => a.org_id).Distinct();
-
-                            foreach (var item in get_mgr_notaccpet.ToList())
-                            {
-                                var many_tran = new Transaction();
-                                many_tran.issue_no = sql.issue_no;
-                                many_tran.status_id = 5; // Mgr. group review
-                                many_tran.action_id = 0;
-                                many_tran.actor = "0";
-                                many_tran.actor_date = null;
-                                many_tran.org_id = item;
-                                many_tran.level_id = 2; // 2 = Mgr. level
-                                many_tran.comment = null;
-                                ex_doc.Transaction.Add(many_tran);
-                            }
                             break;
                         }
 
