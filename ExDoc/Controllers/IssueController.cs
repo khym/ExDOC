@@ -1058,13 +1058,13 @@ namespace ExDoc.Controllers
 
             Add_transaction(issue_no, 1, 1, Session["emp_code"].ToString(), DateTime.Now, int.Parse(Session["g_id"].ToString()), 1, null, null);
 
-            //create wait Mgr. (Issuer) Appr
+            //create wait SQ Dept. Appr
             //status_id = 2; // 2 = Mgr. (Issuer)
             //action_id = 0; // 0 = idle
-            //org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
-            //level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
+            //49 QS dept 
+            //level_id = 3 = Dept. ,position_min = 6 ,	position_max = 6
 
-            Add_transaction(issue_no, 2, 0, null, null, int.Parse(Session["g_id"].ToString()), 2, null, null);
+            Add_transaction(issue_no, 4, 0, null, null, 49, 3, null, null);
 
             ex_doc.SaveChanges(); // save to database
 
