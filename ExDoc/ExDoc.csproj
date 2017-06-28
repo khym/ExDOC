@@ -712,12 +712,10 @@
     <Content Include="Scripts\jtable\themes\metro\red\jtable.less" />
     <Content Include="Views\Issue\Index.cshtml" />
     <Content Include="Views\Issue\NewIssue.cshtml" />
-    <Content Include="Views\Issue\_CreateIssue.cshtml" />
     <Content Include="Views\ControlDoc\Index.cshtml" />
     <Content Include="Scripts\PIE-1.0.0\PIE.php" />
     <Content Include="Views\Issue\_PreviewIssue.cshtml" />
     <Content Include="Views\Issue\NewRevise.cshtml" />
-    <Content Include="Views\Issue\NewDoc.cshtml" />
     <Content Include="Views\Issue\_PreviewDoc.cshtml" />
     <Content Include="Views\Issue\_CustomerAndFile.cshtml" />
     <Content Include="Views\Issue\_TransactionDetail.cshtml" />
@@ -728,6 +726,7 @@
     <Content Include="Views\Issue\_FooterPreviewDoc.cshtml" />
     <Content Include="Views\ControlDoc\DocCancel.cshtml" />
     <Content Include="Views\Issue\_PreviewCanceledDoc.cshtml" />
+    <Content Include="Views\Issue\_ShowGroupReview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

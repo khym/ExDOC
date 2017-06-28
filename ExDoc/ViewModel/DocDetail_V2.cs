@@ -18,6 +18,7 @@ namespace ExDoc.ViewModel
         public string tnc_product { get; set; }
         public Nullable<DateTime> issue_date { get; set; }
         public Boolean check_tran { get; set; }
+        public List<string> cust_name { get; set; }
 
     }
 }

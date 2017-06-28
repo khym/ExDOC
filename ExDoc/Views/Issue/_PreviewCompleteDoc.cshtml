@@ -272,7 +272,7 @@
                             <div class="doc_rev data-text">@Model.rec_date</div>
 
                             <div class="Secondary-text title">TNC Product</div>
-                            <p>@Model.tnc_product</p>
+                           <div class="doc_rev data-text">@Model.tnc_product</div>
 
                             @if (@Model.change_point != null)
                             {
@@ -280,6 +280,9 @@
                                 <p>@Model.change_point</p>
                             }
 
+                            @if(Model.doc_type_id < 3){
+                            @Html.Action("_ShowGroupReview", "Issue", new { issue_no = Model.issue_no }) 
+                            }
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_default_2">

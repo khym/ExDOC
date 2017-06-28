@@ -10,6 +10,11 @@
         font-size: 16px;
         padding-bottom: 7.5px;
     }
+
+    .td-text-center {
+        vertical-align: middle !important;
+         text-align: center !important;
+    }
 </style>
 
 <div class="doc_name">
@@ -18,130 +23,144 @@
 </div>
 <div class="type Secondary-text">Detail</div>
 
-<div class="">
+<div class="information_doc">
 
-    @{
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Action</th>
+        <th>Actor</th>
+        <th>Actor Date</th>
+        <th>Position</th>
+        <th>Organize</th>
+      </tr>
+    </thead>
+    <tbody>
+
+         @{
     
         foreach (var item in Model)
         {
 
             switch (item.action_id)
             {
-                case 1:
-                        <div class="bs-callout bs-callout-default shadow-1">
-                          <h4>@item.status_name : @item.action_name</h4>
-                          
-                            <div class="Secondary-text title">Actor</div>
-                            <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                            <div class="Secondary-text title">Actor Date</div>
-                            <div class="doc_rev data-text">@item.actor_date</div>
-                        </div>
+                case 1:                  
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
                     break;
                     
                     case 2:
-                            <div class="bs-callout bs-callout-primary shadow-1">
-                              <h4>@item.status_name : @item.action_name </h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                            </div>
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
                     break;
                     
                     case 3:
-                            <div class="bs-callout bs-callout-danger shadow-1">
-                              <h4>@item.status_name : @item.action_name  </h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                                <div class="Secondary-text title">Comment</div>
-                                    <p>@item.comment</p>
-                                @if (item.comment_pic != null)
-                                {
-                                <div class="Secondary-text title">Attachment File</div>
-                                 <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
-                                }
-                            </div>
+      <tr>
+        <td rowspan="2" class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr> 
+             <tr>
+        <td><b>Comment :</b></td>
+        <td colspan="2">@item.comment</td>
+        <td><b>Attachment File</b></td>
+                @if (item.comment_pic != null)
+        {
+        <td>
+            <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a></td>
+        }else{
+               <td> - </td>      
+        }
+      </tr>  
+         
+                                                                  
                     break;
                     
                     case 4:
-                            <div class="bs-callout bs-callout-primary shadow-1">
-                              <h4>@item.status_name : @item.action_name </h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                            </div>
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>   
                     break;
                     
                     case 0:
-                            <div class="bs-callout bs-callout-warning shadow-1">
-                              <h4> Waitng @item.status_name (@item.org_name)</h4>
-                            </div>
+                    
+                            <tr>
+                              <td colspan="6" align="center"> Waitng @item.status_name (@item.org_name)</td>
+                            </tr>
                     break;
                     
                     case 5:
-                            <div class="bs-callout bs-callout-warning shadow-1">
-                                <h4>@item.status_name : @item.action_name</h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                            </div>
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
                     break;
 
                     case 6:
-                            <div class="bs-callout bs-callout-default shadow-1">
-                              <h4>@item.status_name : @item.action_name</h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                            
-                            </div>
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
                     break;
                     
                     case 7:
-                            <div class="bs-callout bs-callout-danger shadow-1">
-                              <h4>@item.status_name : @item.action_name  </h4>
-                          
-                                <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>
-                                <div class="Secondary-text title">Comment</div>
-                                    <p>@item.comment</p>
-                                <div class="Secondary-text title">Attachment File</div>
-                                 <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
-                            
-                            </div>
+      <tr>
+        <td class="td-text-center" rowspan="2">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+         
+                      <tr>
+        <td><b>Comment :</b></td>
+        <td colspan="2">@item.comment</td>
+        <td><b>Attachment File</b></td>
+                @if (item.comment_pic != null)
+        {
+        <td>
+            <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a></td>
+        }else{
+               <td> - </td>      
+        }
+      </tr>  
                     break;
                     
                      
                     case 100:
-                            <div class="bs-callout bs-callout-success shadow-1">
-                              <h4> @item.action_name</h4>
-                          
-                         @*       <div class="Secondary-text title">Actor</div>
-                                <div class="doc_rev data-text">@item.actor_name : @item.position_name ( @item.org_name )</div>
-
-                                <div class="Secondary-text title">Actor Date</div>
-                                <div class="doc_rev data-text">@item.actor_date</div>*@
-                            
-                            </div>
+                            <tr>
+                              <td colspan="6" align="center">@item.action_name</td>
+                            </tr>
                     break;                                        
 
             }
@@ -151,53 +170,10 @@
         }    
     
     }
+ 
 
-
-@*            <div class="Secondary-text title">@item.status_name</div>
-        <div class="doc_rev data-text">@item.action_name by @item.actor_name at @item.actor_date</div>
-        if(item.comment!=null){<p>comment : @item.comment</p>
-         <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a>
-        
-        }*@
-
-      @*      <div class="bs-callout bs-callout-default shadow-1">
-          <h4>Default Callout</h4>
-          This is a default callout.
-        </div>
-
-        <div class="bs-callout bs-callout-primary shadow-1">
-          <h4>Primary Callout</h4>
-          This is a primary callout.
-        </div>
-
-        <div class="bs-callout bs-callout-success shadow-1">
-          <h4>Success Callout</h4>
-          This is a success callout.
-        </div>
-
-        <div class="bs-callout bs-callout-info shadow-1">
-          <h4>Info Callout</h4>
-          This is an info callout.
-        </div>
-
-        <div class="bs-callout bs-callout-warning shadow-1">
-          <h4>Warning Callout</h4>
-          This is a warning callout.
-        </div>
-
-        <div class="bs-callout bs-callout-danger shadow-1">
-          <h4>Danger Callout</h4>
-          This is a danger callout.
-            <code>
-                public class Hello1
-                {
-                   public static void Main()
-                   {
-                      System.Console.WriteLine("Hello, World!");
-                   }
-                }
-            </code>  
-        </div>*@
+    </tbody>
+  </table>
 
     </div>
 

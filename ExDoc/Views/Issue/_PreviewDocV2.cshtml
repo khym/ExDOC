@@ -272,7 +272,7 @@
                             <div class="doc_rev data-text">@Model.rec_date</div>
 
                             <div class="Secondary-text title">TNC Product</div>
-                            <p>@Model.tnc_product</p>
+                            <div class="doc_rev data-text">@Model.tnc_product</div>
 
                             @if (@Model.change_point != null)
                             {
@@ -280,7 +280,18 @@
                                 <p>@Model.change_point</p>
                             }
 
-                            <div id="text_group_review"></div>
+                            @if(Model.doc_type_id < 3){
+                            <div id="text_group_review">
+                                <div class="Secondary-text title">Group Review</div>
+                                 <div class="doc_rev data-text">
+                                @foreach (var item in @Model.cust_name)
+                                {
+                                  @item @ViewBag.commar
+                                }
+                                </div>
+
+                            </div>
+                            }
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_default_2">

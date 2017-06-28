@@ -269,6 +269,24 @@ namespace ExDoc.Controllers
             return Json(test1, JsonRequestBehavior.AllowGet);
         }
 
+            public ActionResult _ShowGroupReview(string issue_no)
+        {
+            var test1 = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).ToList().Join(tnc_admin.tnc_group_master.ToList(),
+    a => a.group_id, b => b.id, (a, b) => new { id = a.group_id, text = b.group_name });
+
+            List<string> xx = new List<string>();
+            foreach (var item in test1.ToList())
+            {
+                string s = item.text;
+                xx.Add(s);
+            }
+
+            ViewBag.Cust_name = xx;
+
+            return PartialView();
+        }
+
+
         public ActionResult _FooterPreviewDoc(string issue_no)
         {
             ViewBag.test = issue_no;
@@ -316,6 +334,7 @@ namespace ExDoc.Controllers
                 a.rec_date,
                 a.change_point,
                 a.tnc_product,
+                a.doc_type_id
             }).FirstOrDefault();
 
 
@@ -330,20 +349,32 @@ namespace ExDoc.Controllers
                             a.action_id == 0
                             );
 
-            DocDetail_V2 doc_detail = new DocDetail_V2()
-            {
-                issue_no = sql.issue_no,
-                doc_type = sql.doc_type_name,
-                doc_name = sql.doc_name,
-                doc_no = sql.doc_no,
-                doc_rev = sql.doc_rev,
-                rec_date = sql.rec_date,
-                change_point = sql.change_point,
-                tnc_product = sql.tnc_product,
-                check_tran = check_tran
-            };
+            DocDetail_V2 doc_detail = new DocDetail_V2();
 
+            doc_detail.doc_type_id = sql.doc_type_id;
+                doc_detail.issue_no = sql.issue_no;
+                doc_detail.doc_type = sql.doc_type_name;
+                doc_detail.doc_name = sql.doc_name;
+                doc_detail.doc_no = sql.doc_no;
+                doc_detail.doc_rev = sql.doc_rev;
+                doc_detail.rec_date = sql.rec_date;
+                doc_detail.change_point = sql.change_point;
+                doc_detail.tnc_product = sql.tnc_product;
+                doc_detail.check_tran = check_tran;
 
+                var test1 = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).ToList().Join(tnc_admin.tnc_group_master.ToList(),
+        a => a.group_id, b => b.id, (a, b) => new { id = a.group_id, text = b.group_name });
+
+                List<string> xx = new List<string>();
+                foreach (var item in test1.ToList())
+                {
+                    string s = item.text;
+                    xx.Add(s);
+                }
+
+                doc_detail.cust_name = xx;
+
+                ViewBag.commar = " , ";
 
             return PartialView(doc_detail);
         }
