@@ -605,57 +605,6 @@ namespace ExDoc.Controllers
 
                 switch (sql.status_id) //check status in last transaction for crate next transaction
                 {
-                    case 2: //Mgr Issuer Appr
-                        {
-                            //create_tran2.issue_no = sql.issue_no;
-                            //create_tran2.status_id = 3; // 3 = QS Officer
-                            //create_tran2.action_id = 0; //  0 = idle
-                            //create_tran2.actor = "0";
-                            //create_tran2.actor_date = null;
-                            //create_tran2.org_id = 18;
-                            //create_tran2.level_id = 1;
-                            //create_tran2.comment = null;
-                            //ex_doc.Transaction.Add(create_tran2);
-
-                            Add_transaction(issue_no, 3, 0, "0", null, 18, 1, null, null);
-
-                            break;
-                        }
-                    case 3: //QS Officer Appr
-                        {
-
-                            var remove_group_review = ex_doc.GroupReview.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
-
-                            if (remove_group_review != null)
-                            {
-                                foreach (var item in remove_group_review)
-                                {
-                                    ex_doc.GroupReview.Remove(item);
-                                }
-                                ex_doc.SaveChanges();
-                            }
-                            //create_tran2.issue_no = issue_no;
-                            //create_tran2.status_id = 4; //4 = QS Dept.
-                            //create_tran2.action_id = 0; //  0 = idle
-                            //create_tran2.actor = "0";
-                            //create_tran2.actor_date = null;
-                            //create_tran2.org_id = 49; // 49 = qs system
-                            //create_tran2.level_id = 3;
-                            //create_tran2.comment = null;
-                            //ex_doc.Transaction.Add(create_tran2);
-
-                            Add_transaction(issue_no, 4, 0, "0", null, 49, 3, null, null);
-
-                            foreach (var item in g_review)
-                            {
-                                var add_group_review = new GroupReview();
-                                add_group_review.group_id = item.Value;
-                                add_group_review.issue_no = issue_no;
-                                ex_doc.GroupReview.Add(add_group_review);
-                            }
-
-                            break;
-                        }
 
                     case 4: //Dept. QS Appr
                         {
@@ -670,16 +619,8 @@ namespace ExDoc.Controllers
 
                             foreach (var item in g_review)
                             {
-                                //var many_tran = new Transaction();
-                                //many_tran.issue_no = sql.issue_no;
                                 //many_tran.status_id = 5; //5 = Mgr. Group Review
                                 //many_tran.action_id = 0; //  0 = idle
-                                //many_tran.actor = "0";
-                                //many_tran.actor_date = null;
-                                //many_tran.org_id = item.Value;
-                                //many_tran.level_id = 2;
-                                //many_tran.comment = null;
-                                //ex_doc.Transaction.Add(many_tran);
 
                                 Add_transaction(sql.issue_no, 5, 0, "0", null, item, 2, null, null);
 
