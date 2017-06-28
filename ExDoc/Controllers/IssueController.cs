@@ -715,15 +715,8 @@ namespace ExDoc.Controllers
                                 {
                                     if (check_not_remark)
                                     {
-                                        //create_tran2.issue_no = issue_no;
-                                        //create_tran2.status_id = 100; //complete
-                                        //create_tran2.action_id = 100;//completed
-                                        //create_tran2.actor = "0";
-                                        //create_tran2.actor_date = DateTime.Now;
-                                        //create_tran2.org_id = null;
-                                        //create_tran2.level_id = null;
-                                        //create_tran2.comment = null;
-                                        //ex_doc.Transaction.Add(create_tran2);
+                                        //status_id = 100; //complete
+                                        //action_id = 100;//completed
 
                                         Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null);
 
