@@ -364,7 +364,8 @@ namespace ExDoc.Controllers
                 org_id = check_tran.org_id.Value,
                 seq = check_tran.seq,
                 status_id = check_tran.status_id,
-                doc_type_id = check_tran.Issue.doc_type_id
+                doc_type_id = check_tran.Issue.doc_type_id,
+                remark = check_tran.remark
 
             };
 
@@ -539,7 +540,7 @@ namespace ExDoc.Controllers
 
         [Tnc_Auth]
         [HttpPost]
-        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id, int?[] g_review, string remark)
+        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id, int?[] g_review, string[] remark)
         {
             var create_tran2 = new Transaction();
 
@@ -560,10 +561,10 @@ namespace ExDoc.Controllers
             sql.actor = emp_code;
             sql.actor_date = DateTime.Now;
 
-            if (!(string.IsNullOrWhiteSpace(remark) || string.IsNullOrEmpty(remark)))
-            {
-                sql.remark = remark;
-            }
+            //if (!(string.IsNullOrWhiteSpace(remark) || string.IsNullOrEmpty(remark)))
+            //{
+            //    sql.remark = remark;
+            //}
 
             // check document type
             if (doc_type_id == 3) //Format
@@ -582,7 +583,7 @@ namespace ExDoc.Controllers
                             //create_tran2.comment = null;
                             //ex_doc.Transaction.Add(create_tran2);
 
-                            Add_transaction(issue_no, 3, 0, "0", null, 18, 1, null, null);
+                            Add_transaction(issue_no, 3, 0, "0", null, 18, 1, null, null, null);
 
                             break;
                         }
@@ -598,7 +599,7 @@ namespace ExDoc.Controllers
                             //create_tran2.comment = null;
                             //ex_doc.Transaction.Add(create_tran2);
 
-                            Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now, 18, 1, null, null);
+                            Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now, 18, 1, null, null, null);
 
                         //select file form DocFileBeforeAppr table 
                         var doc_file = ex_doc.DocFileBeforeAppr.Where(a=>a.issue_no == issue_no).Select(a=>a).ToList();
@@ -659,7 +660,6 @@ namespace ExDoc.Controllers
                         {
 
 
-
                             for (int i = 0; i < g_review.Length; i++)
                             {
                                 //many_tran.status_id = 5; //5 = Mgr. Group Review
@@ -668,7 +668,7 @@ namespace ExDoc.Controllers
                                 var add_group_review = new GroupReview();
                                 add_group_review.group_id = g_review[i].Value;
                                 add_group_review.issue_no = issue_no;
-                                ex_doc.GroupReview.Add(add_group_review);
+                                ex_doc.GroupReview.Add(add_group_review); 
                             }
 
                             break;
@@ -682,6 +682,7 @@ namespace ExDoc.Controllers
                             //check status all group mgr. review
                             //status_id = 5 ( Mgr Group Review )
                             //action_id = 0 ( idle )
+
                             var check_group_review = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5)
                                                                        .All(a => a.action_id != 0);
 
@@ -701,7 +702,7 @@ namespace ExDoc.Controllers
                                         //status_id = 100; //complete
                                         //action_id = 100;//completed
 
-                                        Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null);
+                                        Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null, null);
 
                                         //select file form DocFileBeforeAppr table 
                                         var doc_file = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
@@ -751,15 +752,6 @@ namespace ExDoc.Controllers
                                     }
                                     else // have remark
                                     {
-                                        //create_tran2.issue_no = issue_no;
-                                        //create_tran2.status_id = 7; //7 last QS Offcer check
-                                        //create_tran2.action_id = 0; //  0 = idle
-                                        //create_tran2.actor = "0";
-                                        //create_tran2.actor_date = null;
-                                        //create_tran2.org_id = 18; // 18 = qs dcc
-                                        //create_tran2.level_id = 1;
-                                        //create_tran2.comment = null;
-                                        //ex_doc.Transaction.Add(create_tran2);
 
                                         //create_tran2.issue_no = issue_no;
                                         //create_tran2.status_id = 7; //7  QS Dept last check
@@ -771,7 +763,7 @@ namespace ExDoc.Controllers
                                         //create_tran2.comment = null;
                                         //ex_doc.Transaction.Add(create_tran2);
 
-                                        Add_transaction(issue_no, 7, 0, "0", null, 49, 3, null, null);
+                                        Add_transaction(issue_no, 7, 0, "0", null, 49, 3, null, null, null);
 
                                     }
                                 }
@@ -797,7 +789,7 @@ namespace ExDoc.Controllers
                                 //many_tran.comment = null;
                                 //ex_doc.Transaction.Add(many_tran);
 
-                                Add_transaction(sql.issue_no, 5, 0, "0", null, item, 2, null, null);
+                                Add_transaction(sql.issue_no, 5, 0, "0", null, item, 2, null, null, null);
                             }
                             break;
                         }
@@ -814,7 +806,7 @@ namespace ExDoc.Controllers
                                  //   create_tran2.comment = null;
                                  //   ex_doc.Transaction.Add(create_tran2);
 
-                                    Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null);
+                            Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null, null);
 
                                     //select file form DocFileBeforeAppr table 
                                     var doc_file = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
@@ -931,14 +923,14 @@ namespace ExDoc.Controllers
             {
                 //status_id = 8 = Issuer edit after mgr. review (not accept)
                 //action_id = 0 = Idle
-                Add_transaction(sql.issue_no, 8, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null);
+                Add_transaction(sql.issue_no, 8, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
             }
             else
             {
                 //all reject
                 //create_tran2.status_id = 0; // 0 = Issuer edit
                 //create_tran2.action_id = 0; // 0 = Idle
-                Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null);
+                Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
             }
 
             ex_doc.SaveChanges();
@@ -1039,7 +1031,7 @@ namespace ExDoc.Controllers
             //org_id = int.Parse(Session["g_id"].ToString()); // group_id issuer
             //level_id = 1; // 1 = Issuer	,position_min = 1 ,	position_max = 4
 
-            Add_transaction(issue_no, 1, 1, Session["emp_code"].ToString(), DateTime.Now, int.Parse(Session["g_id"].ToString()), 1, null, null);
+            Add_transaction(issue_no, 1, 1, Session["emp_code"].ToString(), DateTime.Now, int.Parse(Session["g_id"].ToString()), 1, null, null, null);
 
             //create wait SQ Dept. Appr
             //status_id = 2; // 2 = Mgr. (Issuer)
@@ -1047,7 +1039,7 @@ namespace ExDoc.Controllers
             //49 QS dept 
             //level_id = 3 = Dept. ,position_min = 6 ,	position_max = 6
 
-            Add_transaction(issue_no, 4, 0, null, null, 49, 3, null, null);
+            Add_transaction(issue_no, 4, 0, null, null, 49, 3, null, null, null);
 
             ex_doc.SaveChanges(); // save to database
 
