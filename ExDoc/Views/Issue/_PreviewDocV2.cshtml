@@ -281,7 +281,7 @@
                             }
 
                             @if(Model.doc_type_id < 3){
-                            <div id="text_group_review">
+                        
                                 <div class="Secondary-text title">Group Review</div>
                                  <div class="doc_rev data-text">
                                 @foreach (var item in @Model.cust_name)
@@ -290,7 +290,7 @@
                                 }
                                 </div>
 
-                            </div>
+   
                             }
                         </div>
                     </div>
@@ -316,8 +316,6 @@
         </div>
 
 
-
-     @*@Html.Action("_FooterPreviewDoc", "Issue", new { issuer_no = @Model.issue_no })*@ 
        
        
             @if(Model.check_tran){
@@ -334,15 +332,6 @@
 
 
 <script>
-
-@*    $(document).ready(function () {
-        var remote = "@Html.Raw(Url.Action("_FooterPreviewDoc", "Issue", new { issue_no = @Model.issue_no }))";
-        $.get(remote, function (data) {
-            $(".card-footer").append(data);
-
-        });
-    });*@
-
 
 
     function get_tap2(dd) {
