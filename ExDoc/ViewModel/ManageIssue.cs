@@ -15,5 +15,6 @@ namespace ExDoc.ViewModel
         public int status_id { get; set; }
         public string actor { get; set; }
         public int doc_type_id { get; set; }
+        public string remark { get; set; }
     }
 }
