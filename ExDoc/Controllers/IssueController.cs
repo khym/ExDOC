@@ -658,26 +658,19 @@ namespace ExDoc.Controllers
                     case 4: //Dept. QS Appr
                         {
 
-                            var remove_group_review = ex_doc.GroupReview.Where(a => a.issue_no == issue_no).Select(a => a).ToList();
 
-                            foreach (var item in remove_group_review)
-                            {
-                                ex_doc.GroupReview.Remove(item);
-                            }
-                            ex_doc.SaveChanges();
 
-                            foreach (var item in g_review)
+                            for (int i = 0; i < g_review.Length; i++)
                             {
                                 //many_tran.status_id = 5; //5 = Mgr. Group Review
                                 //many_tran.action_id = 0; //  0 = idle
-
-                                Add_transaction(sql.issue_no, 5, 0, "0", null, item, 2, null, null);
-
+                                Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null,remark[i]);
                                 var add_group_review = new GroupReview();
-                                add_group_review.group_id = item.Value;
+                                add_group_review.group_id = g_review[i].Value;
                                 add_group_review.issue_no = issue_no;
                                 ex_doc.GroupReview.Add(add_group_review);
                             }
+
                             break;
                         }
 
