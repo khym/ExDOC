@@ -2,21 +2,10 @@
 
 <style>
 
-        <form id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
-                    <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
-                    <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
-                    <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
     #ta_10px {
     min-height: 10px !important;
     }
 
-                    <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
-                    <input type="text" name="seq" value="@Model.seq" hidden/>
-                    <input type="text" id="group_review" name="group_review" value="" hidden />
-               </div>
     .khem-form-control {
     display: block;
     width: 100%;
@@ -36,84 +25,101 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
 
-            </div>
 </style>
 
-            @if ((Model.status_id == 3 || Model.status_id == 4) && Model.doc_type_id != 3)
-            {
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="form-group ">
-                            <label class="control-label">Group Review</label>
-                            <select id="g_review" style="width: 100%" name="g_review" class="form-control" multiple="multiple" data-validate="required">
-                            </select>
+<form id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+            <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+            <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+            <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
 
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-                
-                if (Model.status_id == 4)
-                {          
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="form-group ">
-                            <label class="control-label">Remark</label>
-                            <textarea class="form-control" name="remark"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div> 
-                }            
-            }
-        </form>
+            <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+            <input type="text" name="seq" value="@Model.seq" hidden/>
+            <input type="text" id="group_review" name="group_review" value="" hidden />
+        </div>
+
+    </div>
+
+
+    @if (Model.status_id == 4 && Model.doc_type_id != 3)
+    {          
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Group Review</th>
+                    <th>Remark</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="form-review">
+                    <td style="width:27%">
+                        <div class="form-group">
+                        <select id="select2_reviewer" class="g_review form-control" style="width:100%" name="g_review" data-validate="required">
+                        </select>
+                            </div>
+                    </td>
+                    <td style="width:65%">
+                        <textarea id="ta_10px" class="khem-form-control" name="remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
+                    <td></td>
+                </tr>
+
+                <tr id="row_add_reviewer">
+                    <td colspan="3">
+                        <button type="button" id="btn-AddGroup"  data-noof-fields="1"  class="btn btn-block btn-success md-primary-color border-primary-color  shadow-1">Add Group Reviewer</button></td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+</form>
 
 @if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7)
 {
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-2">
-                <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
-                    data-toggle="modal" data-target="#ModalAppr">
-                    <span class="glyphicon glyphicon-ok"></span>
-                    @if (@Model.status_id == 5)
-                    { <ps>Accept</ps> }
-                    else
-                    {<sa>Approve</sa>  }
-                </a>
-            </div>
-            <div class="col-md-2"
-                data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
-                <a href="#" class="btn btn-block btn-link primary-color-only">
-                    @if (@Model.status_id == 5){
-                     <asd>Not Accept</asd> }
-                    else
-                    {
-                     <asd>Reject</asd>   
-                    }
-                </a>
-            </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-2">
+            <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
+                <span class="glyphicon glyphicon-ok"></span>
+                @if (@Model.status_id == 5)
+                { <ps>Accept</ps> }
+                else
+                {<sa>Approve</sa>  }
+            </a>
         </div>
+        <div class="col-md-2"
+            data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
+            <a href="#" class="btn btn-block btn-link primary-color-only">
+                @if (@Model.status_id == 5)
+                {
+                    <asd>Not Accept</asd> }
+                else
+                {
+                    <asd>Reject</asd>   
+                }
+            </a>
+        </div>
+    </div>
 }
 
 
 
 @if (Model.status_id == 0 || Model.status_id == 8)
 {
-        <div class="row">
-            <div class="col-md-7"></div>
-            <div class="col-md-2">
-                <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn btn-block md-primary-color border-primary-color shadow-1">Edit Issue 
-                </a>
-            </div>
-            <div class="col-md-2"
-                data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
-                <a href="#" class="btn btn-block btn-link primary-color-only">Cancel Issue
-                </a>
-            </div>
+    <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-2">
+            <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn btn-block md-primary-color border-primary-color shadow-1">Edit Issue 
+            </a>
         </div>
+        <div class="col-md-2"
+            data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
+            <a href="#" class="btn btn-block btn-link primary-color-only">Cancel Issue
+            </a>
+        </div>
+    </div>
 }
 
 
@@ -127,13 +133,27 @@
                             { <ps>Accept</ps> }
                             else
                             {<sa>Approve</sa>  } ?</h3>
+                @if( !(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
+                {
+                        <div class="bs-callout bs-callout-warning shadow-1">
+          <h4>Warning!</h4>
+                 <div class="doc_rev data-text">@Model.remark</div>
+                            </div>}
                 <div class="group_button_footer">
                     <div class="row">
                         <div class="col-md-6">
                         </div>
                         <div class="col-md-6 col-md-push-1">
+                            @if (!(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
+                            {
+                            <button type="button" id="btn-confirm-appr" class="btn btn-success warning-color border-warning-color shadow-1">Yes</button>
+                            <button type="button" class="btn btn-link warning-color-only" data-dismiss="modal">No</button>
+                            }
+                            else
+                            {
                             <button type="button" id="btn-confirm-appr" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
                             <button type="button" class="btn btn-link primary-color-only" data-dismiss="modal">No</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -309,7 +329,7 @@
 
     function Create_Select2() {
         var const_URL = "@Url.Action("get_tnc_group", "Home")";
-        var $group_review_select2 =   $(".g_review").select2({
+        var $group_review_select2 = $(".g_review").select2({
             placeholder: "Select a group reviewer",
             theme: "bootstrap",
             minimumInputLength: 0,
@@ -332,43 +352,7 @@
 
             }
         });
+    }
 
 
-        $.get('@Url.Action("IssueGetGroup", "Issue")?issue_no=@Model.issue_no', function (x) {
-
-            var selected = [];
-            var initials = [];
-            var str = ""
-            for (var s in x) {
-                selected.push(x[s].id);
-                $group_review_select2.append('<option value="' + x[s].id + '" selected="selected">' + x[s].text + '</option>');
-                if (s >= (x.length-1)) {
-                    str += x[s].text 
-                } else {
-                    str += x[s].text + " , "
-                }
-            }
-            if (x.length > 0) {
-                $("#text_group_review").append("<div class='Secondary-text title'>Group Reiview</div> <p>" + str + "</p> ");
-            }
-            $('select').trigger('change.select2');
-        });
-
-        $("#btn-confirm-appr").click(function () {
-            console.log("Confirm Appr!!");
-            $("#form_appr").submit();
-        });
-
-        $("#btn-appr").click(function () {
-
-            
-            var x = $("#g_review").val();
-           var y = $("#group_review").val(x);
-            console.log("Click!! Appr", x,y);
-        });
-
-
-    });
-    
-
-    </script>
+</script>
