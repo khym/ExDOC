@@ -37,7 +37,7 @@ namespace ExDoc.Controllers
             return View();
         }
 
-        public void Add_transaction(string issue_no, int sta_id, int act_id, string act, DateTime? act_date, int? org_id, int? lvl_id, string comment, HttpPostedFileBase comment_pic)
+        public void Add_transaction(string issue_no, int sta_id, int act_id, string act, DateTime? act_date, int? org_id, int? lvl_id, string comment, HttpPostedFileBase comment_pic,string remark)
         {
             var t = new Transaction();
             t.issue_no = issue_no;
@@ -48,6 +48,7 @@ namespace ExDoc.Controllers
             t.org_id = org_id;
             t.level_id = lvl_id;
             t.comment = comment;
+            t.remark = remark;
             ex_doc.Transaction.Add(t);
         }
 
