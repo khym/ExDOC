@@ -143,11 +143,11 @@ namespace ExDoc.Controllers
         [HttpPost]
         public ActionResult get_tnc_group(string term)
         {
-            var sql = tnc_admin.tnc_group_master.Select(a => new { id = a.id, text = a.group_name }).Distinct().Take(16);
+            var sql = tnc_admin.tnc_group_master.Select(a => new { id = a.id, text = a.group_name }).OrderBy(a=>a.text).Take(16);
 
             if (term != null)
             {
-                sql = tnc_admin.tnc_group_master.Where(a => a.group_name.Contains(term)).Select(a => new { id = a.id, text = a.group_name }).Distinct().Take(16);
+                sql = tnc_admin.tnc_group_master.Where(a => a.group_name.Contains(term)).Select(a => new { id = a.id, text = a.group_name }).OrderBy(a => a.text).Take(16);
             }
             return Json(sql, JsonRequestBehavior.AllowGet);
         }
