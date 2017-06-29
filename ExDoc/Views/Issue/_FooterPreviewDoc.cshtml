@@ -197,13 +197,98 @@
 
     $(document).ready(function () {
 
+        Create_Select2();
+
+        $("#btn-confirm-appr").click(function () {
+
+            if ($.validate({ form: "form_appr" })) {
+
+
+               $("#form_appr").submit();
+            }
+        });
+
+
+        $("#btn-appr").click(function () {
+
+            var check_error = true;
+            var cust_no = [];
+            $("tbody").find(".form-group").each(function (e, x) {
+                var ss = $(x).find("select.g_review").val();
+                cust_no[e] = ss;
+            });
+
+            $("tbody").find(".form-group").each(function (e, x) {
+
+                var ss = cust_no[e];
+                for (var i = 0; i < cust_no.length; i++) {
+                    if (e !== i) {
+                        if (ss == cust_no[i]) {
+                            $(x).removeClass("has-success");
+                            $(x).addClass("has-error");
+                            check_error = false;
+                            break;
+                        } else {
+                            $(x).removeClass("has-error");
+                            $(x).addClass("has-success");
+                        }
+                    }
+                    if (ss == null) {
+                        $(x).removeClass("has-success");
+                        $(x).addClass("has-error");
+                        check_error = false;
+                    }
+                }
+
+            });
+
+            if (check_error == true) {
+               $("#ModalAppr").modal();
+            }
+        });
+
+        $('body').on('click', '.btn-del-reviewer', function (e) {
+            e.preventDefault();
+            //$(this).parent().parent().parent().remove();
+
+            var no = $(this).attr('data-del-no');
+            $("tr#group_review" + no).remove();
+        });
+
+        $("#btn-AddGroup").on("click", function () {
+            var noofFields = parseInt($(this).attr("data-noof-fields")) + 1;
+            $(this).attr("data-noof-fields", parseInt($(this).attr("data-noof-fields")) + 1);
+
+            var newField = "";
+
+            newField += "<tr id=\"group_review" + noofFields + "\" class=\"form-review\">";
+            newField += "<td> <div class=\"form-group\">";
+            newField += "<select id=\"select2_reviewer"+ noofFields + "\" class=\"g_review form-control\" style=\"width:100%\" name=\"g_review\" data-validate=\"required\">";
+            newField += "</select></div>";
+            newField += "</td>";
+            newField += "<td>";
+            newField += "<textarea class=\"khem-form-control\" name=\"remark\" onkeyup=\"textAreaAdjust(this)\" style=\"overflow:hidden\"></textarea></td>";
+            newField += "<td>";
+            newField += "<button type=\"submit\" data-del-no=\"" + noofFields + "\" class=\"btn btn-del-reviewer btn-success secondary-color-md border-secondary-color shadow-1\">Remove</button></td></tr>";
+
+            $(newField).insertBefore("#row_add_reviewer");
+            Create_Select2();
+
+        });
+
+
+    });
+
+    function textAreaAdjust(o) {
+        o.style.height = "1px";
+        o.style.height = (1 + o.scrollHeight) + "px";
+    }
+
+    function Create_Select2() {
         var const_URL = "@Url.Action("get_tnc_group", "Home")";
         var $group_review_select2 =   $(".g_review").select2({
+            placeholder: "Select a group reviewer",
             theme: "bootstrap",
-            placeholder: {
-                id: "0",
-                text: "Select a Group"
-            },
             minimumInputLength: 0,
             ajax: {
                 url: const_URL,
