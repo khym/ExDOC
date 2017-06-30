@@ -571,33 +571,11 @@ namespace ExDoc.Controllers
             {
                 switch (check_status) //check status in last transaction for crate next transaction
                 {
-                    case 2: //Mgr. Isuuer Appr
-                        {
-                            //create_tran2.issue_no = issue_no;
-                            //create_tran2.status_id = 3; // 3 = QS Officer
-                            //create_tran2.action_id = 0; //  0 = idle
-                            //create_tran2.actor = "0";
-                            //create_tran2.actor_date = null;
-                            //create_tran2.org_id = 18;
-                            //create_tran2.level_id = 1;
-                            //create_tran2.comment = null;
-                            //ex_doc.Transaction.Add(create_tran2);
 
-                            Add_transaction(issue_no, 3, 0, "0", null, 18, 1, null, null, null);
-
-                            break;
-                        }
-                    case 3: //QS Officer Appr
+                    case 3: //QS Dept Appr
                         {
-                            //create_tran2.issue_no = issue_no;
                             //create_tran2.status_id = 100; //complete
                             //create_tran2.action_id = 100;//completed
-                            //create_tran2.actor = emp_code;
-                            //create_tran2.actor_date = DateTime.Now;
-                            //create_tran2.org_id = 18;
-                            //create_tran2.level_id = 1;
-                            //create_tran2.comment = null;
-                            //ex_doc.Transaction.Add(create_tran2);
 
                             Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now, 18, 1, null, null, null);
 
@@ -753,15 +731,10 @@ namespace ExDoc.Controllers
                                     else // have remark
                                     {
 
-                                        //create_tran2.issue_no = issue_no;
                                         //create_tran2.status_id = 7; //7  QS Dept last check
                                         //create_tran2.action_id = 0; //  0 = idle
-                                        //create_tran2.actor = "0";
-                                        //create_tran2.actor_date = null;
                                         //create_tran2.org_id = 49; // 18 = qs
                                         //create_tran2.level_id = 3; // 3 = edpt.
-                                        //create_tran2.comment = null;
-                                        //ex_doc.Transaction.Add(create_tran2);
 
                                         Add_transaction(issue_no, 7, 0, "0", null, 49, 3, null, null, null);
 
