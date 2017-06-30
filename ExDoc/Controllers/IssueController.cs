@@ -142,7 +142,8 @@ namespace ExDoc.Controllers
                         status_name = v_trandetail[i].status_name,
                         comment = v_trandetail[i].comment,
                         comment_pic = v_trandetail[i].comment_pic,
-                        status_id = v_trandetail[i].status_id
+                        status_id = v_trandetail[i].status_id,
+                        remark = v_trandetail[i].remark
 
                     });
                 }
@@ -642,7 +643,15 @@ namespace ExDoc.Controllers
                             {
                                 //many_tran.status_id = 5; //5 = Mgr. Group Review
                                 //many_tran.action_id = 0; //  0 = idle
-                                Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null,remark[i]);
+
+                                if (!(string.IsNullOrWhiteSpace(remark[i]) || string.IsNullOrEmpty(remark[i])))
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, remark[i]);
+                                }
+                                else
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, null);
+                                }
                                 var add_group_review = new GroupReview();
                                 add_group_review.group_id = g_review[i].Value;
                                 add_group_review.issue_no = issue_no;
