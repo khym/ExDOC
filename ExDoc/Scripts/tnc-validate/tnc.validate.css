@@ -1,0 +1,33 @@
+input.valid {
+    background: url("img/icon-ok.png") no-repeat scroll right center #E3FFE5;
+    border-color: #96B796 !important;
+    color: #002F00;
+}
+input.error {
+    background: url("img/icon-fail.png") no-repeat scroll right center #FFEBEF;
+    color: #480000;
+}
+
+select.error {
+    /*border: #FF0000 solid 1px;*/
+    border: 1px solid red !important;
+    -moz-box-shadow: 0 0 2px red !important;
+    -webkit-box-shadow: 0 0 2px red !important;
+    box-shadow: 0 0 2px #719ECE !important;
+}
+
+select.valid {
+    border: 1px solid #00FF7F !important;
+    -moz-box-shadow: 0 0 2px #96b796 !important;
+    -webkit-box-shadow: 0 0 2px #96b796 !important;
+    box-shadow: 0 0 2px #96b796 !important;
+}
+
+textarea.error {
+    border: red solid 1px;
+    /*border-color: red;*/
+}
+
+textarea.valid {
+    border: #00FF7F solid 1px;
+}
