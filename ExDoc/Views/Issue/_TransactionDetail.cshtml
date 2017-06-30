@@ -102,14 +102,49 @@ border-top: none;
                     break;
                     
                     case 4:
-      <tr>
-        <td class="td-text-center">@item.status_name</td>
-        <td>@item.action_name</td>
-        <td>@item.actor_name</td>
-        <td>@item.actor_date</td>
-        <td>@item.position_name</td>
-        <td>@item.org_name</td>
-      </tr>   
+                        int g_id = int.Parse(Session["g_id"].ToString());
+                        int user_lvl = int.Parse(Session["po_lvl"].ToString());
+                    
+                        if(g_id == 49 && user_lvl == 6){
+                            var col_num = 1;
+                            string style = "";
+            
+                            if(item.remark != null){
+                                col_num = 2;
+                                style = "has_remark";
+                             
+                            }
+                     
+                            <tr class="@style">
+                                <td class="td-text-center" rowspan="@col_num">@item.status_name</td>
+                                <td>@item.action_name</td>
+                                <td>@item.actor_name</td>
+                                <td>@item.actor_date</td>
+                                <td>@item.position_name</td>
+                                <td>@item.org_name</td>
+                            </tr>
+         
+                            if (item.remark != null)
+                            {
+                                <tr>
+                                    <td><b>Remark :</b></td>
+                                    <td colspan="4">@item.remark</td>
+                                </tr> 
+                            }
+                         }
+                         else
+                         {
+                            <tr >
+                                <td class="td-text-center" >@item.status_name</td>
+                                <td>@item.action_name</td>
+                                <td>@item.actor_name</td>
+                                <td>@item.actor_date</td>
+                                <td>@item.position_name</td>
+                                <td>@item.org_name</td>
+                            </tr>
+                            
+                         }
+
                     break;
                     
                     case 0:
