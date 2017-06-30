@@ -17,5 +17,6 @@ namespace ExDoc.ViewModel
         public string status_name { get; set; }
         public string comment { get; set; }
         public string comment_pic { get; set; }
+        public string remark { get; set; }
     }
 }
