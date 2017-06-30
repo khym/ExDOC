@@ -3,9 +3,6 @@
         padding-bottom: 10px;
     }
 
-    #del_doc {
-        border: #fff;
-    }
 
 
 
@@ -199,7 +196,7 @@
                                 <div class="form-group col-md-10" id="file_doc">
                                     <label for="name" class="control-label">Document File</label>
 
-                                    <input type="file" value='' name="doc_file" class="" id="md-input" data-validate="required">
+                                    <input type="file" value='' name="doc_file" class="form-control" id="md-input" data-validate="required">
                                 </div>
                                 <div class="col-md-1">
                                 </div>
@@ -334,7 +331,7 @@
             str += "<div class='col-md-1'></div>";
             str += "<div class='form-group col-md-10' >";
             str += "<div class='input-group'>";
-            str += "<input type='file' value='' class='' name='doc_file' id='md-input' data-validate='required'>";
+            str += "<input type='file' value='' class='form-control' name='doc_file' id='md-input' data-validate='required'>";
             str += "<div class='input-group-btn'>";
             str += "<button type='button' id='del_doc' data-del-no='" + i + "' class='btn btn-default btn-block'> <span class='glyphicon glyphicon-remove text-danger'></span></button>";
             str += "</div>";
