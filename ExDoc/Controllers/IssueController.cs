@@ -573,7 +573,7 @@ namespace ExDoc.Controllers
                 switch (check_status) //check status in last transaction for crate next transaction
                 {
 
-                    case 3: //QS Dept Appr
+                    case 4: //QS Dept Appr
                         {
                             //create_tran2.status_id = 100; //complete
                             //create_tran2.action_id = 100;//completed
