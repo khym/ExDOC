@@ -46,6 +46,40 @@
                 </tr>
             </tbody>
         </table>
+        
+        
+                if (Model.status_id == 9)
+                {
+    <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Attachment File</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < ViewBag.File.Count; i++)
+                {
+
+                <tr class="form-review ">
+                    <td style="width:90%">
+                     <a href="@Url.Content(ViewBag.File[i].path_file)">@Path.GetFileName(Server.MapPath(ViewBag.File[i].path_file))</a>
+                        
+                    </td>
+                    <td>
+                        <button type="button" data-del-file="@i" class="btn del-old-file btn-success secondary-color-md border-secondary-color shadow-1">Remove</button>
+                    </td>
+                </tr>
+                }
+                <tr id="row_add_file">
+                    <td colspan="2">
+                        <button type="button" id="btn-AddFile"  data-noof-fields="1"  class="btn btn-block btn-success md-primary-color border-primary-color  shadow-1">Add File</button></td>
+                </tr>
+            </tbody>
+        </table>
+                }
+
     }
 
 </form>
