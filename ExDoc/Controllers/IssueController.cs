@@ -369,6 +369,12 @@ namespace ExDoc.Controllers
             ViewBag.user_lvl = user_lvl;
             ViewBag.g_id = g_id;
 
+            ViewBag.Group = tnc_admin.tnc_group_master.Select(a => a).OrderBy(a=>a.group_name).ToList();
+
+            ViewBag.Count_reviwer = ex_doc.Transaction.Count(a=>a.issue_no == issue_no && a.status_id == 5);
+
+            ViewBag.File = ex_doc.DocFileBeforeAppr.Where(a => a.issue_no == issue_no).ToList();
+
             var check_tran = ex_doc.Transaction.Where(a => a.issue_no.Contains(issue_no) &&
                             a.org_id == g_id &&
                             user_lvl >= a.User_level.position_min &&
