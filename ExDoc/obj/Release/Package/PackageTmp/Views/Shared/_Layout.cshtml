@@ -1,0 +1,165 @@
+﻿@using ExDoc.Helpers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title> External Document Control </title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/themes/theme.css" rel="stylesheet" />
+    <link href="~/Scripts/Select2/select2.css" rel="stylesheet" />
+    <link href="~/Scripts/Select2/select2-bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/jtable/themes/metro/purple/jtable.css" rel="stylesheet" />
+    <link href="~/Content/MaterialDesign-Webfont-master/css/materialdesignicons.css" rel="stylesheet" />
+
+    @*<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />*@
+    
+    <!--[if gte IE 8]>
+<link href="~/Content/ie8-and-down.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/metro/blue/jtable.css" rel="stylesheet" />
+
+<![endif]-->
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        #fixed_card {
+        width:200px;
+        position:fixed;
+        z-index: 99;
+        height:auto;
+        bottom:0px;
+        left:20px;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+<nav class="navbar navbar-default shadow-3 navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="@Url.Action("Index", "Home")"> <i class="mdi mdi-file-multiple mdi-24px btnF_indiv"></i> External Document</a>
+    </div>
+      @{
+          if(Session["emp_code"] != null){
+    <ul class="nav navbar-nav">
+
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Request
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            @*<li><a href="@Url.Action("NewDoc", "Issue")">New Document</a></li>*@
+          <li><a href="@Url.Action("NewIssue", "Issue")">New Document</a></li>
+          <li><a href="@Url.Action("NewRevise", "Issue")">Revise Document</a></li>
+        </ul>
+      </li>
+
+                <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Document
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Index", "Issue")">In Progress Document</a></li>
+          <li><a href="@Url.Action( "Index", "ControlDoc")">Controlled Document</a></li>
+             <li><a href="@Url.Action( "DocCancel", "ControlDoc")">Canceled Document</a></li>
+        </ul>
+      </li>
+
+@*         @Html.MenuLink("Issue", "Index", "Issue")
+         @Html.MenuLink("All Document", "Index", "ControlDoc")*@
+    </ul>
+      }
+      }
+       @Html.Partial("_LoginPartial")
+
+  </div>
+</nav>
+    </header>
+      @if(Session["emp_code"] != null){
+        <div class="card shadow-3" id="fixed_card" style="display:none;">
+            @*<div class="card-title secondary-color-md">
+                <h4>User Information</h4>
+                
+            </div>*@
+            <div class="card-footer">
+                @Session["emp_code"],
+                @Session["emp_name"] <br />
+                @Session["g_name"] 
+                (@Session["g_id"])  <br />
+                @Session["po_name"]
+                (@Session["po_lvl"]) <br />
+                 @Session["d_name"]
+                (@Session["d_id"]) <br />
+                @Session["p_name"]
+                (@Session["p_id"])  <br />
+            </div>
+        </div>
+        }
+    @*<div class="container-fluid">*@
+       <div class="container">
+        @RenderSection("featured", required: false)
+            @RenderBody()
+ 
+    </div>
+@*    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+            </div>
+        </div>
+    </footer>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-ui-1.9.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/Select2/select2.js"></script>
+    <script src="~/Scripts/jtable/jquery.jtable.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/noty/jquery.noty.js"></script>
+    <script src="~/Scripts/validator-0.11.9.js"></script>
+
+    @RenderSection("scripts", required: false)
+    
+    <script src="http://webexternal/CDN/JS/Html5/html5shiv.min.js"></script>
+    <script src="http://webexternal/CDN/JS/Html5/respond.min.js"></script>
+
+    <link href="~/Scripts/tnc-validate/tnc.validate.css" rel="stylesheet" />
+    <script src="~/Scripts/tnc-validate/jquery.tnc.validate.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //$('#fixed_card').click(function () {
+            //    $('#fixed_card').toggle();
+            //});
+
+            $(window).keydown(function (e) {
+                //console.log(e.which);
+                if (e.altKey && e.shiftKey) {
+                    $('#fixed_card').toggle();
+                }
+            });
+
+            $('#click_login').click(function () {
+                var txtID = $('[name=id]').val();
+                var txtPass = $('[name=pwd]').val();
+                if (txtID != '' && txtPass != '') {
+                    $('#form_login').submit();
+                } else {
+                    alert("Plz insert data");
+                }
+
+            });
+
+        });
+        </script>
+        
+
+</body>
+</html>

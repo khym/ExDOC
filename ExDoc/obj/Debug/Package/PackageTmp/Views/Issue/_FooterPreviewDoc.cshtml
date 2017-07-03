@@ -1,0 +1,358 @@
+﻿@model ExDoc.ViewModel.ManageIssue
+
+<style>
+
+    #ta_10px {
+    min-height: 10px !important;
+    }
+
+    .khem-form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+</style>
+
+<form id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+            <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+            <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+            <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+
+            <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+            <input type="text" name="seq" value="@Model.seq" hidden/>
+            <input type="text" id="group_review" name="group_review" value="" hidden />
+        </div>
+
+    </div>
+
+
+    @if (Model.status_id == 4 && Model.doc_type_id != 3 )
+    {          
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Group Review</th>
+                    <th>Remark</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="form-review">
+                    <td style="width:27%">
+                        <div class="form-group">
+                        <select id="select2_reviewer" class="g_review form-control" style="width:100%" name="g_review" data-validate="required">
+                        </select>
+                            </div>
+                    </td>
+                    <td style="width:65%">
+                        <textarea id="ta_10px" class="khem-form-control" name="remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
+                    <td></td>
+                </tr>
+
+                <tr id="row_add_reviewer">
+                    <td colspan="3">
+                        <button type="button" id="btn-AddGroup"  data-noof-fields="1"  class="btn btn-block btn-success md-primary-color border-primary-color  shadow-1">Add Group Reviewer</button></td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+</form>
+
+@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7)
+{
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-2">
+            <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
+                <span class="glyphicon glyphicon-ok"></span>
+                @if (@Model.status_id == 5)
+                { <ps>Accept</ps> }
+                else
+                {<sa>Approve</sa>  }
+            </a>
+        </div>
+        <div class="col-md-2"
+            data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
+            <a href="#" class="btn btn-block btn-link primary-color-only">
+                @if (@Model.status_id == 5)
+                {
+                    <asd>Not Accept</asd> }
+                else
+                {
+                    <asd>Reject</asd>   
+                }
+            </a>
+        </div>
+    </div>
+}
+
+
+
+@if (Model.status_id == 0 || Model.status_id == 8)
+{
+    <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-2">
+            <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn btn-block md-primary-color border-primary-color shadow-1">Edit Issue 
+            </a>
+        </div>
+        <div class="col-md-2"
+            data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
+            <a href="#" class="btn btn-block btn-link primary-color-only">Cancel Issue
+            </a>
+        </div>
+    </div>
+}
+
+
+
+
+<div class="modal fade" id="ModalAppr" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm @if (@Model.status_id == 5)
+                            { <ps>Accept</ps> }
+                            else
+                            {<sa>Approve</sa>  } ?</h3>
+                @if( !(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
+                {
+                        <div class="bs-callout bs-callout-warning shadow-1">
+          <h4>Warning!</h4>
+                 <div class="doc_rev data-text">@Model.remark</div>
+                            </div>}
+                <div class="group_button_footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6 col-md-push-1">
+                            @if (!(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
+                            {
+                            <button type="button" id="btn-confirm-appr" class="btn btn-success warning-color border-warning-color shadow-1">Yes</button>
+                            <button type="button" class="btn btn-link warning-color-only" data-dismiss="modal">No</button>
+                            }
+                            else
+                            {
+                            <button type="button" id="btn-confirm-appr" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
+                            <button type="button" class="btn btn-link primary-color-only" data-dismiss="modal">No</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalReject" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Reject?</h3>
+                <div class="group_button_footer">
+                    <form action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Comment</label>
+                                <textarea class="form-control" name="comment"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Attachment File</label>
+                                <input type="file" value="" name="pic" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalCancel" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Cancel Issue?</h3>
+                <div class="group_button_footer">
+                    <form action="@Url.Action("Cancel", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        Create_Select2();
+
+        $("#btn-confirm-appr").click(function () {
+
+            if ($.validate({ form: "form_appr" })) {
+
+
+               $("#form_appr").submit();
+            }
+        });
+
+
+        $("#btn-appr").click(function () {
+
+            var check_error = true;
+            var cust_no = [];
+            $("tbody").find(".form-group").each(function (e, x) {
+                var ss = $(x).find("select.g_review").val();
+                cust_no[e] = ss;
+            });
+
+            $("tbody").find(".form-group").each(function (e, x) {
+
+                var ss = cust_no[e];
+                for (var i = 0; i < cust_no.length; i++) {
+                    if (e !== i) {
+                        if (ss == cust_no[i]) {
+                            $(x).removeClass("has-success");
+                            $(x).addClass("has-error");
+                            check_error = false;
+                            break;
+                        } else {
+                            $(x).removeClass("has-error");
+                            $(x).addClass("has-success");
+                        }
+                    }
+                    if (ss == null) {
+                        $(x).removeClass("has-success");
+                        $(x).addClass("has-error");
+                        check_error = false;
+                    }
+                }
+
+            });
+
+            if (check_error == true) {
+               $("#ModalAppr").modal();
+            }
+        });
+
+        $('body').on('click', '.btn-del-reviewer', function (e) {
+            e.preventDefault();
+            //$(this).parent().parent().parent().remove();
+
+            var no = $(this).attr('data-del-no');
+            $("tr#group_review" + no).remove();
+        });
+
+        $("#btn-AddGroup").on("click", function () {
+            var noofFields = parseInt($(this).attr("data-noof-fields")) + 1;
+            $(this).attr("data-noof-fields", parseInt($(this).attr("data-noof-fields")) + 1);
+
+            var newField = "";
+
+            newField += "<tr id=\"group_review" + noofFields + "\" class=\"form-review\">";
+            newField += "<td> <div class=\"form-group\">";
+            newField += "<select id=\"select2_reviewer"+ noofFields + "\" class=\"g_review form-control\" style=\"width:100%\" name=\"g_review\" data-validate=\"required\">";
+            newField += "</select></div>";
+            newField += "</td>";
+            newField += "<td>";
+            newField += "<textarea class=\"khem-form-control\" name=\"remark\" onkeyup=\"textAreaAdjust(this)\" style=\"overflow:hidden\"></textarea></td>";
+            newField += "<td>";
+            newField += "<button type=\"submit\" data-del-no=\"" + noofFields + "\" class=\"btn btn-del-reviewer btn-success secondary-color-md border-secondary-color shadow-1\">Remove</button></td></tr>";
+
+            $(newField).insertBefore("#row_add_reviewer");
+            Create_Select2();
+
+        });
+
+
+    });
+
+    function textAreaAdjust(o) {
+        o.style.height = "1px";
+        o.style.height = (1 + o.scrollHeight) + "px";
+    }
+
+    function Create_Select2() {
+        var const_URL = "@Url.Action("get_tnc_group", "Home")";
+        var $group_review_select2 = $(".g_review").select2({
+            placeholder: "Select a group reviewer",
+            theme: "bootstrap",
+            minimumInputLength: 0,
+            ajax: {
+                url: const_URL,
+                type: "POST",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+
+                    };
+                }
+
+            }
+        });
+    }
+
+
+</script>

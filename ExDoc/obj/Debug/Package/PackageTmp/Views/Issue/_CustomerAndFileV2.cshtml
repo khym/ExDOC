@@ -1,0 +1,52 @@
+﻿<div class="doc_name">
+    <h3>Customer</h3>
+
+</div>
+<div class="type Secondary-text">Customer & Document File</div>
+
+<div class=" ">
+
+
+        
+        
+        <div class="bs-callout bs-callout-default shadow-1">
+          <h4>Customer</h4>
+          @foreach (var item in ViewBag.Cust_name)
+        {
+           <div class="doc_rev data-text">@item</div>
+        }
+        </div>
+        
+        
+        <div class="bs-callout bs-callout-default shadow-1">
+          <h4>Document File</h4>
+          @foreach (var item in ViewBag.file_name)
+        {
+           <div class="doc_rev data-text"> <a href="@Url.Content(item)">@Path.GetFileName(item)</a></div>
+
+        }
+        </div>
+        
+
+        
+  
+
+</div>
+
+@*     
+<div class="Secondary-text title">Customer </div>
+   foreach (var item in ViewBag.Cust_name)
+        {
+           <div class="doc_rev data-text">@item</div>
+        }
+
+
+                <div class="Secondary-text title">File </div>
+        foreach (var item in ViewBag.file_name)
+        {
+           <div class="doc_rev data-text"> <a href="@Url.Content(item)">@Path.GetFileName(item)</a></div>
+
+        }
+
+*@
+

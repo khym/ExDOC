@@ -1,0 +1,293 @@
+﻿<div class="modal fade" id="myModal_preview" role="dialog" style="z-index: 1400;">
+    
+    <div class="modal-dialog modal-lg">  
+  
+
+        <button type="button" class="card-button-right" data-dismiss="modal"><i class="mdi mdi-close"></i></button>
+    <div id="modalpreview">
+    </div>
+
+          </div>
+
+</div>
+
+
+<div class="row" id="SearchIssue"  >
+        <div class="col-md-12">
+        <div class="card shadow-2">
+            <form data-toggle="validator" id="myForm" role="form">
+                <div class="card-title secondary-color-md">
+                     @*<i class="mdi mdi-file-document mdi-24px btnF_indiv"></i>*@ 
+                  Search
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="form-group has-feedback col-md-6">
+                            <label for="inputName" class="control-label">Customer</label>
+                            <select id="txt_c" style="width: 100%" name="customer" class="form-control" multiple="multiple">
+                            </select>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Document name</label>
+                            <input type="text" class="form-control" name="doc_name">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Receive from customer date</label>
+                            <input type="text" value='' class="form-control " name="date_rec" id="date_re">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        </div>
+@*                    <div class="row">
+
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Document Type</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Status</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">Group Review</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="form-group has-feedback  col-md-3">
+                            <label class="control-label">TNC product name</label>
+                            <input type="text" value='' class="form-control" name="tnc_product">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+
+                    </div>*@
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-2">
+                            <a class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
+                               <span class="glyphicon glyphicon-user"></span> My Document 
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1">
+                                Search 
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-block btn-link primary-color-only">Clear
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="data_issue" style="position:relative;">
+    <button type="button" class="btnfloating_indiv" id="ToggleSearch" hidden>
+</button>
+
+<div id="issue" class="card  shadow-2">
+</div>
+</div>
+
+
+
+@*<div class="row ">
+    <div class="col-md-6">
+        <div class="card shadow-2">
+            <form data-toggle="validator" id="myForm" role="form">
+                <div class="card-title secondary-color-md">
+                    Search
+                </div>
+                <div class="card-body">
+
+
+                    <div class="form-group has-feedback">
+                        <label for="inputName" class="control-label">Customer</label>
+                        <select id="txt_c" style="width: 100%" name="customer" class="form-control" multiple="multiple">
+                        </select>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Document name</label>
+                        <input type="text" class="form-control" name="doc_name">
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Receive from customer date</label>
+                        <input type="text" value='' class="form-control " name="date_rec" id="date_re" readonly>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">TNC product name</label>
+                        <input type="text" value='' class="form-control" name="tnc_product">
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2">
+                            <a data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success md-primary-color border-primary-color shadow-1">
+                                Search 
+                            </a>
+
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-link primary-color-only">Clear
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>*@
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            var const_URL = "@Url.Action("get_all_customer", "Home")";
+            $("#txt_c").select2({
+                theme: "bootstrap",
+                placeholder: {
+                    id: "0",
+                    text: "Select a Customer"
+                },
+                minimumInputLength: 0,
+                ajax: {
+                    url: const_URL,
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (params) {
+                        //console.log(params)
+                        return {
+                            term: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data,
+
+                        };
+                    }
+
+                }
+            });
+
+            $("#ToggleSearch").click(function () {
+
+                $("#SearchIssue").toggle();
+
+            })
+
+            $("#CreateIssue").click(function () {
+
+                var remote = "@Url.Action("controlled_issue","Home")";
+                $.get(remote, function (data) {
+                    $("#modalcreat").html(data);
+                    $("#myModal3").modal({ backdrop: "static" });
+                })
+
+            })
+
+            $('#issue').jtable({
+                title: '<i class="mdi mdi-file-check mdi-12px btnF_indiv"></i> Controlled Document',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'issue_no DESC', //Set default sorting
+                actions: {
+                    listAction: '@Url.Action("controlled_issue", "Home")'
+                },
+                fields: {
+                    issue_no: {
+                        title: 'Issue No.',
+                        width: '10%',
+                        display: function (data) {
+                            return $('<a  onclick="test_click(\'' + data.record.issue_no + '\')" >' + data.record.issue_no + '</a>');
+                        }
+                    },
+                    doc_type_name: {
+                        title: 'Doc Type',
+                        type: 'password',
+                        width: '10%'
+                    },
+                    doc_name: {
+                        title: 'Doc Name',
+                        width: '10%',
+                    },
+                    //doc_no: {
+                    //    title: 'Doc No.',
+                    //    width: '5%'
+                    //},
+                    //doc_rev: {
+                    //    title: 'Doc Revision.',
+                    //    width: '10%'
+                    //},
+                    status_name: {
+                        title: 'Status',
+                        width: '10%'
+                    },
+                    rec_date: {
+                        title: 'Received Date',
+                        width: '10%', display: function (data) {
+                            //return data.record.rec_date;
+                            return moment(data.record.rec_date).format('MM/DD/YYYY');//.fromNow();//.calendar();
+                        }
+                    },
+                    tnc_product: {
+                        title: 'Product',
+                        width: '20%'
+                    }
+                    //,
+                    //Preivew: {
+                    //    title: 'Preivew', width: '4%', visibility: 'fixed',
+                    //    display: function (data) {
+                    //        var x = data.record.issue_no;
+                    //        return $('<button type="button" data-issue-no="' + x + '" onclick="test_click(\'' + x + '\')" >Preview</button>');
+                    //        }
+                    //}
+                }
+
+            });
+
+            //Load student list from server
+            $('#issue').jtable('load');
+        });
+
+
+        function test_click(no) {
+            //console.log("issue no = ", no);
+            var remote = "@Url.Action("_PreviewCompleteDoc","Issue")?issue_no=" + no;
+            $.get(remote, function (data) {
+                $("#myModal_preview").modal({ backdrop: "static" });
+                $("#modalpreview").html(data);
+
+            });
+        }
+
+    </script>
+}

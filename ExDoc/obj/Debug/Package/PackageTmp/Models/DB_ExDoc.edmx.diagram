@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="31455647e0864d238f1c019f5e415804" Name="Diagram1" ZoomLevel="40">
+        <EntityTypeShape EntityType="EX_DOCModel.Action" Width="1.5" PointX="11.323161994723213" PointY="6.2517614989782508" />
+        <EntityTypeShape EntityType="EX_DOCModel.Customer" Width="1.5" PointX="3.6259181907521185" PointY="11.556717281954697" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocFile" Width="1.5" PointX="11.053783591396075" PointY="6.6217745424349674" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocFileBeforeAppr" Width="1.5" PointX="3.6148775702411671" PointY="25.304008629780267" />
+        <EntityTypeShape EntityType="EX_DOCModel.DocType" Width="1.5" PointX="11.801241366100145" PointY="25.456469383768955" />
+        <EntityTypeShape EntityType="EX_DOCModel.GroupReview" Width="1.5" PointX="4.3412370050052358" PointY="21.586087981977542" />
+        <EntityTypeShape EntityType="EX_DOCModel.Issue" Width="1.5" PointX="1.037249247095198" PointY="6.7288504125219077" />
+        <EntityTypeShape EntityType="EX_DOCModel.Relation_Issue_Cust" Width="1.5" PointX="11.625239487562906" PointY="21.340993444128426" />
+        <EntityTypeShape EntityType="EX_DOCModel.Status" Width="1.5" PointX="11.976895077143281" PointY="0.58565017608257486" />
+        <EntityTypeShape EntityType="EX_DOCModel.Transaction" Width="1.5" PointX="11.554425330625113" PointY="21.813054482365519" />
+        <EntityTypeShape EntityType="EX_DOCModel.User_level" Width="1.5" PointX="11.13087917451322" PointY="18.96445023406504" />
+        <EntityTypeShape EntityType="EX_DOCModel.V_ControlledDocument" Width="1.5" PointX="4.2499951106728968" PointY="22.691262672977178" />
+        <EntityTypeShape EntityType="EX_DOCModel.V_ExDoc_Employee_Info" Width="1.5" PointX="1.3642531006430523" PointY="30.607288598365752" />
+        <EntityTypeShape EntityType="EX_DOCModel.V_ExDoc_Organization" Width="1.5" PointX="7.8859727531140535" PointY="30.01484118309563" />
+        <EntityTypeShape EntityType="EX_DOCModel.V_TransactionEmp" Width="1.5" PointX="8.6201555042621472" PointY="14.298923558694741" />
+        <AssociationConnector Association="EX_DOCModel.FK_Transaction_Action" />
+        <AssociationConnector Association="EX_DOCModel.FK_Relation_Issue_Cust_Customer" />
+        <AssociationConnector Association="EX_DOCModel.FK_DocFile_Relation_Issue_Cust" />
+        <AssociationConnector Association="EX_DOCModel.FK_DocFileBeforeAppr_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Issue_DocType" />
+        <AssociationConnector Association="EX_DOCModel.FK_GroupReview_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Relation_Issue_Cust_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_Issue" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_Status" />
+        <AssociationConnector Association="EX_DOCModel.FK_Stransaction_User_level" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

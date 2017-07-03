@@ -1,0 +1,671 @@
+﻿@*@model ExDoc.ViewModel.IssueAndEmp*@
+@model ExDoc.ViewModel.DocDetail
+
+<style>
+    .load-center {
+        width: 35%;
+        margin: 0 auto;
+        padding: 5%;
+    }
+
+    @@-moz-keyframes spin {
+        0% {
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-ms-keyframes spin {
+        0% {
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        -moz-animation: spin 2s linear infinite;
+        -o-animation: spin 2s linear infinite;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+
+
+    .card-button-right {
+        background-color: #fff !important;
+        color: #333;
+        position: relative;
+        top: 15px;
+        right: 20px;
+    }
+
+    /*.card-body {
+        padding-left: 40px;
+        padding-right: 25px;
+        padding-bottom: 25px;
+    }*/
+
+    .Secondary-text {
+        color: #757575;
+        font-size: 14px;
+    }
+
+    .data-text {
+        font-size: 16px;
+        padding-bottom: 7.5px;
+    }
+
+    .type {
+        margin-top: -10px;
+    }
+
+    .information_doc {
+        padding-top: 15px;
+    }
+
+    .title {
+        margin-bottom: -5px;
+    }
+
+
+
+    /* Tabs panel */
+    .tabbable-panel {
+        border: 1px solid #eee;
+        padding: 10px;
+    }
+
+    /* Default mode */
+    .tabbable-line > .nav-tabs {
+        border: none;
+        margin: 0px;
+    }
+
+        .tabbable-line > .nav-tabs > li {
+            margin-right: 2px;
+        }
+
+            .tabbable-line > .nav-tabs > li > a {
+                border: 0;
+                margin-right: 0;
+                color: #737373;
+            }
+
+                .tabbable-line > .nav-tabs > li > a > i {
+                    color: #a6a6a6;
+                }
+
+            .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+                border-bottom: 4px solid #9FA8DA;
+            }
+
+                .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+                    border: 0;
+                    background: none !important;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+                        color: #a6a6a6;
+                    }
+
+                .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+                    margin-top: 0px;
+                }
+
+            .tabbable-line > .nav-tabs > li.active {
+                border-bottom: 4px solid #303F9F;
+                position: relative;
+            }
+
+                .tabbable-line > .nav-tabs > li.active > a {
+                    border: 0;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.active > a > i {
+                        color: #404040;
+                    }
+
+    .tabbable-line > .tab-content {
+        margin-top: -3px;
+        background-color: #fff;
+        border: 0;
+        border-top: 1px solid #eee;
+        padding-left: 15px;
+        /*padding: 15px 0;*/
+    }
+
+    .portlet .tabbable-line > .tab-content {
+        padding-bottom: 0;
+    }
+
+    /* Below tabs mode */
+
+    .tabbable-line.tabs-below > .nav-tabs > li {
+        border-top: 4px solid transparent;
+    }
+
+        .tabbable-line.tabs-below > .nav-tabs > li > a {
+            margin-top: 0;
+        }
+
+        .tabbable-line.tabs-below > .nav-tabs > li:hover {
+            border-bottom: 0;
+            border-top: 4px solid #9FA8DA;
+        }
+
+        .tabbable-line.tabs-below > .nav-tabs > li.active {
+            margin-bottom: -2px;
+            border-bottom: 0;
+            border-top: 4px solid #303F9F;
+        }
+
+    .tabbable-line.tabs-below > .tab-content {
+        margin-top: -10px;
+        border-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+</style>
+
+@*<div class=" modal-dialog ">*@
+<div>
+
+    <div class="card  shadow-2">
+
+        @*<div class="card-body">*@
+
+        @*<button type="button" class="card-button-right" data-dismiss="modal"><i class="mdi mdi-close"></i></button>*@
+
+
+        <div class="tabbable-panel">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
+                        <a href="#tab_default_1" data-toggle="tab">Document Information </a>
+                    </li>
+                    <li onclick="get_tap2('@Model.issue_no')">
+                        <a href="#tab_default_2" data-toggle="tab">Document File </a>
+                    </li>
+                    <li onclick="get_tap3('@Model.issue_no')">
+                        <a href="#tab_default_3" data-toggle="tab">Transaction Detail </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_default_1">
+                        @*<div class="no-border-left-width bs-callout   shadow-1">*@
+                            <div class="doc_name">
+                                <h3>Document Name : @Model.doc_name</h3>
+
+                            </div>
+                            <div class="type Secondary-text">Document Type : @Model.doc_type</div>
+
+                            <div class="information_doc">
+
+                                <div class="Secondary-text title">Document Number</div>
+                                <div class="doc_rev data-text">@Model.doc_no</div>
+
+                                <div class="Secondary-text title">Document Revision</div>
+                                <div class="doc_rev data-text">@Model.doc_rev</div>
+
+                                <div class="Secondary-text title">Receive date doc. from customer</div>
+                                <div class="doc_rev data-text">@Model.rec_date</div>
+
+                                <div class="Secondary-text title">TNC Product</div>
+                                <p>@Model.tnc_product</p>
+
+                                @if (@Model.change_point != null)
+                                {
+                                    <div class="Secondary-text title">Change Point</div>
+                                    <p>@Model.change_point</p>
+                                }
+
+                                <div id="text_group_review"> </div>
+                            </div>
+                        @*</div>*@
+                    </div>
+                    <div class="tab-pane" id="tab_default_2">
+                        <div id="tab2">
+                            <div class="load-center">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane" id="tab_default_3">
+                        <div id="tab3">
+                            <div class="load-center">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+@*        @{
+            
+            var ss = @Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault();
+
+        }
+        @if (ViewBag.user_lvl >= ss.User_level.position_min && ViewBag.user_lvl <= ss.User_level.position_max && ViewBag.g_id == ss.org_id && ss.status_id != 100 && ss.status_id != 0)
+        *@ 
+           
+          @if (ViewBag.user_lvl >= Model.last_tran_lvl_min && ViewBag.user_lvl <= Model.last_tran_lvl_max && ViewBag.g_id == Model.last_tran_org_id && Model.last_tran_status_id != 100 && Model.last_tran_status_id != 0)
+          {
+          
+              
+            
+            <div class="card-footer">
+
+                            <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                    <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                    <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                    <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+
+                                    <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                    <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                    <input type="text" id="group_review" name="group_review" value="" hidden/>
+
+                                    @* <input type="text" name="doc_type_id" value="@Model.c" hidden/>
+                                    <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                                </div>
+
+                            </div>
+                               
+                        @if ((Model.last_tran_org_id == 18 || Model.last_tran_org_id == 49) && Model.last_tran_status_id != 5 )
+                        {
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group ">
+                                        <label class="control-label">Group Review</label>
+                                        <select id="g_review" style="width: 100%" name="g_review" class="form-control" multiple="multiple" data-validate="required">
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group ">
+                                        <label class="control-label">Remark</label>
+                                        <textarea class="form-control" name="Remark"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div> 
+                            
+                        }
+                        </form>
+
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2">
+
+                        <a id="btn-appr" class="btn btn-block btn-success md-primary-color border-primary-color shadow-1"
+                            data-toggle="modal" data-target="#ModalAppr">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            @if (@Model.last_tran_status_id == 5){ <ps>Accept</ps> }else{<sa>Approve</sa>  }        
+                             
+                        </a>
+
+
+                    </div>
+                    <div class="col-md-2"
+                        data-toggle="modal" data-target="#ModalReject" data-backdrop="static" data-keyboard="false">
+                        <a href="#" class="btn btn-block btn-link primary-color-only">
+                            Reject
+                        </a>
+                    </div>
+                </div>
+            </div>
+          }
+
+@*        @if (ViewBag.emp_code == ss.actor && ss.status_id != 100)*@
+            
+             @if (ViewBag.emp_code == Model.last_tran_actor && Model.last_tran_status_id != 100)
+             {
+            <div class="card-footer">
+
+
+                <div class="row">
+                    <div class="col-md-7"></div>
+                    
+                    <div class="col-md-2">
+
+                        <a href="@Url.Action("EditIssue")?issue_no=@Model.issue_no" class="btn btn-block md-primary-color border-primary-color shadow-1">
+                             Edit Issue 
+                        </a>
+
+
+                    </div>
+                    <div class="col-md-2"
+                        data-toggle="modal" data-target="#ModalCancel" data-backdrop="static" data-keyboard="false">
+                        <a href="#" class="btn btn-block btn-link primary-color-only">Cancel Issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+             }
+
+
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="ModalAppr" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm @if (@Model.last_tran_status_id == 5){ <ps>Accept</ps> }else{<sa>Approve</sa>  } ?</h3>
+                <div class="group_button_footer">
+
+                  @*  <form class="form_appr" id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">*@
+                       
+                         <div class="row">
+                            <div class="col-md-6">
+                               @* <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                <input type="text" id="group_review" name="group_review" value="" hidden/>*@
+
+                                @* <input type="text" name="doc_type_id" value="@Model.c" hidden/>
+                                <input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="button" id="btn-confirm-appr" class="btn btn-success md-primary-color border-primary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link primary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                   @* </form>*@
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="ModalReject" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Reject?</h3>
+                <div class="group_button_footer">
+                    <form class="form_appr" action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Comment</label>
+                                <textarea class="form-control" name="comment"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-xs-4 col-md-12">
+                                <label for="name" class="control-label">Attachment File</label>
+                                <input type="file" value="" name="pic" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="ModalCancel" role="dialog">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="card shadow-2">
+            <div class="card-footer">
+                <h3>Confirm Cancel Issue?</h3>
+                <div class="group_button_footer">
+                    <form class="form_appr" action="@Url.Action("Reject", "Issue")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="emp_code" value="@ViewBag.emp_code" hidden/>
+                                <input type="text" name="user_lvl" value="@ViewBag.user_lvl" hidden/>
+                                <input type="text" name="g_id" value="@ViewBag.g_id" hidden/>
+                                <input type="text" name="issue_no" value="@Model.issue_no" hidden/>
+                                <input type="text" name="doc_type_id" value="@Model.doc_type_id" hidden/>
+                                <input type="text" name="seq" value="@Model.last_tran_seq" hidden/>
+                                @*<input type="text" name="seq" value="@Model.Transaction.OrderByDescending(a => a.seq).FirstOrDefault().seq" hidden/>*@
+                            </div>
+                            <div class="col-md-6 col-md-push-1">
+                                <button type="submit" class="btn btn-success secondary-color-md border-secondary-color shadow-1">Yes</button>
+                                <button type="button" class="btn btn-link secondary-color-only" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var const_URL = "@Url.Action("get_tnc_group", "Home")";
+        var $group_review_select2 =   $("#g_review").select2({
+            theme: "bootstrap",
+            placeholder: {
+                id: "0",
+                text: "Select a Group"
+            },
+            minimumInputLength: 0,
+            ajax: {
+                url: const_URL,
+                type: "POST",
+                dataType: 'json',
+                data: function (params) {
+                    //console.log(params)
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+
+                    };
+                }
+
+            }
+        });
+
+
+        $.get('@Url.Action("IssueGetGroup", "Issue")?issue_no=@Model.issue_no', function (x) {
+
+            console.log("x",x);
+
+            //"<div class='Secondary-text title'>Group Reiview</div><div class='doc_rev data-text' id='text_group_review'> </div>"
+
+            var selected = [];
+            var initials = [];
+            var str = ""
+            for (var s in x) {
+                selected.push(x[s].id);
+                $group_review_select2.append('<option value="' + x[s].id + '" selected="selected">' + x[s].text + '</option>');
+                if (s >= (x.length-1)) {
+                    str += x[s].text 
+                } else {
+                    str += x[s].text + " , "
+                }
+            }
+            if (x.length > 0) {
+                $("#text_group_review").append("<div class='Secondary-text title'>Group Reiview</div> <p>" + str + "</p> ");
+            }
+            $('select').trigger('change.select2');
+        });
+
+        $("#btn-confirm-appr").click(function () {
+            console.log("Confirm Appr!!");
+            $("#form_appr").submit();
+        });
+
+        $("#btn-appr").click(function () {
+
+            
+            var x = $("#g_review").val();
+           var y = $("#group_review").val(x);
+            console.log("Click!! Appr", x,y);
+        });
+
+        @*     $("#click_tab_default_2").click(function () {
+
+              var remote = "@Url.Action("_CustomerAndFile")?issue_no=" + issue_no;
+              $.get(remote, function (data) {
+                  $("#myModal_preview").modal({ backdrop: "static" });
+                  $("#modalpreview").html(data);
+
+              });
+          })*@
+
+
+    });
+
+@*    function check_appr(c) {
+
+        var check = confirm(c, "!");
+        if (check) {
+            console.log('Url.Action("MgrApprove", "Issue")?code=' + c);
+            document.location.href = '@Url.Action("MgrApprove", "Issue")?code=' + c;
+        } else {
+
+        }
+    }*@
+
+    function get_tap2(dd) {
+        var remote = "@Url.Action("_CustomerAndFileV2")?issue_no=" + dd;
+        $.get(remote, function (data) {
+            $("#tab2").html(data);
+
+        });
+    }
+
+    function get_tap3(dd) {
+        var remote = "@Url.Action("_TransactionDetail")?issue_no=" + dd;
+        $.get(remote, function (data) {
+            $("#tab3").html(data);
+
+        });
+    }
+
+</script>

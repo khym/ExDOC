@@ -1,0 +1,29 @@
+﻿     <div class="nav navbar-form navbar-right">
+              <div class="row">
+      @if (Session["emp_code"] == null) {
+     
+     <form action="@Url.Action("login","Home")" method="post" id="form_login">
+
+                     <div class="col-md-2"></div>
+                        <div class="input-group col-md-3 col-md-offset-2">
+                            <span class="input-group-addon input-sm" "=""><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="id" class="form-control input input-sm" id="usr" >                                        
+                        </div>
+
+                        <div class="input-group col-md-3">
+                            <span class="input-group-addon input-sm" "=""><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="pwd" class="form-control input input-sm" id="pwd" maxlength="16">                                        
+                        </div>
+
+                        <button type="button" class="btn btn-default btn-sm" id="click_login">Login</button>
+
+ </form>
+     
+         }else{
+          
+     <div class="" style="color:#fff;"> <b>Welcome</b> <span class="">@Session["emp_name"]</span>    
+        <a href="@Url.Action("logout","Home")" class="btn btn-default btn-sm" id="click_logout">Logout</a></div>
+      
+           
+    }
+   </div></div>

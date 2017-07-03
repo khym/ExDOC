@@ -1,0 +1,223 @@
+﻿@model List<ExDoc.ViewModel.TranVSEmpInfo>
+
+<style>
+        .Secondary-text {
+        color: #757575;
+        font-size: 14px;
+    }
+
+    .data-text {
+        font-size: 16px;
+        padding-bottom: 7.5px;
+    }
+
+    .td-text-center {
+        vertical-align: middle !important;
+         text-align: center !important;
+    }
+
+    .has_remark {
+    border-left: 8px #FFC107;
+border-style: solid;
+border-bottom: none;
+border-right: none;
+border-top: none;
+    }
+
+</style>
+
+<div class="doc_name">
+    <h3>Transaction</h3>
+
+</div>
+<div class="type Secondary-text">Detail</div>
+
+<div class="information_doc">
+
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Action</th>
+        <th>Actor</th>
+        <th>Actor Date</th>
+        <th>Position</th>
+        <th>Organize</th>
+      </tr>
+    </thead>
+    <tbody>
+
+         @{
+    
+        foreach (var item in Model)
+        {
+
+            switch (item.action_id)
+            {
+                case 1:                  
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+                    break;
+                    
+                    case 2:
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+                    break;
+                    
+                    case 3:
+      <tr>
+        <td rowspan="2" class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr> 
+             <tr>
+        <td><b>Comment :</b></td>
+        <td colspan="2">@item.comment</td>
+        <td><b>Attachment File</b></td>
+                @if (item.comment_pic != null)
+        {
+        <td>
+            <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a></td>
+        }else{
+               <td> - </td>      
+        }
+      </tr>  
+         
+                                                                  
+                    break;
+                    
+                    case 4:
+                        int g_id = int.Parse(Session["g_id"].ToString());
+                        int user_lvl = int.Parse(Session["po_lvl"].ToString());
+                    
+                        if(g_id == 49 && user_lvl == 6){
+                            var col_num = 1;
+                            string style = "";
+            
+                            if(item.remark != null){
+                                col_num = 2;
+                                style = "has_remark";
+                             
+                            }
+                     
+                            <tr class="@style">
+                                <td class="td-text-center" rowspan="@col_num">@item.status_name</td>
+                                <td>@item.action_name</td>
+                                <td>@item.actor_name</td>
+                                <td>@item.actor_date</td>
+                                <td>@item.position_name</td>
+                                <td>@item.org_name</td>
+                            </tr>
+         
+                            if (item.remark != null)
+                            {
+                                <tr>
+                                    <td><b>Remark :</b></td>
+                                    <td colspan="4">@item.remark</td>
+                                </tr> 
+                            }
+                         }
+                         else
+                         {
+                            <tr >
+                                <td class="td-text-center" >@item.status_name</td>
+                                <td>@item.action_name</td>
+                                <td>@item.actor_name</td>
+                                <td>@item.actor_date</td>
+                                <td>@item.position_name</td>
+                                <td>@item.org_name</td>
+                            </tr>
+                            
+                         }
+
+                    break;
+                    
+                    case 0:
+                    
+                            <tr>
+                              <td colspan="6" align="center"> Waitng @item.status_name (@item.org_name)</td>
+                            </tr>
+                    break;
+                    
+                    case 5:
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+                    break;
+
+                    case 6:
+      <tr>
+        <td class="td-text-center">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+                    break;
+                    
+                    case 7:
+      <tr>
+        <td class="td-text-center" rowspan="2">@item.status_name</td>
+        <td>@item.action_name</td>
+        <td>@item.actor_name</td>
+        <td>@item.actor_date</td>
+        <td>@item.position_name</td>
+        <td>@item.org_name</td>
+      </tr>
+         
+                      <tr>
+        <td><b>Comment :</b></td>
+        <td colspan="2">@item.comment</td>
+        <td><b>Attachment File</b></td>
+                @if (item.comment_pic != null)
+        {
+        <td>
+            <a href="@Url.Content(item.comment_pic)">@Path.GetFileName(Server.MapPath(item.comment_pic))</a></td>
+        }else{
+               <td> - </td>      
+        }
+      </tr>  
+                    break;
+                    
+                     
+                    case 100:
+                            <tr>
+                              <td colspan="6" align="center">@item.action_name</td>
+                            </tr>
+                    break;                                        
+
+            }
+            
+
+
+        }    
+    
+    }
+ 
+
+    </tbody>
+  </table>
+
+    </div>
+

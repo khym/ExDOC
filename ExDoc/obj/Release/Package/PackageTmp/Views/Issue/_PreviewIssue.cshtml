@@ -1,0 +1,132 @@
+﻿@*@model IEnumerable<ExDoc.Models.DocFile>*@
+@*@model IEnumerable<ExDoc.Models.Relation_Issue_Cust>*@
+@model ExDoc.Models.Issue
+@*@model Tuple<ExDoc.Models.Issue,ExDoc.Models.V_Employee_Info>*@
+
+<div class=" modal-dialog modal-lg">
+
+    <div class="card shadow-2">
+
+        <div class="card-title secondary-color-md">
+            Preview Issue
+            <button type="button" class="card-button-right" data-dismiss="modal"><i class="mdi mdi-close"></i></button>
+        </div>
+        <div class="card-body">
+
+            <div class="card-text card-boder">
+
+                @ViewBag.issue_no
+
+                <ul>
+                    <li>@Model.issue_no</li>
+                    <li>@Model.DocType.doc_type_name</li>
+                    <li>@Model.rec_date</li>
+                    <li>@Model.doc_name</li>
+                    <li>@Model.doc_rev</li>
+                    <li>@Model.doc_no</li>
+                    <li>@Model.change_point</li>
+                    <li>@Model.issue_date</li>
+                    <li>@Model.tnc_product</li>
+
+
+
+
+                    @foreach (var item in Model.Relation_Issue_Cust.Select(a => new { a.cust_no, a.Customer.cust_name, a.DocFile }))
+                    {
+                        <li>@item.cust_name (@item.cust_no)
+                             <ul>
+                                 @foreach (var item2 in item.DocFile.Select(a => new { a.file_name }))
+                                 {
+                                     <li><a href="@Url.Content(item2.file_name)">@Path.GetFileName(Server.MapPath(item2.file_name))</a>  </li>
+                               
+                                 }
+                             </ul>
+                        </li>
+                    }
+
+
+                </ul>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Action by</th>
+                            <th>Action date</th>
+                            <th>Comment</th>
+                            @*<img src="~/Images/Approval.png" alt="" />*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Transaction.Select(a => a).OrderBy(a => a.seq))
+                        {
+                            <tr>
+                                <td>@item.Status.status_name </td>
+                                <td>@if (item.action_id != null) { @item.Action.action_name }</td>
+
+
+                                @*      @for (int i = 0; i < ViewBag.emp_info.length; i++)
+                                {
+                                  <td> @if (item.actor != null && item.actor == ViewBag.emp_info[i].emp_code ){ @ViewBag.emp_info[i].emp_fname }</td>
+                                }*@
+                                @*    <td>
+
+                                @foreach (var item3 in ViewBag.emp_info)
+                                {
+                                   @item3.emp_code
+                                 
+                                }
+                                 <td>*@
+
+                                <td>
+
+                                    @foreach (var emp in ViewBag.emp_info)
+                                    {
+                                        if (item.actor == emp.emp_code && item.actor != null)
+                                        {@emp.emp_fname @emp.emp_lname }
+                                    }
+                                </td>
+                                @*<td>@item.actor</td> *@
+
+
+                                <td>@item.actor_date </td>
+                                <td>@item.comment </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+
+
+
+                @*   @foreach (var emp in ViewBag.emp_info)
+                            {
+                               
+                                <h4> @emp.emp_fname @emp.emp_lname </h4>
+                            }*@
+
+                @*<ul> work
+                          <li> 
+                        @foreach (var item in Model)
+                        {
+                        @item.Customer.cust_name
+                             <ul>
+                            @foreach (var item2 in item.DocFile.Select(a=>a))
+                            {
+                              <li> @item2.file_name</li>
+                            }
+                            </ul>
+                     }
+                        </li>
+                    </ul> *@
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

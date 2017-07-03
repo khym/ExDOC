@@ -494,6 +494,7 @@
       <DependentUpon>RunNumber.edmx</DependentUpon>
       <LastGenOutput>RunNumber.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\ExDoc.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -648,6 +649,10 @@
     <Content Include="Scripts\Select2\select2-bootstrap.css" />
     <Content Include="Scripts\Select2\select2.css" />
     <Content Include="Scripts\Select2\select2.js" />
+    <Content Include="Scripts\tnc-validate\img\icon-fail.png" />
+    <Content Include="Scripts\tnc-validate\img\icon-ok.png" />
+    <Content Include="Scripts\tnc-validate\jquery.tnc.validate.js" />
+    <Content Include="Scripts\tnc-validate\tnc.validate.css" />
     <Content Include="Scripts\validator-0.11.9.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
