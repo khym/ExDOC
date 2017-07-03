@@ -265,34 +265,17 @@ namespace ExDoc.Controllers
             sql.actor = emp_code;
             sql.actor_date = DateTime.Now;
 
-            //new transaction 
-            if (sql.status_id == 8)
+
+            int check_doc_type = ex_doc.Issue.Where(a => a.issue_no == issue_no).Select(a=>a.doc_type_id).FirstOrDefault();
+
+            if (check_doc_type == 3)
             {
-                    //create wait Mgr. (Issuer) Appr after Mgr. group (not accept)
-                    var create_tran2 = new Transaction();
-                    create_tran2.issue_no = issue_no;
-                    create_tran2.status_id = 6; // 6 = Mgr. (Issuer) After Mgr. Review (Not Accept)
-                    create_tran2.action_id = 0; // 0 = idle
-                    create_tran2.actor = null;
-                    create_tran2.actor_date = null;
-                    create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
-                    create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
-                    create_tran2.comment = null;
-                    ex_doc.Transaction.Add(create_tran2);
+                Add_transaction(issue_no, 4, 0, null, null, 49, 3, null, null, null);
             }
             else
             {
-                    //create wait Mgr. (Issuer) Appr
-                    var create_tran2 = new Transaction();
-                    create_tran2.issue_no = issue_no;
-                    create_tran2.status_id = 2; // 2 = Mgr. (Issuer)
-                    create_tran2.action_id = 0; // 0 = idle
-                    create_tran2.actor = null;
-                    create_tran2.actor_date = null;
-                    create_tran2.org_id = int.Parse(Session["g_id"].ToString()); // group_id Mgr. (Issuer) 
-                    create_tran2.level_id = 2; // 2 = Mgr ,position_min = 5 ,	position_max = 5
-                    create_tran2.comment = null;
-                    ex_doc.Transaction.Add(create_tran2);
+
+
             }
 
             //new transaction 
