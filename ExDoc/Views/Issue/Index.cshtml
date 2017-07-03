@@ -175,7 +175,7 @@
 
             $('body').on('click', '#preview_card', function (e) {
                 var issue_no = $(this).attr("data-issue-no");
-                console.log("issue_no = ", issue_no);
+                //console.log("issue_no = ", issue_no);
                 var remote = "@Url.Action("_PreviewIssue")?issue_no=" + issue_no;
                 $.get(remote, function (data) {
                     $("#myModal_preview").modal({ backdrop: "static" });
@@ -252,7 +252,7 @@
 
 
         function test_click(no) {
-            console.log("issue no = ", no);
+            //console.log("issue no = ", no);
             var remote = "@Url.Action("_PreviewDocV2")?issue_no=" + no;
             $.get(remote, function (data) {
                 $("#myModal_preview").modal({ backdrop: "static" });

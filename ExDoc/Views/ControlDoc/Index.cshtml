@@ -280,7 +280,7 @@
 
 
         function test_click(no) {
-            console.log("issue no = ", no);
+            //console.log("issue no = ", no);
             var remote = "@Url.Action("_PreviewCompleteDoc","Issue")?issue_no=" + no;
             $.get(remote, function (data) {
                 $("#myModal_preview").modal({ backdrop: "static" });
