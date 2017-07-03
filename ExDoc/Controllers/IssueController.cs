@@ -426,9 +426,15 @@ namespace ExDoc.Controllers
                             a.action_id == 0
                             );
 
+            //int status_tran = ex_doc.Transaction.Where(a => a.issue_no.Contains(issue_no) &&
+            //                a.org_id == g_id &&
+            //                user_lvl >= a.User_level.position_min &&
+            //                user_lvl <= a.User_level.position_max &&
+            //                a.action_id == 0).Select(a=>a.status_id).FirstOrDefault();
+
             DocDetail_V2 doc_detail = new DocDetail_V2();
 
-            doc_detail.doc_type_id = sql.doc_type_id;
+                doc_detail.doc_type_id = sql.doc_type_id;
                 doc_detail.issue_no = sql.issue_no;
                 doc_detail.doc_type = sql.doc_type_name;
                 doc_detail.doc_name = sql.doc_name;
