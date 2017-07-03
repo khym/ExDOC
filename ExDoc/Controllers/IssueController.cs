@@ -904,9 +904,14 @@ namespace ExDoc.Controllers
             int get_doc_type = ex_doc.Issue.Where(a => a.issue_no == issue_no).Select(a => a.doc_type_id).FirstOrDefault();
             if (get_doc_type == 3)//check doc type
             {
-                //status_id = 8 = Issuer edit after mgr. review (not accept)
-                //action_id = 0 = Idle
-                Add_transaction(sql.issue_no, 8, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
+                switch (sql.status_id)
+                {
+                    case 4:
+                        {
+                            Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
+                            break;
+                        }
+                }
             }
             else
             {
