@@ -28,6 +28,34 @@
                 </tr>
             </thead>
             <tbody>
+
+                @for (int i = 0; i < ViewBag.Count_reviwer; i++)
+                {
+
+
+                    var name_class = "old_reveiewer" + i;
+                    var text_area = "old_remark" + i;
+                <tr class="@name_class form-review ">
+                    <td style="width:27%">
+                        <div class="form-group form-old-reviewer">
+                        <select id="@name_class" class="form-control old_reviewer" style="width:100%" name="old_review" >
+                            @foreach (var item in ViewBag.Group)
+                            {
+                                <option value="@item.id">@item.group_name</option>
+                            }
+                        </select>
+                            </div>
+                    </td>
+                    <td style="width:65%">
+                        <textarea id="@text_area" class="khem-form-control" name="old_remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
+                    <td>
+                        <button type="button" data-del-no="@i" class="btn btn-del-old-reviewer btn-success secondary-color-md border-secondary-color shadow-1">Remove</button>
+                    </td>
+                </tr>
+                }
+
+                @if (Model.status_id == 4)
+                {
                 <tr class="form-review">
                     <td style="width:27%">
                         <div class="form-group select-group">
