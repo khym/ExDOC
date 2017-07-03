@@ -264,6 +264,17 @@
             }
         });
 
+
+        
+        $('body').on('click', '.del-old-file', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().remove();
+
+            //var no = $(this).attr('data-del-no');
+            //$("tr#group_review" + no).remove();
+        });
+
+
         $('body').on('click', '.btn-del-reviewer', function (e) {
             e.preventDefault();
             //$(this).parent().parent().parent().remove();
