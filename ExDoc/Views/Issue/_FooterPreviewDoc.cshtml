@@ -258,9 +258,12 @@
                 }
 
             });
-
             if (check_error == true) {
-               $("#ModalAppr").modal();
+            if ($.validate({ form: "form_appr" })) {
+                
+
+                    $("#ModalAppr").modal();
+                }
             }
         });
 
