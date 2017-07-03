@@ -1,31 +1,5 @@
 ﻿@model ExDoc.ViewModel.ManageIssue
-
-<style>
-
-    #ta_10px {
-    min-height: 10px !important;
-    }
-
-    .khem-form-control {
-    display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555555;
-    background-color: #ffffff;
-    background-image: none;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    }
-
-</style>
+<link href="~/Content/FooterPreview.css" rel="stylesheet" />
 
 <form id="form_appr" action="@Url.Action("Approve", "Issue")" method="post" enctype="multipart/form-data">
     <div class="row">
@@ -43,8 +17,8 @@
     </div>
 
 
-    @if (Model.status_id == 4 && Model.doc_type_id != 3 )
-    {          
+    @if ((Model.status_id == 4 || Model.status_id == 9) && Model.doc_type_id != 3)
+    {     
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -54,9 +28,37 @@
                 </tr>
             </thead>
             <tbody>
+
+                @for (int i = 0; i < ViewBag.Count_reviwer; i++)
+                {
+
+
+                    var name_class = "old_reveiewer" + i;
+                    var text_area = "old_remark" + i;
+                <tr class="@name_class form-review ">
+                    <td style="width:27%">
+                        <div class="form-group form-old-reviewer">
+                        <select id="@name_class" class="form-control old_reviewer" style="width:100%" name="old_review" >
+                            @foreach (var item in ViewBag.Group)
+                            {
+                                <option value="@item.id">@item.group_name</option>
+                            }
+                        </select>
+                            </div>
+                    </td>
+                    <td style="width:65%">
+                        <textarea id="@text_area" class="khem-form-control" name="old_remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
+                    <td>
+                        <button type="button" data-del-no="@i" class="btn btn-del-old-reviewer btn-success secondary-color-md border-secondary-color shadow-1">Remove</button>
+                    </td>
+                </tr>
+                }
+
+                @if (Model.status_id == 4)
+                {
                 <tr class="form-review">
                     <td style="width:27%">
-                        <div class="form-group">
+                        <div class="form-group select-group">
                         <select id="select2_reviewer" class="g_review form-control" style="width:100%" name="g_review" data-validate="required">
                         </select>
                             </div>
@@ -65,18 +67,52 @@
                         <textarea id="ta_10px" class="khem-form-control" name="remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
                     <td></td>
                 </tr>
-
+                }
                 <tr id="row_add_reviewer">
                     <td colspan="3">
                         <button type="button" id="btn-AddGroup"  data-noof-fields="1"  class="btn btn-block btn-success md-primary-color border-primary-color  shadow-1">Add Group Reviewer</button></td>
                 </tr>
             </tbody>
         </table>
+        
+        
+                if (Model.status_id == 9)
+                {
+    <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Attachment File</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < ViewBag.File.Count; i++)
+                {
+
+                <tr class="form-review ">
+                    <td style="width:90%">
+                     <a href="@Url.Content(ViewBag.File[i].path_file)">@Path.GetFileName(Server.MapPath(ViewBag.File[i].path_file))</a>
+                        
+                    </td>
+                    <td>
+                        <button type="button" data-del-file="@i" class="btn del-old-file btn-success secondary-color-md border-secondary-color shadow-1">Remove</button>
+                    </td>
+                </tr>
+                }
+                <tr id="row_add_file">
+                    <td colspan="2">
+                        <button type="button" id="btn-AddFile"  data-noof-fields="1"  class="btn btn-block btn-success md-primary-color border-primary-color  shadow-1">Add File</button></td>
+                </tr>
+            </tbody>
+        </table>
+                }
+
     }
 
 </form>
 
-@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7)
+@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7 || Model.status_id == 9)
 {
     <div class="row">
         <div class="col-md-8"></div>
@@ -133,7 +169,7 @@
                             { <ps>Accept</ps> }
                             else
                             {<sa>Approve</sa>  } ?</h3>
-                @if( !(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
+                @if (!(string.IsNullOrWhiteSpace(Model.remark) || string.IsNullOrEmpty(Model.remark)))
                 {
                         <div class="bs-callout bs-callout-warning shadow-1">
           <h4>Warning!</h4>
@@ -242,6 +278,24 @@
 
         Create_Select2();
 
+        $(".old_reviewer").select2({
+            theme: "bootstrap"
+        });
+
+        $.get('@Url.Action("GetGroupReviwer", "Issue")?issue_no=@Model.issue_no', function (x) {
+
+            console.log("x", x);
+
+            for (var i = 0; i < x.length; i++) {
+                $("select#old_reveiewer" + i).val(x[i].org_id).trigger("change.select2");
+                $("textarea#old_remark" + i).val(x[i].remark);
+               // console.log("$(select#old_reveiewer" + i + ").val(" + x[i].org_id + ").trigger(change.select2)")
+
+               // console.log(x[i])
+            }
+
+        });
+
         $("#btn-confirm-appr").click(function () {
 
             if ($.validate({ form: "form_appr" })) {
@@ -256,10 +310,18 @@
 
             var check_error = true;
             var cust_no = [];
-            $("tbody").find(".form-group").each(function (e, x) {
-                var ss = $(x).find("select.g_review").val();
+            var old_re = [];
+ 
+            $("tbody").find(".form-old-reviewer").each(function (e, x) {
+                var ss = $(x).find("select.old_reviewer").val();
                 cust_no[e] = ss;
             });
+
+            $("tbody").find(".select-group").each(function (e, x) {
+                var ss = $(x).find("select.g_review").val();
+                cust_no.push(ss);
+            });
+
 
             $("tbody").find(".form-group").each(function (e, x) {
 
@@ -284,11 +346,25 @@
                 }
 
             });
-
             if (check_error == true) {
-               $("#ModalAppr").modal();
+            if ($.validate({ form: "form_appr" })) {
+                
+
+                    $("#ModalAppr").modal();
+                }
             }
         });
+
+
+        
+        $('body').on('click', '.del-old-file', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().remove();
+
+            //var no = $(this).attr('data-del-no');
+            //$("tr#group_review" + no).remove();
+        });
+
 
         $('body').on('click', '.btn-del-reviewer', function (e) {
             e.preventDefault();
@@ -298,6 +374,35 @@
             $("tr#group_review" + no).remove();
         });
 
+        $('body').on('click', '.btn-del-old-reviewer', function (e) {
+            e.preventDefault();
+            //$(this).parent().parent().parent().remove();
+            
+
+            var no = $(this).attr('data-del-no');
+            console.log("asdasdasd", no);
+            $("tr.old_reveiewer" + no).remove();
+        });
+        var noofFields = 0;
+        $("#btn-AddFile").on("click", function () {
+            
+
+            var newField = "";
+
+            newField += "<tr id=\"" + noofFields + "\">";
+            newField += "<td> <div class=\" \">";
+            newField += "<input type=\"file\" name=\"doc_file\" class=\"form-control\" data-validate=\"required\">";
+            newField += "</div>";
+            newField += "</td>";
+            newField += "<td>";
+            newField += "<button type=\"submit\" data-del-file=\"" + noofFields + "\" class=\"btn del-old-file btn-success secondary-color-md border-secondary-color shadow-1\">Remove</button></td></tr>";
+
+            $(newField).insertBefore("#row_add_file");
+            noofFields++;
+            
+
+        });
+
         $("#btn-AddGroup").on("click", function () {
             var noofFields = parseInt($(this).attr("data-noof-fields")) + 1;
             $(this).attr("data-noof-fields", parseInt($(this).attr("data-noof-fields")) + 1);
@@ -305,7 +410,7 @@
             var newField = "";
 
             newField += "<tr id=\"group_review" + noofFields + "\" class=\"form-review\">";
-            newField += "<td> <div class=\"form-group\">";
+            newField += "<td> <div class=\"form-group select-group\">";
             newField += "<select id=\"select2_reviewer"+ noofFields + "\" class=\"g_review form-control\" style=\"width:100%\" name=\"g_review\" data-validate=\"required\">";
             newField += "</select></div>";
             newField += "</td>";

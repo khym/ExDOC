@@ -325,10 +325,12 @@
     <Content Include="Content\border-radius.htc" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\Roboto\LICENSE.txt" />
+    <Content Include="Content\FooterPreview.css" />
     <Content Include="Content\ie8-and-down.css" />
     <Content Include="Content\MaterialDesign-Webfont-master\css\materialdesignicons.css" />
     <Content Include="Content\MaterialDesign-Webfont-master\css\materialdesignicons.min.css" />
     <Content Include="Content\MaterialDesign-Webfont-master\fonts\materialdesignicons-webfont.svg" />
+    <Content Include="Content\PreviewDoc.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
