@@ -925,11 +925,21 @@ namespace ExDoc.Controllers
                     case 5:
                         {
                             ex_doc.SaveChanges();
-                            var check_action_all = ex_doc.Transaction.Where(a => a.issue_no == issue_no).All(a => a.action_id != 0);
-                            if (check_action_all)
+
+                            var find_reviewer = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5 && a.action_id == 0);
+
+                            foreach (var item in find_reviewer.ToList())
                             {
-                                Add_transaction(sql.issue_no, 4, 0, "0", null, 49, 3, null, null, null);
+                                item.action_id = 8; //auto not accepted
                             }
+
+                            //ex_doc.SaveChanges();
+                            //var check_action_all = ex_doc.Transaction.Where(a => a.issue_no == issue_no).All(a => a.action_id != 0);
+
+                            //if (check_action_all)
+                            //{
+                                Add_transaction(sql.issue_no, 9, 0, "0", null, 49, 3, null, null, null);
+                            //}
                             break;
                         }
                     case 7:
