@@ -915,10 +915,29 @@ namespace ExDoc.Controllers
             }
             else
             {
-                //all reject
-                //create_tran2.status_id = 0; // 0 = Issuer edit
-                //create_tran2.action_id = 0; // 0 = Idle
-                Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
+                switch(sql.status_id)
+                {
+                    case 4:
+                        {
+                            Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
+                            break;
+                        }
+                    case 5:
+                        {
+                            ex_doc.SaveChanges();
+                            var check_action_all = ex_doc.Transaction.Where(a => a.issue_no == issue_no).All(a => a.action_id != 0);
+                            if (check_action_all)
+                            {
+                                Add_transaction(sql.issue_no, 4, 0, "0", null, 49, 3, null, null, null);
+                            }
+                            break;
+                        }
+                    case 7:
+                        {
+                            Add_transaction(sql.issue_no, 0, 0, data_issuer.actor, null, data_issuer.org_id.Value, data_issuer.level_id.Value, null, null, null);
+                            break;
+                        }
+                }
             }
 
             ex_doc.SaveChanges();
