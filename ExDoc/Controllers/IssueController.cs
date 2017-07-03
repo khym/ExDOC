@@ -901,7 +901,8 @@ namespace ExDoc.Controllers
             var create_tran2 = new Transaction();
             var data_issuer = ex_doc.Transaction.Where(a => a.issue_no == issue_no).OrderBy(b => b.seq).FirstOrDefault();
 
-            if (sql.status_id == 5)
+            int get_doc_type = ex_doc.Issue.Where(a => a.issue_no == issue_no).Select(a => a.doc_type_id).FirstOrDefault();
+            if (get_doc_type == 3)//check doc type
             {
                 //status_id = 8 = Issuer edit after mgr. review (not accept)
                 //action_id = 0 = Idle
