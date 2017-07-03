@@ -931,6 +931,7 @@ namespace ExDoc.Controllers
             indy_cust.issue_id = issue_no;
             ex_doc.Relation_Issue_Cust.Add(indy_cust);
             ex_doc.SaveChanges();
+            return RedirectToAction("Index", "Issue");
 
             var id = indy_cust.id;
 
