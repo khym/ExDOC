@@ -209,7 +209,8 @@ var test_sql2 = ex_doc.Issue.Where(a =>
                                                                         || b.status_id == 4
                                                                         || b.status_id == 5
                                                                         || b.status_id == 6
-                                                                        || b.status_id == 7)
+                                                                        || b.status_id == 7
+                                                                        || b.status_id == 9)
                                                 && b.org_id == g_id
                                                 && po_lvl >= b.User_level.position_min
                                                 && po_lvl <= b.User_level.position_max
