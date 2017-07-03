@@ -230,10 +230,18 @@
 
             var check_error = true;
             var cust_no = [];
-            $("tbody").find(".form-group").each(function (e, x) {
-                var ss = $(x).find("select.g_review").val();
+            var old_re = [];
+ 
+            $("tbody").find(".form-old-reviewer").each(function (e, x) {
+                var ss = $(x).find("select.old_reviewer").val();
                 cust_no[e] = ss;
             });
+
+            $("tbody").find(".select-group").each(function (e, x) {
+                var ss = $(x).find("select.g_review").val();
+                cust_no.push(ss);
+            });
+
 
             $("tbody").find(".form-group").each(function (e, x) {
 
