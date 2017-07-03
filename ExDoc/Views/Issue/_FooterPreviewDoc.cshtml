@@ -219,6 +219,21 @@
         $(".old_reviewer").select2({
             theme: "bootstrap"
         });
+
+        $.get('@Url.Action("GetGroupReviwer", "Issue")?issue_no=@Model.issue_no', function (x) {
+
+            console.log("x", x);
+
+            for (var i = 0; i < x.length; i++) {
+                $("select#old_reveiewer" + i).val(x[i].org_id).trigger("change.select2");
+                $("textarea#old_remark" + i).val(x[i].remark);
+               // console.log("$(select#old_reveiewer" + i + ").val(" + x[i].org_id + ").trigger(change.select2)")
+
+               // console.log(x[i])
+            }
+
+        });
+
         $("#btn-confirm-appr").click(function () {
 
             if ($.validate({ form: "form_appr" })) {
