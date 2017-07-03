@@ -216,6 +216,9 @@
 
         Create_Select2();
 
+        $(".old_reviewer").select2({
+            theme: "bootstrap"
+        });
         $("#btn-confirm-appr").click(function () {
 
             if ($.validate({ form: "form_appr" })) {
