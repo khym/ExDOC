@@ -332,6 +332,13 @@ namespace ExDoc.Controllers
             return Json(test1, JsonRequestBehavior.AllowGet);
         }
 
+            [HttpGet]
+                public ActionResult GetGroupReviwer(string issue_no)
+            {
+                var test1 = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5).Select(a => new { a.org_id , a.remark}).ToList();
+                return Json(test1, JsonRequestBehavior.AllowGet);
+            }
+
             public ActionResult _ShowGroupReview(string issue_no)
         {
             var test1 = ex_doc.GroupReview.Where(a => a.issue_no.Contains(issue_no)).ToList().Join(tnc_admin.tnc_group_master.ToList(),
