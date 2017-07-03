@@ -283,6 +283,15 @@
             $("tr#group_review" + no).remove();
         });
 
+        $('body').on('click', '.btn-del-old-reviewer', function (e) {
+            e.preventDefault();
+            //$(this).parent().parent().parent().remove();
+            
+
+            var no = $(this).attr('data-del-no');
+            console.log("asdasdasd", no);
+            $("tr.old_reveiewer" + no).remove();
+        });
         $("#btn-AddGroup").on("click", function () {
             var noofFields = parseInt($(this).attr("data-noof-fields")) + 1;
             $(this).attr("data-noof-fields", parseInt($(this).attr("data-noof-fields")) + 1);
