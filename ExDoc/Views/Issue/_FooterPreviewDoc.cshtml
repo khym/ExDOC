@@ -17,8 +17,8 @@
     </div>
 
 
-    @if (Model.status_id == 4 && Model.doc_type_id != 3 )
-    {          
+    @if ((Model.status_id == 4 || Model.status_id == 9) && Model.doc_type_id != 3)
+    {     
         <table class="table table-bordered">
             <thead>
                 <tr>
