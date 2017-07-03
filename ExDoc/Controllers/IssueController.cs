@@ -921,39 +921,6 @@ namespace ExDoc.Controllers
 
         }
 
-
-        public void File2DB(string issue_no, HttpPostedFileBase[] doc_file, string cust_no)
-        {
-
-            var indy_cust = new Relation_Issue_Cust();
-
-            indy_cust.cust_no = cust_no;
-            indy_cust.issue_id = issue_no;
-            ex_doc.Relation_Issue_Cust.Add(indy_cust);
-            ex_doc.SaveChanges();
-            return RedirectToAction("Index", "Issue");
-
-            var id = indy_cust.id;
-
-            foreach (var doc in doc_file)
-            {
-                string subPath = "~/UploadFiles/" + cust_no + "/";
-                if (!Directory.Exists(Server.MapPath(subPath)))
-                {
-                    Directory.CreateDirectory(Server.MapPath(subPath));
-                }
-
-                var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(doc.FileName.Replace('#', ' ').Replace('%', ' '));
-                var path = Path.Combine(Server.MapPath(subPath), fileName);
-                doc.SaveAs(path);
-
-                var filedb = new DocFile();
-                filedb.relation_id = id;
-                filedb.file_name = subPath + fileName;
-                ex_doc.DocFile.Add(filedb);
-            }
-        }
-
         
         [HttpPost]
         public ActionResult SaveIssueV2(string[] customer, string doc_name, string doc_no, string doc_rev, string date_rec, string ch_point, string tnc_product, HttpPostedFileBase[] doc_file, string customer_type, int doc_type)
