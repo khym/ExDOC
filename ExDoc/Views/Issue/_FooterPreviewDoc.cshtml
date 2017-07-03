@@ -295,6 +295,26 @@
             console.log("asdasdasd", no);
             $("tr.old_reveiewer" + no).remove();
         });
+        var noofFields = 0;
+        $("#btn-AddFile").on("click", function () {
+            
+
+            var newField = "";
+
+            newField += "<tr id=\"" + noofFields + "\">";
+            newField += "<td> <div class=\" \">";
+            newField += "<input type=\"file\" name=\"doc_file\" class=\"form-control\" data-validate=\"required\">";
+            newField += "</div>";
+            newField += "</td>";
+            newField += "<td>";
+            newField += "<button type=\"submit\" data-del-file=\"" + noofFields + "\" class=\"btn del-old-file btn-success secondary-color-md border-secondary-color shadow-1\">Remove</button></td></tr>";
+
+            $(newField).insertBefore("#row_add_file");
+            noofFields++;
+            
+
+        });
+
         $("#btn-AddGroup").on("click", function () {
             var noofFields = parseInt($(this).attr("data-noof-fields")) + 1;
             $(this).attr("data-noof-fields", parseInt($(this).attr("data-noof-fields")) + 1);
