@@ -92,6 +92,7 @@
 
                 <tr class="form-review ">
                     <td style="width:90%">
+                         <input type="hidden" value="@ViewBag.File[i].path_file" name="old_file" />
                      <a href="@Url.Content(ViewBag.File[i].path_file)">@Path.GetFileName(Server.MapPath(ViewBag.File[i].path_file))</a>
                         
                     </td>
