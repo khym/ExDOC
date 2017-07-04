@@ -661,7 +661,7 @@ namespace ExDoc.Controllers
 
                             if (check_group_review)
                             {
-                                var check_not_remark = ex_doc.Transaction.Where(a => a.issue_no == issue_no)
+                                var check_not_remark = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5)
                                                                      .All(a=> a.remark == null );
 
                                 var check_action_all = ex_doc.Transaction.Where(a => a.issue_no == issue_no)
