@@ -743,6 +743,12 @@ namespace ExDoc.Controllers
                                 ex_doc.SaveChanges();
                             }
 
+                            var get_last_mgr_reviwer = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5);
+
+                            foreach (var item in get_last_mgr_reviwer.ToList())
+                            {
+                                item.status_id = 10; // old mgr. reviwer
+                            }
                                     {
                                         Directory.CreateDirectory(Server.MapPath(subPath));
                                     }
