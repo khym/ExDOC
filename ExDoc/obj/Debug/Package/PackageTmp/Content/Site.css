@@ -1,11 +1,10 @@
-﻿@font-face {
-	font-family: Roboto;
+﻿
+@font-face {
+		font-family: Roboto;
       font-style: normal;
   font-weight: 400;
-	src: url('../../fonts/Roboto/Roboto-Regular.ttf') format('truetype');
-
+	src: url('Roboto-Regular.ttf') format('truetype');
 }
-
 
 html ,body {
      height: 100%;
