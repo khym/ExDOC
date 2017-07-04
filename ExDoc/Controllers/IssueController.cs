@@ -784,6 +784,18 @@ namespace ExDoc.Controllers
                                 }
                             }
 
+                            for (int i = 0; i < g_review.Length; i++)
+                            {
+                                //status 5 = Mgr. Group Review , action 0 = idle
+
+                                if (!(string.IsNullOrWhiteSpace(remark[i]) || string.IsNullOrEmpty(remark[i])))
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, remark[i]);
+                                }
+                                else
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, null);
+                                }
                             }
 
 
