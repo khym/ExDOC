@@ -732,6 +732,16 @@ namespace ExDoc.Controllers
                         {
 
 
+                            // remove DocFileBeforeAppr.issue_no == issue_no
+                            var remove_df = ex_doc.DocFileBeforeAppr.Where(a=>a.issue_no == issue_no).Select(a => a).ToList();
+                            if (remove_df.Count > 0)
+                            {
+                                foreach (var item in remove_df)
+                                {
+                                    ex_doc.DocFileBeforeAppr.Remove(item);
+                                }
+                                ex_doc.SaveChanges();
+                            }
 
                                     {
                                         Directory.CreateDirectory(Server.MapPath(subPath));
