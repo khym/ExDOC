@@ -17,7 +17,7 @@
     </div>
 
 
-    @if ((Model.status_id == 4 || Model.status_id == 9) && Model.doc_type_id != 3)
+    @if ((Model.status_id == 4 || Model.status_id == 9 || Model.status_id == 11) && Model.doc_type_id != 3)
     {     
         <table class="table table-bordered">
             <thead>
@@ -112,7 +112,7 @@
 
 </form>
 
-@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7 || Model.status_id == 9)
+@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7 || Model.status_id == 9 || Model.status_id == 11)
 {
     <div class="row">
         <div class="col-md-8"></div>

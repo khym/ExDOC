@@ -274,8 +274,7 @@ namespace ExDoc.Controllers
             }
             else
             {
-
-
+                Add_transaction(issue_no, 11, 0, null, null, 49, 3, null, null, null);
             }
 
             //new transaction 
@@ -868,7 +867,33 @@ namespace ExDoc.Controllers
                                     }
                             break;
                         }
+                    case 11: //Dept. QS Appr (Issuer Edited)
+                        {
 
+                            var get_last_mgr_reviwer = ex_doc.Transaction.Where(a => a.issue_no == issue_no && a.status_id == 5);
+
+                            foreach (var item in get_last_mgr_reviwer.ToList())
+                            {
+                                item.status_id = 10; // old mgr. reviwer
+                            }
+
+                            for (int i = 0; i < g_review.Length; i++)
+                            {
+                                //many_tran.status_id = 5; //5 = Mgr. Group Review
+                                //many_tran.action_id = 0; //  0 = idle
+
+                                if (!(string.IsNullOrWhiteSpace(remark[i]) || string.IsNullOrEmpty(remark[i])))
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, remark[i]);
+                                }
+                                else
+                                {
+                                    Add_transaction(sql.issue_no, 5, 0, "0", null, g_review[i], 2, null, null, null);
+                                }
+                            }
+
+                            break;
+                        }
                 }
 
             } //end else
