@@ -610,52 +610,8 @@ namespace ExDoc.Controllers
                             //create_tran2.action_id = 100;//completed
 
                             Add_transaction(issue_no, 100, 100, emp_code, DateTime.Now, 18, 1, null, null, null);
-
-                        //select file form DocFileBeforeAppr table 
-                        var doc_file = ex_doc.DocFileBeforeAppr.Where(a=>a.issue_no == issue_no).Select(a=>a).ToList();
-                        
-                        //select cust in this issue
-                        var get_cust = ex_doc.Relation_Issue_Cust.Where(a => a.issue_id == issue_no).Select(a => a).ToList();
-
-                        //loop customer
-                        foreach (var item in get_cust)
-                        {
-                            //loop add file to new path
-                            foreach (var item2 in doc_file)
-                            {
-                                //get file name ex. 412_dog.pdf
-                                string fileName = Path.GetFileName(item2.path_file);
-
-                                // MapPath ex. c/webapp/UploadFiles/TempFile/ use in Path.Combine
-                                string PathFile = Server.MapPath("~/UploadFiles/TempFile/");
-
-                                //create folder if not found
-                                string targetPath1 = "~/UploadFiles/" + item.cust_no + "/";
-                                if (!Directory.Exists(Server.MapPath(targetPath1)))
-                                {
-                                    Directory.CreateDirectory(Server.MapPath(targetPath1));
-                                }
-
-                                // use in Path.Combine
-                                string targetPath = Server.MapPath("~/UploadFiles/" + item.cust_no + "/");
-
-                                //create new file name
-                                var new_fileName = DateTime.Now.Millisecond + "_" + fileName;
-
-                                string sourceFile = Path.Combine(PathFile, fileName);
-                                string destFile = Path.Combine(targetPath, new_fileName);
-
-                                //copy file form sourceFile to destFile
-                                System.IO.File.Copy(sourceFile, destFile, true);
-
-                                //add data to DocFile table
-                                var copy_file = new DocFile();
-                                copy_file.file_name = targetPath1 + new_fileName;
-                                copy_file.relation_id = item.id;
-                                ex_doc.DocFile.Add(copy_file);
-
-                            }
-                        }
+                            CopyFileWhenComplete(issue_no);
+                            
                         break;
                     }
                 }// end switch case
