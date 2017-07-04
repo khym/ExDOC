@@ -496,6 +496,7 @@
       <DependentUpon>RunNumber.edmx</DependentUpon>
       <LastGenOutput>RunNumber.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\Roboto-Regular.ttf" />
     <None Include="Properties\PublishProfiles\ExDoc.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />

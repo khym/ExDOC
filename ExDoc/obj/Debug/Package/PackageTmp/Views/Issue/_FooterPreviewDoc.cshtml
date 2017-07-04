@@ -17,7 +17,7 @@
     </div>
 
 
-    @if ((Model.status_id == 4 || Model.status_id == 9) && Model.doc_type_id != 3)
+    @if ((Model.status_id == 4 || Model.status_id == 9 || Model.status_id == 11) && Model.doc_type_id != 3)
     {     
         <table class="table table-bordered">
             <thead>
@@ -38,7 +38,7 @@
                 <tr class="@name_class form-review ">
                     <td style="width:27%">
                         <div class="form-group form-old-reviewer">
-                        <select id="@name_class" class="form-control old_reviewer" style="width:100%" name="old_review" >
+                        <select id="@name_class" class="form-control old_reviewer" style="width:100%" name="g_review" >
                             @foreach (var item in ViewBag.Group)
                             {
                                 <option value="@item.id">@item.group_name</option>
@@ -47,14 +47,14 @@
                             </div>
                     </td>
                     <td style="width:65%">
-                        <textarea id="@text_area" class="khem-form-control" name="old_remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
+                        <textarea id="@text_area" class="khem-form-control" name="remark" onkeyup="textAreaAdjust(this)" style="overflow:hidden"></textarea></td>
                     <td>
                         <button type="button" data-del-no="@i" class="btn btn-del-old-reviewer btn-success secondary-color-md border-secondary-color shadow-1">Remove</button>
                     </td>
                 </tr>
                 }
 
-                @if (Model.status_id == 4)
+                @if (Model.status_id == 4 )
                 {
                 <tr class="form-review">
                     <td style="width:27%">
@@ -92,6 +92,7 @@
 
                 <tr class="form-review ">
                     <td style="width:90%">
+                         <input type="hidden" value="@ViewBag.File[i].path_file" name="old_file" />
                      <a href="@Url.Content(ViewBag.File[i].path_file)">@Path.GetFileName(Server.MapPath(ViewBag.File[i].path_file))</a>
                         
                     </td>
@@ -112,7 +113,7 @@
 
 </form>
 
-@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7 || Model.status_id == 9)
+@if (Model.status_id == 2 || Model.status_id == 3 || Model.status_id == 4 || Model.status_id == 5 || Model.status_id == 6 || Model.status_id == 7 || Model.status_id == 9 || Model.status_id == 11)
 {
     <div class="row">
         <div class="col-md-8"></div>
@@ -391,7 +392,7 @@
 
             newField += "<tr id=\"" + noofFields + "\">";
             newField += "<td> <div class=\" \">";
-            newField += "<input type=\"file\" name=\"doc_file\" class=\"form-control\" data-validate=\"required\">";
+            newField += "<input type=\"file\" name=\"new_file\" class=\"form-control\" data-validate=\"required\">";
             newField += "</div>";
             newField += "</td>";
             newField += "<td>";
