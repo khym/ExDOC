@@ -572,7 +572,7 @@ namespace ExDoc.Controllers
 
         [Tnc_Auth]
         [HttpPost]
-        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id, int?[] g_review, string[] remark)
+        public ActionResult Approve(string emp_code, int user_lvl, int g_id, string issue_no, int seq, int doc_type_id, int?[] g_review, string[] remark, string[] old_file, HttpPostedFileBase[] new_file)
         {
             var create_tran2 = new Transaction();
 
