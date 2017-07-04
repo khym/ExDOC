@@ -732,11 +732,18 @@ namespace ExDoc.Controllers
 
                             Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null, null);
 
+                    case 9:
+                        {
+
 
 
                                     {
                                         Directory.CreateDirectory(Server.MapPath(subPath));
                                     }
+                            }
+
+
+
                             break;
                         }
                     case 11: //Dept. QS Appr (Issuer Edited)
