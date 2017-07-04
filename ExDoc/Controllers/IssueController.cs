@@ -772,6 +772,18 @@ namespace ExDoc.Controllers
                                 }
                             }
 
+                            if (old_file != null)
+                            {
+                                //add old file to DocFileBeforeAppr table
+                                foreach (var item in old_file)
+                                {
+                                    var filedb = new DocFileBeforeAppr();
+                                    filedb.path_file = item;
+                                    filedb.issue_no = issue_no;
+                                    ex_doc.DocFileBeforeAppr.Add(filedb);
+                                }
+                            }
+
                             }
 
 
