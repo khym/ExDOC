@@ -749,9 +749,29 @@ namespace ExDoc.Controllers
                             {
                                 item.status_id = 10; // old mgr. reviwer
                             }
+
+                            //add new file to DocFileBeforeAppr table
+                            if (new_file != null)
+                            {
+                                foreach (var doc in new_file)
+                                {
+                                    string subPath = "~/UploadFiles/TempFile/";//path wait all appr
+                                    if (!Directory.Exists(Server.MapPath(subPath)))
                                     {
                                         Directory.CreateDirectory(Server.MapPath(subPath));
                                     }
+
+                                    var fileName = DateTime.Now.Millisecond + "_" + Path.GetFileName(doc.FileName.Replace('#', ' ').Replace('%', ' '));
+                                    var path = Path.Combine(Server.MapPath(subPath), fileName);
+                                    doc.SaveAs(path);
+
+                                    var filedb = new DocFileBeforeAppr();
+                                    filedb.path_file = subPath + fileName;
+                                    filedb.issue_no = issue_no;
+                                    ex_doc.DocFileBeforeAppr.Add(filedb);
+                                }
+                            }
+
                             }
 
 
