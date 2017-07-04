@@ -621,7 +621,6 @@ namespace ExDoc.Controllers
 
                 switch (sql.status_id) //check status in last transaction for crate next transaction
                 {
-
                     case 4: //Dept. QS Appr
                         {
 
@@ -720,17 +719,14 @@ namespace ExDoc.Controllers
 
                     case 7: //QS Dept. Last check
                         {
-                                 //create_tran2.issue_no = issue_no;
                                  //   create_tran2.status_id = 100; //complete
                                  //   create_tran2.action_id = 100;//completed
-                                 //   create_tran2.actor = "0";
-                                 //   create_tran2.actor_date = DateTime.Now;
-                                 //   create_tran2.org_id = null;
-                                 //   create_tran2.level_id = null;
-                                 //   create_tran2.comment = null;
-                                 //   ex_doc.Transaction.Add(create_tran2);
 
                             Add_transaction(issue_no, 100, 100, "0", DateTime.Now, null, null, null, null, null);
+                            CopyFileWhenComplete(issue_no);
+
+                            break;
+                        }
 
                     case 9:
                         {
